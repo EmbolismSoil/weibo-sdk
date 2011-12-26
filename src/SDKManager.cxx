@@ -1,0 +1,504 @@
+#include "config.h"
+#include "SDKManager.hxx"
+#include <boost/make_shared.hpp>
+#include "UrlCode.h"
+#include "SDKHelper.hxx"
+#include "Parsing/ParsingObject.hxx"
+#include "strconv.h"
+
+#if defined(INTERNAL_INTERFACE_USEABLE)
+#	include "Internal/SDKInternalMethod.hxx"
+#else
+#	include "SDKMethodImpl.hxx"
+#endif //
+
+using namespace weibo;
+
+#ifdef LOG_SUPPORT
+#	define DEFAULT_SUBSYSTEM "WeiboSDKV4"
+#	include <util/log/Logger.hxx>
+#else
+#	define CerrLog(args_)
+#	define StackLog(args_)
+#	define DebugLog(args_)
+#	define InfoLog(args_)
+#	define WarningLog(args_)
+#	define ErrLog(args_)
+#	define CritLog(args_)
+#endif
+
+namespace weibo
+{
+	struct UploadTaskDetail
+	{
+		typedef boost::shared_ptr<httpengine::PostFormStreamData> PostFormDataPtr;
+
+		UploadTaskDetail(const char* fileName)
+			: fileName_(Util::StringUtil::getNotNullString(fileName))
+			, fileSize_(0)
+			, fileSeek_(0)
+		{
+			FILE* file = fopen(fileName_.c_str(), "rb");
+			if (file)
+			{
+				fseek(file, 0, SEEK_END);
+				fileSize_ = ftell(file);
+				fseek(file, 0, SEEK_SET);
+			}
+		}
+
+		size_t doReadFile(void* uploadBuffer, size_t bufSize)
+		{
+			if (fileSeek_ >= fileSize_)
+			{
+				return 0;
+			}
+
+			FILE* file = fopen(fileName_.c_str(), "rb");
+			if (file)
+			{
+				if (fileSize_ > bufSize)
+				{
+					fseek(file, fileSeek_, SEEK_SET);
+
+					size_t fileSurplusSize = (fileSize_ - fileSeek_);
+					if (fileSurplusSize < bufSize)
+					{
+						bufSize = fileSurplusSize;
+					}
+				}
+				else
+				{
+					bufSize = fileSize_;
+				}
+
+				fileSeek_ += fread(uploadBuffer, sizeof(char), bufSize, file);
+				fclose(file);
+
+				return bufSize;
+			}
+			return 0;
+		}
+
+		PostFormDataPtr getPostFormData(unsigned requestId, httpengine::IHttpEngine* engine)
+		{
+			if (!postFormDataPtr_)
+			{
+				postFormDataPtr_ 
+					= boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
+			}
+			return postFormDataPtr_;
+		}
+
+		size_t fileSeek_;
+		size_t fileSize_;
+		std::string fileName_;
+		PostFormDataPtr postFormDataPtr_;
+	};
+
+	WeiboRequest::WeiboRequest()
+		: mTaskId(0)
+		, mOptionId(WBOPT_NONE)
+		, mHttpMethod(httpengine::HM_GET)
+	{
+		memset(&mTaskInfo, 0, sizeof(UserTaskInfo));
+	}
+
+	void WeiboRequest::makeUploadTaskDetail(const char* file)
+	{
+		mUploadTaskDetail.reset();
+		if (file)
+		{
+			mUploadTaskDetail = boost::make_shared<UploadTaskDetail>(file);
+		}
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// manager implements
+
+SDKManager::SDKManager()
+: mRequestFormat(WRF_JSON)
+, mMaxActiveCounts(10)
+{
+	DebugLog(<< __FUNCTION__ << "| cotr");
+
+#if defined(INTERNAL_INTERFACE_USEABLE)
+	mMethodPtr = boost::make_shared<SDKInternalMethod>(this);
+#else
+	mMethodPtr = boost::make_shared<SDKMethodImpl>(this);
+#endif //INTERNAL_INTERFACE_USEABLE
+}
+
+SDKManager::~SDKManager()
+{
+	DebugLog(<< __FUNCTION__ << "| detr");
+}
+
+int SDKManager::startup()
+{
+	DebugLog(<< __FUNCTION__);
+
+	if (!mHttpEnginePtr)
+	{
+		mHttpEnginePtr = httpengine::HttpEngineFactory::createHttpEngine();
+	}
+
+	if (mHttpEnginePtr)
+	{
+		mHttpEnginePtr->initialize();
+
+		mHttpEnginePtr->OnRequestWriteEvent += std::make_pair(this, &SDKManager::onRequestWriteAction);
+		mHttpEnginePtr->OnRequestReadEvent += std::make_pair(this, &SDKManager::onRequestReadAction);
+		mHttpEnginePtr->OnRequestHeaderEvent += std::make_pair(this, &SDKManager::onRequestHeaderAction);
+
+		mHttpEnginePtr->OnRequestStartedNotify += std::make_pair(this, &SDKManager::onRequestStarted);
+		mHttpEnginePtr->OnRequestStopedNotify += std::make_pair(this, &SDKManager::onRequestStoped);
+		mHttpEnginePtr->OnRequestErroredNotify += std::make_pair(this, &SDKManager::onRequestErrored);
+		mHttpEnginePtr->OnRequestComplatedNotify += std::make_pair(this, &SDKManager::onRequestComplated);
+		mHttpEnginePtr->OnRequestReleaseNotify += std::make_pair(this, &SDKManager::onRequestWillRelease);
+
+		//mHttpEnginePtr->OnRequestProgressNotify += std::make_pair(this, &SDKManager::onRequestProgress);// Not used now!
+	}
+	return 0;
+}
+
+int SDKManager::shutdown()
+{
+	DebugLog(<< __FUNCTION__);
+
+	if (mHttpEnginePtr)
+	{
+		mHttpEnginePtr->OnRequestReadEvent -= std::make_pair(this, &SDKManager::onRequestWriteAction);
+		mHttpEnginePtr->OnRequestWriteEvent -= std::make_pair(this, &SDKManager::onRequestReadAction);
+		mHttpEnginePtr->OnRequestHeaderEvent -= std::make_pair(this, &SDKManager::onRequestHeaderAction);
+
+		mHttpEnginePtr->OnRequestStartedNotify -= std::make_pair(this, &SDKManager::onRequestStarted);
+		mHttpEnginePtr->OnRequestStopedNotify -= std::make_pair(this, &SDKManager::onRequestStoped);
+		mHttpEnginePtr->OnRequestErroredNotify -= std::make_pair(this, &SDKManager::onRequestErrored);
+		mHttpEnginePtr->OnRequestComplatedNotify -= std::make_pair(this, &SDKManager::onRequestComplated);
+		mHttpEnginePtr->OnRequestReleaseNotify -= std::make_pair(this, &SDKManager::onRequestWillRelease);
+
+		//mHttpEnginePtr->OnRequestProgressNotify -= std::make_pair(this, &SDKManager::onRequestProgress);// Not used now.
+
+		mHttpEnginePtr->unInitialize();
+		mHttpEnginePtr.reset();
+	}
+	return 0;
+}
+
+void SDKManager::stopAll()
+{
+	//TODO(welbon): To stop all.
+}
+
+void SDKManager::setOption(const eWeiboOption option, ...)
+{
+	va_list arg = NULL;
+	va_start(arg, option);
+
+	switch(option)
+	{
+	case WOPT_CONSUMER:///< char *appkey, const char *appsecret
+		{
+			if (mMethodPtr)
+			{
+				std::string key = Util::StringUtil::getNotNullString(va_arg(arg, const char *));
+				std::string secret = Util::StringUtil::getNotNullString(va_arg(arg, const char *));
+
+				mMethodPtr->setConsumer(key, secret);
+			}
+		}
+		break;
+
+	case WOPT_PROXY: ///< eWeiboProxyType type, char *host, int port, char *proxyuser, char *password
+		{
+			if (mHttpEnginePtr)
+			{
+				httpengine::ProxyInfo proxy;
+
+				// TODO(welbon): To get proxy information
+				mHttpEnginePtr->setOption(httpengine::EOT_PROXY, 
+					&proxy, sizeof(httpengine::ProxyInfo), false);
+			}
+		}
+		break;
+
+	case WOPT_RESPONSE_FORMAT:
+		{
+			if (mMethodPtr)
+			{
+				mMethodPtr->setUnifiedFormat(va_arg(arg, const eWeiboRequestFormat));
+			}
+		}
+		break;
+
+	case WOPT_ACCESS_TOKEN:
+		{
+			if (mMethodPtr)
+			{
+				std::string token = Util::StringUtil::getNotNullString(va_arg(arg, const char*));
+				mMethodPtr->setAccesstoken(token);
+			}
+		}
+		break;
+
+	default:
+		break;
+	}
+	va_end(arg);
+}
+
+void SDKManager::getOption(const eWeiboOption option, ...)
+{
+}
+
+IWeiboMethod *SDKManager::getMethod()
+{
+	return mMethodPtr.get();
+}
+
+unsigned int SDKManager::onRequestReadAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
+											, unsigned int errorCode, const int subErrorCode, void* userData)
+{
+	WeiboRequestPtr requestPtr 
+		= internalFindRequestFromActiveMap(requestId);
+
+	if (requestPtr && requestPtr->mUploadTaskDetail)
+	{
+		return requestPtr->mUploadTaskDetail->doReadFile(data, dataCounts);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << " | Read file errored.");
+	}
+	return 0;
+}
+
+unsigned int SDKManager::onRequestWriteAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
+											 , unsigned int errorCode, const int subErrorCode, void* userData)
+{
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr && data)
+	{
+		DebugLog(<< __FUNCTION__ << "| Write body event, dataCount " << dataCounts);
+		requestPtr->mResponseBody += Util::StringUtil::getNotNullString((const char*)data);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map, or data == NULL!");
+	}
+	return dataSize * dataCounts;
+}
+
+unsigned int SDKManager::onRequestHeaderAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
+											  , unsigned int errorCode, const int subErrorCode, void* userData)
+{
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr && data)
+	{
+		DebugLog(<< __FUNCTION__ << "| Write header event, dataCount " << dataCounts);
+		requestPtr->mResponseHeader += Util::StringUtil::getNotNullString((const char*)data);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map, or data == NULL!");
+	}
+	return dataSize * dataCounts;
+}
+
+void SDKManager::onRequestStarted(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
+{
+	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
+
+	if (requestId <= 0)
+	{
+		return ;
+	}
+
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr && requestPtr->mHttpMethod == httpengine::HM_POSTFORM 
+		&& requestPtr->mUploadTaskDetail)
+	{
+		// Get the file name.
+		std::string &filePath = requestPtr->mUploadTaskDetail->fileName_;
+		std::string file;
+		const int pos = filePath.find_last_of('\\');
+		if (pos != std::string::npos)
+		{
+			file = filePath.substr(pos + 1, filePath.length());
+		}
+
+		// Convert the file name to utf8
+		CC2UTF8 cvUTF8(file.c_str());
+		std::string saveFileUTF8 = cvUTF8.c_str();
+
+		UploadTaskDetail::PostFormDataPtr formDataPtr 
+			= requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());
+
+		mHttpEnginePtr->setRequestOption(requestId, httpengine::TOT_POST_FORM
+			, httpengine::HTTP_FORMTYPE_COPYNAME, requestPtr->mPostFileField.c_str()
+			, httpengine::HTTP_FORMTYPE_FILENAME, saveFileUTF8.c_str()
+			, httpengine::HTTP_FORMTYPE_STREAM, formDataPtr ? formDataPtr.get() : NULL
+			, httpengine::HTTP_FORMTYPE_CONTENTSLENGTH, requestPtr->mUploadTaskDetail->fileSize_
+			, httpengine::HTTP_FORMTYPE_CONTENTTYPE, "image/jpeg"
+			, httpengine::HTTP_FORMTYPE_END);
+	}
+}
+
+void SDKManager::onRequestStoped(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
+{
+	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
+
+	if (requestId <= 0)
+	{
+		return ;
+	}
+
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr)
+	{
+		//StackLog(<< __FUNCTION__ << "| fire OnResponseStoped");
+		//OnDelegateWillRelease(requestPtr->mOptionId, &requestPtr->mTaskInfo);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+	}
+}
+
+void SDKManager::onRequestErrored(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
+{
+	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
+
+	if (requestId <= 0)
+	{
+		return ;
+	}
+
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr)
+	{
+		const int outErrorCode = SDKHelper::convertEngineErrorToSDKError(errorCode);
+		ParsingObject result(requestPtr->mResponseBody.c_str());
+		OnDelegateErrored(requestPtr->mOptionId, outErrorCode, subErrorCode, &result, &requestPtr->mTaskInfo);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+	}
+}
+
+void SDKManager::onRequestProgress(unsigned int requestId, const double total, const double complated, const double speed)
+{
+	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << total << " | sub error code :" << complated << "| speed: " << speed);
+}
+
+void SDKManager::onRequestComplated(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
+{
+	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
+
+	if (requestId <= 0)
+	{
+		return ;
+	}
+
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	if (requestPtr)
+	{
+		ParsingObject result(requestPtr->mResponseBody.c_str());
+		OnDelegateComplated(requestPtr->mOptionId, requestPtr->mResponseHeader.c_str(), &result, &requestPtr->mTaskInfo);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+	}
+}
+
+void SDKManager::onRequestWillRelease(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
+{
+	if (requestId)
+	{
+		WeiboRequestMap::iterator iter = mRequestActivedMap.find(requestId);
+		if (iter != mRequestActivedMap.end())
+		{
+			DebugLog(<< __FUNCTION__ << "| fire OnDelegateWillRelease");
+			OnDelegateWillRelease(requestId, &(iter->second->mTaskInfo));
+			mRequestActivedMap.erase(iter);
+		}
+		else
+		{
+			ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+		}
+	}
+	internalLoadNewActiveTask();
+}
+
+eWeiboResultCode SDKManager::enqueueRequest(WeiboRequestPtr ptr)
+{
+	mRequestPersistent.push_back(ptr);
+	return internalLoadNewActiveTask();
+}
+
+eWeiboResultCode SDKManager::internalLoadNewActiveTask()
+{
+	if ((mRequestActivedMap.size() < mMaxActiveCounts) 
+		&& (!mRequestPersistent.empty()))
+	{
+		WeiboRequestPersistent::iterator it = mRequestPersistent.begin();
+		eWeiboResultCode retCode = internalStartTask(*it);
+		mRequestPersistent.erase(it);
+		return retCode;
+	}
+	return WRC_OK;
+}
+
+eWeiboResultCode SDKManager::internalStartTask(WeiboRequestPtr reqPtr)
+{
+	if (mHttpEnginePtr && reqPtr)
+	{
+		mHttpEnginePtr->startUrlRequest(reqPtr->mTaskId, reqPtr->mURL.c_str()
+			, reqPtr->mPostArg.c_str(), reqPtr->mHttpMethod);
+
+		// Check has same request.
+		WeiboRequestMap::iterator it = mRequestActivedMap.find(reqPtr->mTaskId);
+		if (it != mRequestActivedMap.end())
+		{
+			// Already has this task.
+			return WRC_TASK_EXIST;
+		}
+		mRequestActivedMap.insert(std::make_pair(reqPtr->mTaskId, reqPtr));
+		return WRC_OK;
+	}
+	return WRC_INTERNAL_ERROR;
+}
+
+WeiboRequestPtr SDKManager::internalFindRequestFromActiveMap(unsigned int taskId)
+{
+	WeiboRequestPtr request ;
+	WeiboRequestMap::iterator iter = mRequestActivedMap.find(taskId);
+	if (iter != mRequestActivedMap.end())
+	{
+		request = iter->second;
+	}
+	return request;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// weibo function
+
+boost::weak_ptr<IWeibo> WeiboFactory::mWeiboPtr;
+boost::shared_ptr<IWeibo> WeiboFactory::getWeibo()
+{
+	boost::shared_ptr<IWeibo> weiboPtr;
+	if (mWeiboPtr.expired())
+	{
+		weiboPtr.reset(new SDKManager());
+		mWeiboPtr = weiboPtr;
+	}
+	else
+	{
+		weiboPtr = mWeiboPtr.lock();
+	}
+	return weiboPtr;
+}
