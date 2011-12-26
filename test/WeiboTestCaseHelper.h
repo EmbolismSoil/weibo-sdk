@@ -2,8 +2,8 @@
 #define WEIBOUNITTEST_WEIBOTESTCASEHELPER_H
 
 #include <map>
-#include <WeiboSDK/IWeibo.hxx>
-#include <WeiboSDK/IWeiboMethod.hxx>
+#include <IWeibo.hxx>
+#include <IWeiboMethod.hxx>
 #include "ParsingDefine.hxx"
 
 namespace weibo

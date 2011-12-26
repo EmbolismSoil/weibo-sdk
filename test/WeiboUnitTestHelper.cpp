@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "WeiboTestCaseHelper.h"
 
-#include <WeiboSDK/IWeiboDef.hxx>
-#include <WeiboSDK/IWeiboMethod.hxx>
+#include <IWeiboDef.hxx>
+#include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
 #include "ParsingDataStruct.hxx"

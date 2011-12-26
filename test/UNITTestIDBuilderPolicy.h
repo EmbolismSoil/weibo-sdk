@@ -1,7 +1,7 @@
 #ifndef WEIBOUNITTEST_UNITTESTIDBUILDERPOLICY_H
 #define WEIBOUNITTEST_UNITTESTIDBUILDERPOLICY_H
 
-#include <WeiboSDK/IWeiboDef.hxx>
+#include <IWeiboDef.hxx>
 #include "WeiboTestCaseHelper.h"
 
 enum eRandomIDType

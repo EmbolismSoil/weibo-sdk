@@ -25,7 +25,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy &quot;.\Interface\*.hxx&quot; &quot;..\include\WeiboSDK\&quot;&#x0D;&#x0A;copy &quot;.\Parsing\ParsingObject.hxx&quot; &quot;..\include\WeiboSDK\&quot;&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -103,7 +103,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="copy &quot;.\Interface\*.hxx&quot; &quot;..\include\WeiboSDK\&quot;&#x0D;&#x0A;copy &quot;.\Parsing\ParsingObject.hxx&quot; &quot;..\include\WeiboSDK\&quot;&#x0D;&#x0A;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -199,22 +199,26 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Interface"
+			Name="include"
 			>
 			<File
-				RelativePath=".\Interface\compat.hxx"
+				RelativePath="..\include\compat.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Interface\IWeibo.hxx"
+				RelativePath="..\include\IWeibo.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Interface\IWeiboDef.hxx"
+				RelativePath="..\include\IWeiboDef.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Interface\IWeiboMethod.hxx"
+				RelativePath="..\include\IWeiboMethod.hxx"
+				>
+			</File>
+			<File
+				RelativePath="..\include\ParsingObject.hxx"
 				>
 			</File>
 		</Filter>
@@ -327,10 +331,6 @@
 			</File>
 			<File
 				RelativePath=".\Parsing\ParsingObject.cxx"
-				>
-			</File>
-			<File
-				RelativePath=".\Parsing\ParsingObject.hxx"
 				>
 			</File>
 		</Filter>

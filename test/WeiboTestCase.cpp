@@ -3,7 +3,7 @@
 #include <boost/make_shared.hpp>
 #include "WeiboTestCase.h"
 #include "WeiboTestCaseHelper.h"
-#include <WeiboSDK/IWeiboMethod.hxx>
+#include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
 #include "ParsingDataStruct.hxx"
@@ -961,7 +961,7 @@ void WeiboTestCase::getShortURLCommentComments()
 
 #if defined(UNITTEST_INTERNAL_INTERFACE)
 
-#include <WeiboSDK/IWeiboInternalMethod.hxx>
+#include <IWeiboInternalMethod.hxx>
 
 IWeiboInternalMethod* WeiboTestCase::getWeiboInternalMethod()
 {

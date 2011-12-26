@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ParsingDataStruct.hxx"
-#include <WeiboSDK/IWeiboDef.hxx>
+#include <IWeiboDef.hxx>
 
 using namespace weibo;
 

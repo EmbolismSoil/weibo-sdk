@@ -3,7 +3,7 @@
 #include <boost/make_shared.hpp>
 #include "UrlCode.h"
 #include "SDKHelper.hxx"
-#include "Parsing/ParsingObject.hxx"
+#include "ParsingObject.hxx"
 #include "strconv.h"
 
 #if defined(INTERNAL_INTERFACE_USEABLE)

@@ -4,7 +4,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <cppunit/extensions/HelperMacros.h>
-#include <WeiboSDK/IWeiboMethod.hxx>
+#include <IWeiboMethod.hxx>
 
 #define UNITTEST_STATUSES
 #define UNITTEST_COMMENTS

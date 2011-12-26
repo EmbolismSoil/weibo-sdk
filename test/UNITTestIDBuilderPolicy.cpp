@@ -2,7 +2,7 @@
 #include "UNITTestIDBuilderPolicy.h"
 #include <time.h>
 #include <boost/shared_ptr.hpp>
-#include <WeiboSDK/IWeiboMethod.hxx>
+#include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
 #include "ParsingDataStruct.hxx"

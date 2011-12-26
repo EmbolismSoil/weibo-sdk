@@ -4,7 +4,7 @@
 #include <list>
 #include <map>
 #include <boost/shared_ptr.hpp>
-#include <WeiboSDK/ParsingObject.hxx>
+#include <ParsingObject.hxx>
 #include "ParsingDefine.hxx"
 
 namespace weibo
