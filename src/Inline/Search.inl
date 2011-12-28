@@ -87,9 +87,9 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsAtUsers(const char* q, const
 
 	// Required params
 	char ctype[10] = { 0 };
-	itoa(type, ctype, 10);
-	SDKHelper::setParam(param, "&type", ctype, PARAM_ENCODE_UTF8);
+	snprintf(ctype, 10, "%d", type);
 
+	SDKHelper::setParam(param, "&type", ctype, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
 	SDKHelper::setIntParam(param, "&count", count);
 	SDKHelper::setIntParam(param, "&range", range);

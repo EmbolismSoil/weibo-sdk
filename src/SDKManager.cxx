@@ -32,11 +32,11 @@ namespace weibo
 	struct UploadTaskDetail
 	{
 		typedef boost::shared_ptr<httpengine::PostFormStreamData> PostFormDataPtr;
-
+        
 		UploadTaskDetail(const char* fileName)
-			: fileName_(Util::StringUtil::getNotNullString(fileName))
-			, fileSize_(0)
-			, fileSeek_(0)
+        : fileName_(Util::StringUtil::getNotNullString(fileName))
+        , fileSize_(0)
+        , fileSeek_(0)
 		{
 			FILE* file = fopen(fileName_.c_str(), "rb");
 			if (file)
@@ -46,21 +46,21 @@ namespace weibo
 				fseek(file, 0, SEEK_SET);
 			}
 		}
-
+        
 		size_t doReadFile(void* uploadBuffer, size_t bufSize)
 		{
 			if (fileSeek_ >= fileSize_)
 			{
 				return 0;
 			}
-
+            
 			FILE* file = fopen(fileName_.c_str(), "rb");
 			if (file)
 			{
 				if (fileSize_ > bufSize)
 				{
 					fseek(file, fileSeek_, SEEK_SET);
-
+                    
 					size_t fileSurplusSize = (fileSize_ - fileSeek_);
 					if (fileSurplusSize < bufSize)
 					{
@@ -71,39 +71,39 @@ namespace weibo
 				{
 					bufSize = fileSize_;
 				}
-
+                
 				fileSeek_ += fread(uploadBuffer, sizeof(char), bufSize, file);
 				fclose(file);
-
+                
 				return bufSize;
 			}
 			return 0;
 		}
-
+        
 		PostFormDataPtr getPostFormData(unsigned requestId, httpengine::IHttpEngine* engine)
 		{
 			if (!postFormDataPtr_)
 			{
 				postFormDataPtr_ 
-					= boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
+                = boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
 			}
 			return postFormDataPtr_;
 		}
-
+        
 		size_t fileSeek_;
 		size_t fileSize_;
 		std::string fileName_;
 		PostFormDataPtr postFormDataPtr_;
 	};
-
+    
 	WeiboRequest::WeiboRequest()
-		: mTaskId(0)
-		, mOptionId(WBOPT_NONE)
-		, mHttpMethod(httpengine::HM_GET)
+    : mTaskId(0)
+    , mOptionId(WBOPT_NONE)
+    , mHttpMethod(httpengine::HM_GET)
 	{
 		memset(&mTaskInfo, 0, sizeof(UserTaskInfo));
 	}
-
+    
 	void WeiboRequest::makeUploadTaskDetail(const char* file)
 	{
 		mUploadTaskDetail.reset();
@@ -122,7 +122,7 @@ SDKManager::SDKManager()
 , mMaxActiveCounts(10)
 {
 	DebugLog(<< __FUNCTION__ << "| cotr");
-
+    
 #if defined(INTERNAL_INTERFACE_USEABLE)
 	mMethodPtr = boost::make_shared<SDKInternalMethod>(this);
 #else
@@ -138,26 +138,26 @@ SDKManager::~SDKManager()
 int SDKManager::startup()
 {
 	DebugLog(<< __FUNCTION__);
-
+    
 	if (!mHttpEnginePtr)
 	{
 		mHttpEnginePtr = httpengine::HttpEngineFactory::createHttpEngine();
 	}
-
+    
 	if (mHttpEnginePtr)
 	{
 		mHttpEnginePtr->initialize();
-
+        
 		mHttpEnginePtr->OnRequestWriteEvent += std::make_pair(this, &SDKManager::onRequestWriteAction);
 		mHttpEnginePtr->OnRequestReadEvent += std::make_pair(this, &SDKManager::onRequestReadAction);
 		mHttpEnginePtr->OnRequestHeaderEvent += std::make_pair(this, &SDKManager::onRequestHeaderAction);
-
+        
 		mHttpEnginePtr->OnRequestStartedNotify += std::make_pair(this, &SDKManager::onRequestStarted);
 		mHttpEnginePtr->OnRequestStopedNotify += std::make_pair(this, &SDKManager::onRequestStoped);
 		mHttpEnginePtr->OnRequestErroredNotify += std::make_pair(this, &SDKManager::onRequestErrored);
 		mHttpEnginePtr->OnRequestComplatedNotify += std::make_pair(this, &SDKManager::onRequestComplated);
 		mHttpEnginePtr->OnRequestReleaseNotify += std::make_pair(this, &SDKManager::onRequestWillRelease);
-
+        
 		//mHttpEnginePtr->OnRequestProgressNotify += std::make_pair(this, &SDKManager::onRequestProgress);// Not used now!
 	}
 	return 0;
@@ -166,21 +166,21 @@ int SDKManager::startup()
 int SDKManager::shutdown()
 {
 	DebugLog(<< __FUNCTION__);
-
+    
 	if (mHttpEnginePtr)
 	{
 		mHttpEnginePtr->OnRequestReadEvent -= std::make_pair(this, &SDKManager::onRequestWriteAction);
 		mHttpEnginePtr->OnRequestWriteEvent -= std::make_pair(this, &SDKManager::onRequestReadAction);
 		mHttpEnginePtr->OnRequestHeaderEvent -= std::make_pair(this, &SDKManager::onRequestHeaderAction);
-
+        
 		mHttpEnginePtr->OnRequestStartedNotify -= std::make_pair(this, &SDKManager::onRequestStarted);
 		mHttpEnginePtr->OnRequestStopedNotify -= std::make_pair(this, &SDKManager::onRequestStoped);
 		mHttpEnginePtr->OnRequestErroredNotify -= std::make_pair(this, &SDKManager::onRequestErrored);
 		mHttpEnginePtr->OnRequestComplatedNotify -= std::make_pair(this, &SDKManager::onRequestComplated);
 		mHttpEnginePtr->OnRequestReleaseNotify -= std::make_pair(this, &SDKManager::onRequestWillRelease);
-
+        
 		//mHttpEnginePtr->OnRequestProgressNotify -= std::make_pair(this, &SDKManager::onRequestProgress);// Not used now.
-
+        
 		mHttpEnginePtr->unInitialize();
 		mHttpEnginePtr.reset();
 	}
@@ -194,46 +194,47 @@ void SDKManager::stopAll()
 
 void SDKManager::setOption(const eWeiboOption option, ...)
 {
-	va_list arg = NULL;
+	va_list arg ;
 	va_start(arg, option);
-
+    
 	switch(option)
 	{
-	case WOPT_CONSUMER:///< char *appkey, const char *appsecret
+        case WOPT_CONSUMER:///< char *appkey, const char *appsecret
 		{
 			if (mMethodPtr)
 			{
 				std::string key = Util::StringUtil::getNotNullString(va_arg(arg, const char *));
 				std::string secret = Util::StringUtil::getNotNullString(va_arg(arg, const char *));
-
+                
 				mMethodPtr->setConsumer(key, secret);
 			}
 		}
-		break;
-
-	case WOPT_PROXY: ///< eWeiboProxyType type, char *host, int port, char *proxyuser, char *password
+            break;
+            
+        case WOPT_PROXY: ///< eWeiboProxyType type, char *host, int port, char *proxyuser, char *password
 		{
 			if (mHttpEnginePtr)
 			{
 				httpengine::ProxyInfo proxy;
-
+                
 				// TODO(welbon): To get proxy information
 				mHttpEnginePtr->setOption(httpengine::EOT_PROXY, 
-					&proxy, sizeof(httpengine::ProxyInfo), false);
+                                          &proxy, sizeof(httpengine::ProxyInfo), false);
 			}
 		}
-		break;
-
-	case WOPT_RESPONSE_FORMAT:
+            break;
+            
+        case WOPT_RESPONSE_FORMAT:
 		{
 			if (mMethodPtr)
 			{
-				mMethodPtr->setUnifiedFormat(va_arg(arg, const eWeiboRequestFormat));
+				const eWeiboRequestFormat format = (const eWeiboRequestFormat)va_arg(arg, int);
+				mMethodPtr->setUnifiedFormat(format);
 			}
 		}
-		break;
-
-	case WOPT_ACCESS_TOKEN:
+            break;
+            
+        case WOPT_ACCESS_TOKEN:
 		{
 			if (mMethodPtr)
 			{
@@ -241,10 +242,10 @@ void SDKManager::setOption(const eWeiboOption option, ...)
 				mMethodPtr->setAccesstoken(token);
 			}
 		}
-		break;
-
-	default:
-		break;
+            break;
+            
+        default:
+            break;
 	}
 	va_end(arg);
 }
@@ -259,11 +260,11 @@ IWeiboMethod *SDKManager::getMethod()
 }
 
 unsigned int SDKManager::onRequestReadAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
-											, unsigned int errorCode, const int subErrorCode, void* userData)
+                                             , unsigned int errorCode, const int subErrorCode, void* userData)
 {
 	WeiboRequestPtr requestPtr 
-		= internalFindRequestFromActiveMap(requestId);
-
+    = internalFindRequestFromActiveMap(requestId);
+    
 	if (requestPtr && requestPtr->mUploadTaskDetail)
 	{
 		return requestPtr->mUploadTaskDetail->doReadFile(data, dataCounts);
@@ -276,7 +277,7 @@ unsigned int SDKManager::onRequestReadAction(unsigned int requestId, void* data,
 }
 
 unsigned int SDKManager::onRequestWriteAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
-											 , unsigned int errorCode, const int subErrorCode, void* userData)
+                                              , unsigned int errorCode, const int subErrorCode, void* userData)
 {
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr && data)
@@ -292,7 +293,7 @@ unsigned int SDKManager::onRequestWriteAction(unsigned int requestId, void* data
 }
 
 unsigned int SDKManager::onRequestHeaderAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
-											  , unsigned int errorCode, const int subErrorCode, void* userData)
+                                               , unsigned int errorCode, const int subErrorCode, void* userData)
 {
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr && data)
@@ -310,12 +311,12 @@ unsigned int SDKManager::onRequestHeaderAction(unsigned int requestId, void* dat
 void SDKManager::onRequestStarted(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
 {
 	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
-
+    
 	if (requestId <= 0)
 	{
 		return ;
 	}
-
+    
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr && requestPtr->mHttpMethod == httpengine::HM_POSTFORM 
 		&& requestPtr->mUploadTaskDetail)
@@ -328,33 +329,33 @@ void SDKManager::onRequestStarted(unsigned int requestId, const int errorCode, c
 		{
 			file = filePath.substr(pos + 1, filePath.length());
 		}
-
+        
 		// Convert the file name to utf8
 		CC2UTF8 cvUTF8(file.c_str());
 		std::string saveFileUTF8 = cvUTF8.c_str();
-
+        
 		UploadTaskDetail::PostFormDataPtr formDataPtr 
-			= requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());
-
+        = requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());
+        
 		mHttpEnginePtr->setRequestOption(requestId, httpengine::TOT_POST_FORM
-			, httpengine::HTTP_FORMTYPE_COPYNAME, requestPtr->mPostFileField.c_str()
-			, httpengine::HTTP_FORMTYPE_FILENAME, saveFileUTF8.c_str()
-			, httpengine::HTTP_FORMTYPE_STREAM, formDataPtr ? formDataPtr.get() : NULL
-			, httpengine::HTTP_FORMTYPE_CONTENTSLENGTH, requestPtr->mUploadTaskDetail->fileSize_
-			, httpengine::HTTP_FORMTYPE_CONTENTTYPE, "image/jpeg"
-			, httpengine::HTTP_FORMTYPE_END);
+                                         , httpengine::HTTP_FORMTYPE_COPYNAME, requestPtr->mPostFileField.c_str()
+                                         , httpengine::HTTP_FORMTYPE_FILENAME, saveFileUTF8.c_str()
+                                         , httpengine::HTTP_FORMTYPE_STREAM, formDataPtr ? formDataPtr.get() : NULL
+                                         , httpengine::HTTP_FORMTYPE_CONTENTSLENGTH, requestPtr->mUploadTaskDetail->fileSize_
+                                         , httpengine::HTTP_FORMTYPE_CONTENTTYPE, "image/jpeg"
+                                         , httpengine::HTTP_FORMTYPE_END);
 	}
 }
 
 void SDKManager::onRequestStoped(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
 {
 	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
-
+    
 	if (requestId <= 0)
 	{
 		return ;
 	}
-
+    
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr)
 	{
@@ -370,12 +371,12 @@ void SDKManager::onRequestStoped(unsigned int requestId, const int errorCode, co
 void SDKManager::onRequestErrored(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
 {
 	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
-
+    
 	if (requestId <= 0)
 	{
 		return ;
 	}
-
+    
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr)
 	{
@@ -397,12 +398,12 @@ void SDKManager::onRequestProgress(unsigned int requestId, const double total, c
 void SDKManager::onRequestComplated(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
 {
 	DebugLog(<< __FUNCTION__ << " | request id: " << requestId << " | error code :" << errorCode << " | sub error code :" << subErrorCode);
-
+    
 	if (requestId <= 0)
 	{
 		return ;
 	}
-
+    
 	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 	if (requestPtr)
 	{
@@ -458,8 +459,8 @@ eWeiboResultCode SDKManager::internalStartTask(WeiboRequestPtr reqPtr)
 	if (mHttpEnginePtr && reqPtr)
 	{
 		mHttpEnginePtr->startUrlRequest(reqPtr->mTaskId, reqPtr->mURL.c_str()
-			, reqPtr->mPostArg.c_str(), reqPtr->mHttpMethod);
-
+                                        , reqPtr->mPostArg.c_str(), reqPtr->mHttpMethod);
+        
 		// Check has same request.
 		WeiboRequestMap::iterator it = mRequestActivedMap.find(reqPtr->mTaskId);
 		if (it != mRequestActivedMap.end())

@@ -165,6 +165,8 @@ static const struct tagMethodURLElement gMethodURLElements[] =
 
 void SDKHelper::getMethodURLFromOption(unsigned int methodOption, std::string &baseURL)
 {
+	const int counts = sizeof(gMethodURLElements)/sizeof(gMethodURLElements[0]);
+
 	if (IN_BETWEEN(WBOPT_GET_SHORT_URL_SHORTEN, 
 		WBOPT_GET_SHORT_URL_COMMENT_COMMENTS, methodOption))
 	{
@@ -176,7 +178,7 @@ void SDKHelper::getMethodURLFromOption(unsigned int methodOption, std::string &b
 	}
 
 	bool bFound = false;
-	for (int i = 0; i < _countof(gMethodURLElements); ++ i)
+	for (int i = 0; i < counts; ++ i)
 	{
 		if (gMethodURLElements[i].option == methodOption)
 		{
@@ -196,7 +198,7 @@ void SDKHelper::getMethodURLFromOption(unsigned int methodOption, std::string &b
 			baseURL = "https://api.t.sina.com.cn";
 		}
 
-		for (int i = 0; i < _countof(gMethodURLElements); ++ i)
+		for (int i = 0; i < counts; ++ i)
 		{
 			if (gInternalMethodURLElements[i].option == methodOption)
 			{
