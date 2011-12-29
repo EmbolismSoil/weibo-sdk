@@ -24,6 +24,8 @@
 namespace weibo { class IWeiboInternalMethod; }
 #endif //
 
+void setAccountInfo(const char* account, const char* password);
+
 /** test case for weibo
 *
 * @author welbon

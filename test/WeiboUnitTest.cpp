@@ -11,6 +11,8 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/XmlOutputter.h>
 
+#include "WeiboTestCase.h"
+
 #if defined(_WIN32)
 #   define TEST_MAIN _tmain(int argc, __TCHAR* argv[])
 #else
@@ -19,6 +21,18 @@
 
 int TEST_MAIN
 {
+    char userName[255] = { 0 };
+    char password[255] = { 0 };
+    
+    printf("Please enter user name: ");
+    gets(userName);
+    
+    printf("Please enter password: ");
+    gets(password);
+
+    // Account info
+    setAccountInfo(userName, password);
+    
 	// Create the event manager and test controller
 	CPPUNIT_NS::TestResult controller;
 
