@@ -5,7 +5,7 @@
 #include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
-#include "ParsingDataStruct.hxx"
+#include "ParsingDataStruct.h"
 
 #define LOG_SUPPORT
 
@@ -181,7 +181,8 @@ const char* getOptionName(unsigned int optionId)
 	}
 	static char buf[10] = { 0 };
 	memset(buf, sizeof(char), 10);
-	itoa(optionId, buf, 10);
+	//itoa(optionId, buf, 10);
+    snprintf(buf, 10, "%d", optionId);
 	return buf;
 }
 
@@ -221,7 +222,7 @@ WeiboTestCaseHelper::WeiboTestCaseHelper()
 
 	initializeParsingMap();
 
-#if defined(LOG_SUPPORT)
+#if defined(LOG_SUPPORT) && defined(_WIN32)
 	std::wstring logfile = getAppModulePathW();
 	logfile += L"UNIT_LOG.log";
 	Util::Log::initialize(Util::Log::File | Util::Log::VSDebugWindow, 
@@ -457,6 +458,8 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 std::string filePath;
 std::wstring filePathW;
 
+#if defined(_WIN32)
+
 const char* WeiboTestCaseHelper::getAppModulePath()
 {
 	if (filePath.empty())
@@ -484,3 +487,39 @@ const wchar_t* WeiboTestCaseHelper::getAppModulePathW()
 	}
 	return filePathW.c_str();
 }
+
+#else
+
+const char* WeiboTestCaseHelper::getAppModulePath()
+{
+    /*
+	if (filePath.empty())
+	{
+		char buf[MAX_PATH]={ 0 };
+		GetModuleFileNameA(NULL, buf, sizeof(char) * MAX_PATH);
+		char* tmp = strrchr(buf, '\\');
+		*tmp = '\0';
+		filePath = buf;
+		filePath += "\\";
+	}
+     */
+	return filePath.c_str();
+}
+
+const wchar_t* WeiboTestCaseHelper::getAppModulePathW()
+{
+    /*
+	if (filePathW.empty())
+	{
+		wchar_t buf[MAX_PATH]={ 0 };
+		GetModuleFileNameW(NULL, buf, sizeof(wchar_t) * MAX_PATH);
+		wchar_t* tmp = wcsrchr (buf, '\\');
+		*tmp = '\0';
+		filePathW = buf;
+		filePathW += L"\\";
+	}
+     */
+	return filePathW.c_str();
+}
+
+#endif //_WIN32

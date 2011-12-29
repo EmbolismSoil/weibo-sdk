@@ -6,7 +6,7 @@
 #include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
-#include "ParsingDataStruct.hxx"
+#include "ParsingDataStruct.h"
 #include "UNITTestIDBuilderPolicy.h"
 
 using namespace weibo;
@@ -34,7 +34,12 @@ void WeiboTestCase::standardOptionForWaiting(unsigned int id)
 {
 	while(1)
 	{
+#if defined(_WIN32)
 		Sleep(1000);
+#else
+        usleep(1000 * 1000);
+#endif // _WIN32
+        
 		WeiboTestCaseResultPtr result = gWeiboHelper->checkoutReqResult(id);
 
 		if (result)
@@ -105,8 +110,8 @@ void WeiboTestCase::getStatusesHomeTimeline()
 
 void WeiboTestCase::getStatusesUserTimeline()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getStatusesUserTimeline(
-		weibo::ID(weibo::ID::IDT_ID, gWeiboHelper->getMYID())) == WRC_OK);
+    weibo::ID id(weibo::ID::IDT_ID, gWeiboHelper->getMYID());
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getStatusesUserTimeline(id) == WRC_OK);
 
 	standardOptionForWaiting(WBOPT_GET_STATUSES_USER_TIMELINE);
 }
@@ -396,9 +401,8 @@ void WeiboTestCase::getUsersShowBatch()
 // ¹Ø×¢¶ÁÈ¡
 void WeiboTestCase::getFriendshipsFriends()
 {
-	
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipsFriends(
-		weibo::ID(weibo::ID::IDT_ID, gWeiboHelper->getMYID()), 0) == WRC_OK);
+    weibo::ID id(weibo::ID::IDT_ID, gWeiboHelper->getMYID());
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipsFriends(id, 0) == WRC_OK);
 
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_FRIENDS);
 }
@@ -441,8 +445,8 @@ void WeiboTestCase::getFriendshipsFriendRemarkBatch()
 // ·ÛË¿¶ÁÈ¡
 void WeiboTestCase::getFriendshipsFriendsFollowers()
 {	
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipsFriendsFollowers(
-		weibo::ID(weibo::ID::IDT_ID, gWeiboHelper->getMYID())) == WRC_OK);
+    weibo::ID id(weibo::ID::IDT_ID, gWeiboHelper->getMYID());
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipsFriendsFollowers(id) == WRC_OK);
 
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS);
 }
@@ -474,7 +478,8 @@ void WeiboTestCase::getFriendshipShow()
 {
 	using namespace weibo;
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS);
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipShow(policy.asID(), ID(ID::IDT_ID, gWeiboHelper->getMYID())) == WRC_OK);
+    ID id(ID::IDT_ID, gWeiboHelper->getMYID());
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFriendshipShow(policy.asID(), id) == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_SHOW);
 }
 
@@ -482,7 +487,8 @@ void WeiboTestCase::getFriendshipShow()
 void WeiboTestCase::postFriendshipsCreate()
 {
 	//UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS, WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS);
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postFriendshipsCreate(ID(ID::IDT_ID,"1645121582"), 0) == WRC_OK);
+    ID id(ID::IDT_ID,"1645121582");
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postFriendshipsCreate(id, 0) == WRC_OK);
 	standardOptionForWaiting(WBOPT_POST_FRIENDSHIPS_CREATE);
 }
 
@@ -496,7 +502,8 @@ void WeiboTestCase::postFriendshipsCreateBatch()
 void WeiboTestCase::postFriendshipsDestroy()
 {
 	//UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS);
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postFriendshipsDestroy(ID(ID::IDT_ID,"1645121582")/*policy.asID()*/) == WRC_OK);
+    ID id(ID::IDT_ID,"1645121582");
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postFriendshipsDestroy(id/*policy.asID()*/) == WRC_OK);
 	standardOptionForWaiting(WBOPT_POST_FRIENDSHIPS_DESTROY);
 }
 

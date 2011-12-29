@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ParsingDataStruct.hxx"
+#include "ParsingDataStruct.h"
 #include <IWeiboDef.hxx>
 
 using namespace weibo;
@@ -612,17 +612,17 @@ int wb_parse_oauth(const char *reply, char *token, char *secret, char* userid)
 
 	while (0 == split_url_param(s, key, qe, split, '&'))
 	{
-		if((_strnicmp(key,"oauth_token_secret=",18 ) == 0) && secret)
+		if((strncmp(key,"oauth_token_secret=",18 ) == 0) && secret)
 		{
 			split_url_copy_keyval(secret, (qe + 1), split);
 			secretok = 1;
 		}
-		else if((_strnicmp(key, "oauth_token=", 11) == 0) && token)
+		else if((strncmp(key, "oauth_token=", 11) == 0) && token)
 		{
 			split_url_copy_keyval(token, (qe + 1), split);
 			tokenok = 1;
 		}
-		else if((_strnicmp(key,"user_id=", 7) == 0) && userid)
+		else if((strncmp(key,"user_id=", 7) == 0) && userid)
 		{
 			split_url_copy_keyval(userid, (qe + 1), split); 
 		}
@@ -649,7 +649,7 @@ bool ParsingApiError::doParse(const char* source, std::string *errMsg)
 	//	return __super::doParse(source);
 	//}
 	//return false;
-	return __super::doParse(source, errMsg);
+	return ParsingBase::doParse(source, errMsg);
 }
 
 bool ParsingApiError::doParse(const ParsingObjectPtr objectPtr)
@@ -693,7 +693,7 @@ bool ParsingOauthRet::doParse(const char* source, std::string *errMsg)
 	}
 	else
 	{
-		ret = __super::doParse(source, errMsg);
+		ret = ParsingBase::doParse(source, errMsg);
 	}
 	return ret;
 }

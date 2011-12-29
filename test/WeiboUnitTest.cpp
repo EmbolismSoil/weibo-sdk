@@ -11,7 +11,13 @@
 #include <cppunit/TestRunner.h>
 #include <cppunit/XmlOutputter.h>
 
-int _tmain(int argc, _TCHAR* argv[])
+#if defined(_WIN32)
+#   define TEST_MAIN _tmain(int argc, __TCHAR* argv[])
+#else
+#   define TEST_MAIN main(int argc, char* argv[])
+#endif
+
+int TEST_MAIN
 {
 	// Create the event manager and test controller
 	CPPUNIT_NS::TestResult controller;

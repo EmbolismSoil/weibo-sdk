@@ -58,7 +58,7 @@ public:
 	void setAccountInfo(const char* account, const char* password);
 
 protected:
-	void onWeiboRespComplated(unsigned int methodOption, const char* httpHeader, weibo::ParsingObject* result, const const weibo::UserTaskInfo* pTask);
+	void onWeiboRespComplated(unsigned int methodOption, const char* httpHeader, weibo::ParsingObject* result, const weibo::UserTaskInfo* pTask);
 	void onWeiboRespErrored(unsigned int optionId, const int errCode, const int errSubCode, weibo::ParsingObject* result, const weibo::UserTaskInfo* pTask);
 	void onWeiboRespStoped(unsigned int optionId, const weibo::UserTaskInfo* pTask);
 

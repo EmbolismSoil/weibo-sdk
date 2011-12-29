@@ -258,8 +258,8 @@ namespace weibo
 
 		ParsingResult(const ResultKeyList &keyList);
 		virtual bool doParse(const ParsingObjectPtr objectPtr);
-
-		const char* ParsingResult::asAString(const char* key);
+        
+        const char* asAString(const char* key);
 
 		ResultKeyList _reulstKeylist;
 		ResultMap _resultMap;
@@ -354,7 +354,7 @@ namespace weibo
 	protected:
 		static void EnumAllStatusesCallBack(const ParsingObjectPtr object, void* usrData)
 		{
-			ParsingList::TParsingList *list = (TParsingList *)usrData;
+            TParsingList* list = (TParsingList*)usrData;
 			if (list)
 			{
 				TDataPtr dataPtr = boost::make_shared<ElementDataType>();
