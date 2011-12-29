@@ -34,7 +34,7 @@ POST_UNINSTALL = :
 build_triplet = i386-apple-darwin11.2.0
 host_triplet = i386-apple-darwin11.2.0
 subdir = .
-DIST_COMMON = $(am__configure_deps) $(libutilinclude_HEADERS) \
+DIST_COMMON = $(am__configure_deps) $(libWeiboSDKinclude_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/configure config.guess config.sub depcomp \
 	install-sh ltmain.sh missing
@@ -53,7 +53,7 @@ am__vpath_adj = case $$p in \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(libdir)" \
-	"$(DESTDIR)$(libutilincludedir)"
+	"$(DESTDIR)$(libWeiboSDKincludedir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libWeiboSDK_la_LIBADD =
@@ -76,8 +76,8 @@ CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libWeiboSDK_la_SOURCES)
 DIST_SOURCES = $(libWeiboSDK_la_SOURCES)
-libutilincludeHEADERS_INSTALL = $(INSTALL_HEADER)
-HEADERS = $(libutilinclude_HEADERS)
+libWeiboSDKincludeHEADERS_INSTALL = $(INSTALL_HEADER)
+HEADERS = $(libWeiboSDKinclude_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -127,7 +127,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /usr/llvm-gcc-4.2/libexec/gcc/i686-apple-darwin11/4.2.1/ld
 LDFLAGS = 
 LIBOBJS =  ${LIBOBJDIR}error$U.o
-LIBS = 
+LIBS = $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.a
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = lipo
 LN_S = ln -s
@@ -208,8 +208,9 @@ target_alias =
 top_builddir = .
 top_srcdir = .
 
-# Set the automake options.while execute the automake command, use this option.
+#bWeiboSDK Set the automake options.while execute the automake command, use this option.
 AUTOMAKE_OPTIONS = foreign
+PLATFORM_KEY = $(shell uname)
 lib_LTLIBRARIES = libWeiboSDK.la
 SOURCEDIR = $(top_srcdir)/src
 INCLUDEDIR = $(top_srcdir)/include
@@ -234,8 +235,8 @@ INCLUDES = \
 libWeiboSDK_la_SOURCES = $(cpp_sources)
 
 # This is the destnation include directory of install
-libutilincludedir = $(includedir)
-libutilinclude_HEADERS = \
+libWeiboSDKincludedir = $(includedir)
+libWeiboSDKinclude_HEADERS = \
         $(INCLUDEDIR)/compat.hxx\
         $(INCLUDEDIR)/IWeibo.hxx\
         $(INCLUDEDIR)/IWeiboDef.hxx\
@@ -452,22 +453,22 @@ clean-libtool:
 
 distclean-libtool:
 	-rm -f libtool
-install-libutilincludeHEADERS: $(libutilinclude_HEADERS)
+install-libWeiboSDKincludeHEADERS: $(libWeiboSDKinclude_HEADERS)
 	@$(NORMAL_INSTALL)
-	test -z "$(libutilincludedir)" || $(MKDIR_P) "$(DESTDIR)$(libutilincludedir)"
-	@list='$(libutilinclude_HEADERS)'; for p in $$list; do \
+	test -z "$(libWeiboSDKincludedir)" || $(MKDIR_P) "$(DESTDIR)$(libWeiboSDKincludedir)"
+	@list='$(libWeiboSDKinclude_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f=$(am__strip_dir) \
-	  echo " $(libutilincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(libutilincludedir)/$$f'"; \
-	  $(libutilincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(libutilincludedir)/$$f"; \
+	  echo " $(libWeiboSDKincludeHEADERS_INSTALL) '$$d$$p' '$(DESTDIR)$(libWeiboSDKincludedir)/$$f'"; \
+	  $(libWeiboSDKincludeHEADERS_INSTALL) "$$d$$p" "$(DESTDIR)$(libWeiboSDKincludedir)/$$f"; \
 	done
 
-uninstall-libutilincludeHEADERS:
+uninstall-libWeiboSDKincludeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(libutilinclude_HEADERS)'; for p in $$list; do \
+	@list='$(libWeiboSDKinclude_HEADERS)'; for p in $$list; do \
 	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(libutilincludedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(libutilincludedir)/$$f"; \
+	  echo " rm -f '$(DESTDIR)$(libWeiboSDKincludedir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(libWeiboSDKincludedir)/$$f"; \
 	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
@@ -647,7 +648,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libutilincludedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(libWeiboSDKincludedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -696,7 +697,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-libutilincludeHEADERS
+install-data-am: install-libWeiboSDKincludeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -734,7 +735,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLTLIBRARIES uninstall-libutilincludeHEADERS
+uninstall-am: uninstall-libLTLIBRARIES \
+	uninstall-libWeiboSDKincludeHEADERS
 
 .MAKE: install-am install-strip
 
@@ -747,14 +749,14 @@ uninstall-am: uninstall-libLTLIBRARIES uninstall-libutilincludeHEADERS
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
 	install-html-am install-info install-info-am \
-	install-libLTLIBRARIES install-libutilincludeHEADERS \
+	install-libLTLIBRARIES install-libWeiboSDKincludeHEADERS \
 	install-man install-pdf install-pdf-am install-ps \
 	install-ps-am install-strip installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-compile mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-libLTLIBRARIES \
-	uninstall-libutilincludeHEADERS
+	uninstall-libWeiboSDKincludeHEADERS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

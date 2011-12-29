@@ -1,5 +1,6 @@
-# Set the automake options.while execute the automake command, use this option.
+#bWeiboSDK Set the automake options.while execute the automake command, use this option.
 AUTOMAKE_OPTIONS=foreign
+PLATFORM_KEY=$(shell uname)
 
 lib_LTLIBRARIES = libWeiboSDK.la
 
@@ -27,16 +28,20 @@ INCLUDES = \
 libWeiboSDK_la_SOURCES = $(cpp_sources)
 
 # This is the destnation include directory of install
-libutilincludedir = $(includedir)
+libWeiboSDKincludedir = $(includedir)
 
 # This is the destnation library directory of install
 libdir = $(prefix)/lib/$(PLATFORM_NAME)
 
-libutilinclude_HEADERS= \
+LIBS=$(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.a
+
+libWeiboSDKinclude_HEADERS= \
         $(INCLUDEDIR)/compat.hxx\
         $(INCLUDEDIR)/IWeibo.hxx\
         $(INCLUDEDIR)/IWeiboDef.hxx\
         $(INCLUDEDIR)/IWeiboMethod.hxx\
         $(INCLUDEDIR)/ParsingObject.hxx
+
+
 
 AM_CXXFLAGS=-D_LINUX -DONLY_EPOLL -D_SERVER -pthread

@@ -14,13 +14,14 @@ endif
 
 # DEFS = -D_USE_JSON_PARSER
 LIBS = \
-       $(top_srcdir)/lib/$(PLATFORM_KEY)/libWeiboSDK.$(LIB_NAME)\
        $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libcppunit.a\
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libHttpEngine.$(LIB_NAME)\
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.a\
+       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.$(LIB_NAME)\
        $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libutil.$(LIB_NAME)\
+       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libHttpEngine.$(LIB_NAME)\
+       $(top_srcdir)/lib/$(PLATFORM_KEY)/libWeiboSDK.$(LIB_NAME)\
        /opt/local/lib/libboost_filesystem.$(LIB_NAME)\
-       -lcurl -lpthread -lssl -liconv
+       /opt/local/lib/libiconv.$(LIB_NAME)\
+       -lcurl -lpthread -lssl
 
 INCLUDES = \
 	-I/opt/local/include \
