@@ -5,7 +5,7 @@
 #include <IWeiboMethod.hxx>
 
 #include "ParsingDefine.hxx"
-#include "ParsingDataStruct.hxx"
+#include "ParsingDataStruct.h"
 
 using namespace weibo;
 

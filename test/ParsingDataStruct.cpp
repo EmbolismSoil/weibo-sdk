@@ -341,7 +341,7 @@ bool ParsingAccount::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mBasicPtr)
 		{
-			mBasicPtr = boost::make_shared<weibo::BasicInfo>();
+			mBasicPtr = boost::make_shared<struct weibo::BasicInfo>();
 		}
 
 		mBasicPtr->id = objectPtr->getSubStringByKey("id");
@@ -389,7 +389,7 @@ bool ParsingEducation::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mEducationPtr)
 		{
-			mEducationPtr = boost::make_shared<weibo::EducationInfo>();
+			mEducationPtr = boost::make_shared<struct weibo::EducationInfo>();
 		}
 
 		mEducationPtr->id = objectPtr->getSubStringByKey("id");
@@ -417,7 +417,7 @@ bool ParsingCareer::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mCareerPtr)
 		{
-			mCareerPtr = boost::make_shared<weibo::CareerInfo>();
+			mCareerPtr = boost::make_shared<struct weibo::CareerInfo>();
 		}
 
 		mCareerPtr->id = objectPtr->getSubStringByKey("id");

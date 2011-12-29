@@ -19,7 +19,8 @@ LIBS = \
        $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libHttpEngine.$(LIB_NAME)\
        $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.a\
        $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libutil.$(LIB_NAME)\
-       -lcurl -lpthread -lssl
+       /opt/local/lib/libboost_filesystem.$(LIB_NAME)\
+       -lcurl -lpthread -lssl -liconv
 
 INCLUDES = \
 	-I/opt/local/include \
