@@ -245,11 +245,11 @@
 			Name="Parsing"
 			>
 			<File
-				RelativePath=".\ParsingDataStruct.cxx"
+				RelativePath=".\ParsingDataStruct.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\ParsingDataStruct.hxx"
+				RelativePath=".\ParsingDataStruct.h"
 				>
 			</File>
 			<File

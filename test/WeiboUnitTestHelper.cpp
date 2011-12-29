@@ -172,7 +172,14 @@ const IDDebugHelper gDebugHelperArray[] =
 
 const char* getOptionName(unsigned int optionId)
 {
-	for (int i = 0; i < sizeof(gDebugHelperArray)/sizeof(gDebugHelperArray[0]); ++ i) 
+	const int size = sizeof(gDebugHelperArray)/sizeof(gDebugHelperArray[0]);
+	if (optionId >= size)
+	{
+		assert(false);
+		return "";
+	}
+
+	for (int i = 0; i < size; ++ i)
 	{
 		if (optionId == gDebugHelperArray[i].optionId)
 		{
@@ -181,7 +188,6 @@ const char* getOptionName(unsigned int optionId)
 	}
 	static char buf[10] = { 0 };
 	memset(buf, sizeof(char), 10);
-	//itoa(optionId, buf, 10);
     snprintf(buf, 10, "%d", optionId);
 	return buf;
 }
@@ -415,7 +421,7 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 	}
 	else
 	{
-		result->pasringPtr_ = boost::make_shared<ParsingApiError>(false);
+		result->pasringPtr_ = boost::make_shared<ParsingApiError>(false);		
 	}
 
 	if (resultObj)
@@ -436,18 +442,19 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 				ParsingOauthRet ret;
 				ret.doParse(objPtr);
 				mWeiboPtr->setOption(WOPT_ACCESS_TOKEN, ret.access_token.c_str());
+				mMYID = ret.uid;
 			}
 			break;
 
-		case WBOPT_GET_ACCOUNT_GET_UID:
-			{
-				ParsingResultPtr pret = boost::dynamic_pointer_cast<ParsingResult>(result->pasringPtr_);
-				if (pret)
-				{
-					mMYID = pret->asAString("uid");
-				}
-			}
-			break;
+		//case WBOPT_GET_ACCOUNT_GET_UID:
+		//	{
+		//		ParsingResultPtr pret = boost::dynamic_pointer_cast<ParsingResult>(result->pasringPtr_);
+		//		if (pret)
+		//		{
+		//			mMYID = pret->asAString("uid");
+		//		}
+		//	}
+		//	break;
 
 		default:
 			break;

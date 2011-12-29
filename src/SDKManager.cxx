@@ -84,8 +84,8 @@ namespace weibo
 		{
 			if (!postFormDataPtr_)
 			{
-				postFormDataPtr_ 
-                = boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
+				postFormDataPtr_ = 
+					boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
 			}
 			return postFormDataPtr_;
 		}
@@ -262,8 +262,8 @@ IWeiboMethod *SDKManager::getMethod()
 unsigned int SDKManager::onRequestReadAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
                                              , unsigned int errorCode, const int subErrorCode, void* userData)
 {
-	WeiboRequestPtr requestPtr 
-    = internalFindRequestFromActiveMap(requestId);
+	WeiboRequestPtr requestPtr = 
+		internalFindRequestFromActiveMap(requestId);
     
 	if (requestPtr && requestPtr->mUploadTaskDetail)
 	{
@@ -279,7 +279,9 @@ unsigned int SDKManager::onRequestReadAction(unsigned int requestId, void* data,
 unsigned int SDKManager::onRequestWriteAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
                                               , unsigned int errorCode, const int subErrorCode, void* userData)
 {
-	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	WeiboRequestPtr requestPtr = 
+		internalFindRequestFromActiveMap(requestId);
+
 	if (requestPtr && data)
 	{
 		DebugLog(<< __FUNCTION__ << "| Write body event, dataCount " << dataCounts);
@@ -295,7 +297,9 @@ unsigned int SDKManager::onRequestWriteAction(unsigned int requestId, void* data
 unsigned int SDKManager::onRequestHeaderAction(unsigned int requestId, void* data, unsigned int dataSize, const int dataCounts
                                                , unsigned int errorCode, const int subErrorCode, void* userData)
 {
-	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
+	WeiboRequestPtr requestPtr = 
+		internalFindRequestFromActiveMap(requestId);
+
 	if (requestPtr && data)
 	{
 		DebugLog(<< __FUNCTION__ << "| Write header event, dataCount " << dataCounts);
@@ -418,19 +422,21 @@ void SDKManager::onRequestComplated(unsigned int requestId, const int errorCode,
 
 void SDKManager::onRequestWillRelease(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
 {
-	if (requestId)
+	if (requestId <= 0)
 	{
-		WeiboRequestMap::iterator iter = mRequestActivedMap.find(requestId);
-		if (iter != mRequestActivedMap.end())
-		{
-			DebugLog(<< __FUNCTION__ << "| fire OnDelegateWillRelease");
-			OnDelegateWillRelease(requestId, &(iter->second->mTaskInfo));
-			mRequestActivedMap.erase(iter);
-		}
-		else
-		{
-			ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
-		}
+		return ;
+	}
+
+	WeiboRequestMap::iterator iter = mRequestActivedMap.find(requestId);
+	if (iter != mRequestActivedMap.end())
+	{
+		DebugLog(<< __FUNCTION__ << "| fire OnDelegateWillRelease");
+		OnDelegateWillRelease(iter->second->mOptionId, &(iter->second->mTaskInfo));
+		mRequestActivedMap.erase(iter);
+	}
+	else
+	{
+		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
 	}
 	internalLoadNewActiveTask();
 }

@@ -14,7 +14,7 @@
 #include "WeiboTestCase.h"
 
 #if defined(_WIN32)
-#   define TEST_MAIN _tmain(int argc, __TCHAR* argv[])
+#   define TEST_MAIN _tmain(int argc, _TCHAR* argv[])
 #else
 #   define TEST_MAIN main(int argc, char* argv[])
 #endif

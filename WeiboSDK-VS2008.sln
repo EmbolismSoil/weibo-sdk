@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WeiboUnitTest", "test\WeiboUnitTest.vcproj", "{DCF8DAF9-8562-43D2-BF8B-CD6E5F958ADB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WeiboSDK_VC90", "src\WeiboSDK_VC90.vcproj", "{AE422517-D92D-4E24-A95D-4D9707864C58}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WeiboSDK_VC90", "WeiboSDK_VC90.vcproj", "{AE422517-D92D-4E24-A95D-4D9707864C58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

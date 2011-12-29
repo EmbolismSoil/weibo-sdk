@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="DLL Debug|Win32"
-			OutputDirectory="&quot;..\bin\Debug&quot;"
+			OutputDirectory="&quot;.\bin\Debug&quot;"
 			IntermediateDirectory="&quot;$(SolutionDir)\Build\$(ProjectName)\$(ConfigurationName)&quot;"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\;.\Interface;..\include;&quot;..\third-party\Common&quot;;&quot;..\third-party\include&quot;;&quot;..\third-party\include\libutil&quot;"
+				AdditionalIncludeDirectories=".\;.\include;&quot;.\third-party\Common&quot;;&quot;.\third-party\include&quot;;&quot;.\third-party\include\libutil&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;WEIBO_SDK_EXPORTS;LOG_SUPPORT;USE_UTIL_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="HttpEngine.lib libutil_vc90.lib libjson_vc90.lib ssleay32_VC90.lib libeay32_VC90.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\third-party\lib\Debug&quot;"
+				AdditionalLibraryDirectories="&quot;.\third-party\lib\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				ImportLibrary="..\lib\Debug\$(TargetName).lib"
@@ -95,7 +95,7 @@
 		</Configuration>
 		<Configuration
 			Name="DLL Release|Win32"
-			OutputDirectory="&quot;..\bin\Release&quot;"
+			OutputDirectory="&quot;.\bin\Release&quot;"
 			IntermediateDirectory="&quot;$(SolutionDir)\Build\$(ProjectName)\$(ConfigurationName)&quot;"
 			ConfigurationType="2"
 			CharacterSet="1"
@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories=".\;.\Interface;..\include;&quot;..\third-party\Common&quot;;&quot;..\third-party\include&quot;;&quot;..\third-party\include\libutil&quot;"
+				AdditionalIncludeDirectories=".\;.\include;&quot;.\third-party\Common&quot;;&quot;.\third-party\include&quot;;&quot;.\third-party\include\libutil&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;WEIBO_SDK_EXPORTS;USE_UTIL_DLL"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -142,7 +142,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="HttpEngine.lib libutil_vc90.lib libjson_vc90.lib ssleay32_VC90.lib libeay32_VC90.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\third-party\lib\Release&quot;"
+				AdditionalLibraryDirectories="&quot;.\third-party\lib\Release&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -182,19 +182,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\SDKHelper.hxx"
+				RelativePath=".\src\SDKHelper.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SDKManager.hxx"
+				RelativePath=".\src\SDKMethodImpl.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SDKMethodImpl.hxx"
-				>
-			</File>
-			<File
-				RelativePath=".\SDKRequest.hxx"
+				RelativePath=".\src\SDKRequest.hxx"
 				>
 			</File>
 		</Filter>
@@ -202,23 +198,23 @@
 			Name="include"
 			>
 			<File
-				RelativePath="..\include\compat.hxx"
+				RelativePath=".\include\compat.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\include\IWeibo.hxx"
+				RelativePath=".\include\IWeibo.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\include\IWeiboDef.hxx"
+				RelativePath=".\include\IWeiboDef.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\include\IWeiboMethod.hxx"
+				RelativePath=".\include\IWeiboMethod.hxx"
 				>
 			</File>
 			<File
-				RelativePath="..\include\ParsingObject.hxx"
+				RelativePath=".\include\ParsingObject.hxx"
 				>
 			</File>
 		</Filter>
@@ -226,7 +222,7 @@
 			Name="Prebuild"
 			>
 			<File
-				RelativePath=".\config.h"
+				RelativePath=".\src\config.h"
 				>
 			</File>
 			<File
@@ -242,51 +238,51 @@
 			Name="Inline"
 			>
 			<File
-				RelativePath=".\Inline\Account.inl"
+				RelativePath=".\src\Inline\Account.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Comment.inl"
+				RelativePath=".\src\Inline\Comment.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\DirectMessage.inl"
+				RelativePath=".\src\Inline\DirectMessage.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Favorites.inl"
+				RelativePath=".\src\Inline\Favorites.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\FriendShip.inl"
+				RelativePath=".\src\Inline\FriendShip.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Search.inl"
+				RelativePath=".\src\Inline\Search.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\ShortURL.inl"
+				RelativePath=".\src\Inline\ShortURL.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Statuses.inl"
+				RelativePath=".\src\Inline\Statuses.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Suggestions.inl"
+				RelativePath=".\src\Inline\Suggestions.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Tags.inl"
+				RelativePath=".\src\Inline\Tags.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Trends.inl"
+				RelativePath=".\src\Inline\Trends.inl"
 				>
 			</File>
 			<File
-				RelativePath=".\Inline\Users.inl"
+				RelativePath=".\src\Inline\Users.inl"
 				>
 			</File>
 		</Filter>
@@ -294,27 +290,27 @@
 			Name="common"
 			>
 			<File
-				RelativePath="..\third-party\common\bbiconv.cc"
+				RelativePath=".\third-party\common\bbiconv.cc"
 				>
 			</File>
 			<File
-				RelativePath="..\third-party\common\bbiconv.h"
+				RelativePath=".\third-party\common\bbiconv.h"
 				>
 			</File>
 			<File
-				RelativePath="..\third-party\common\strconv.cpp"
+				RelativePath=".\third-party\common\strconv.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\third-party\common\strconv.h"
+				RelativePath=".\third-party\common\strconv.h"
 				>
 			</File>
 			<File
-				RelativePath="..\third-party\common\Urlcode.cpp"
+				RelativePath=".\third-party\common\Urlcode.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\third-party\common\Urlcode.h"
+				RelativePath=".\third-party\common\Urlcode.h"
 				>
 			</File>
 		</Filter>
@@ -322,15 +318,15 @@
 			Name="Parsing"
 			>
 			<File
-				RelativePath=".\Parsing\ParsingHandle.cxx"
+				RelativePath=".\src\Parsing\ParsingHandle.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Parsing\ParsingHandle.hxx"
+				RelativePath=".\src\Parsing\ParsingHandle.hxx"
 				>
 			</File>
 			<File
-				RelativePath=".\Parsing\ParsingObject.cxx"
+				RelativePath=".\src\Parsing\ParsingObject.cxx"
 				>
 			</File>
 		</Filter>
@@ -340,15 +336,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\SDKHelper.cxx"
+				RelativePath=".\src\SDKHelper.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SDKManager.cxx"
+				RelativePath=".\src\SDKManager.cxx"
 				>
 			</File>
 			<File
-				RelativePath=".\SDKMethodImpl.cxx"
+				RelativePath=".\src\SDKMethodImpl.cxx"
 				>
 			</File>
 		</Filter>

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+	#include "stdafx.h"
 #include <time.h>
 #include <boost/make_shared.hpp>
 #include "WeiboTestCase.h"
@@ -41,13 +41,38 @@ void WeiboTestCase::standardOptionForWaiting(unsigned int id)
 #endif // _WIN32
         
 		WeiboTestCaseResultPtr result = gWeiboHelper->checkoutReqResult(id);
-
 		if (result)
 		{
+			const WeiboTestCaseResult::eResultType retType = result->resultType_;
+			// Must check is oauth succeed.
+			if (WBOPT_OAUTH2_ACCESS_TOKEN == id && 
+				WeiboTestCaseResult::ERT_UNKNOW != retType && 
+				result->pasringPtr_)
+			{
+				bool isSucceed = false;
+				
+				if (WeiboTestCaseResult::ERT_CORRECT == retType)
+				{
+					ParsingOauthRetPtr oauthRet = 
+						boost::dynamic_pointer_cast<ParsingOauthRet>(result->pasringPtr_);
+
+					isSucceed = (oauthRet && 
+						!oauthRet->access_token.empty() &&
+						!oauthRet->uid.empty());
+				}
+
+				if (!isSucceed)
+				{
+					// Oauth failed
+					assert(0);
+					CPPUNIT_ASSERT_MESSAGE("Oauth failed!!! Please check your user name and password, Or check error information!", 0);
+				}
+				continue;
+			}
+
 			if (result->resultType_ == WeiboTestCaseResult::ERT_CORRECT)
 			{
 				CPPUNIT_ASSERT(true);
-
 				char buf[255];
 				sprintf(buf, "%d successed!!!!, ", id);
 				std::string errMessage = buf;
@@ -61,7 +86,6 @@ void WeiboTestCase::standardOptionForWaiting(unsigned int id)
 				std::string errMessage = buf;
 				errMessage += result->outputString();
 				CPPUNIT_ASSERT_ASSERTION_PASS_MESSAGE(errMessage, 0);
-				//CPPUNIT_ASSERT_ASSERTION_FAIL(0);
 				CPPUNIT_ASSERT(false);
 			}
 			else
@@ -86,6 +110,7 @@ void WeiboTestCase::oauth2()
 {
     if (gAccountName.empty() || gPassword.empty())
     {
+		assert(0);
         CPPUNIT_ASSERT_ASSERTION_FAIL(0);
     }
     
@@ -94,8 +119,7 @@ void WeiboTestCase::oauth2()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Œ¢≤©∂¡»°
-
+//
 void WeiboTestCase::getStatusesPublicTimeline()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getStatusesPublicTimeline() == WRC_OK);
@@ -204,7 +228,6 @@ void WeiboTestCase::getStatusesHotCommmentsWeekly()
 	standardOptionForWaiting(WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY);
 }
 
-// Œ¢≤©–¥»Î
 void WeiboTestCase::postStatusesRepost()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_STATUS);
@@ -246,7 +269,7 @@ void WeiboTestCase::postStatusesUpload()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ∆¿¬€∂¡»°
+//
 void WeiboTestCase::getCommentsShow()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_STATUS);
@@ -285,7 +308,6 @@ void WeiboTestCase::getCommentsShowBatch()
 	standardOptionForWaiting(WBOPT_GET_COMMENTS_SHOWBATCH);
 }
 
-// ∆¿¬€–¥»Î
 void WeiboTestCase::postCommentsCreate()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_STATUS);
@@ -319,7 +341,6 @@ void WeiboTestCase::postCommentsReply()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ÀΩ–≈∂¡»°
 void WeiboTestCase::getDirectMessages()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getDirectMessages() == WRC_OK);
@@ -359,7 +380,6 @@ void WeiboTestCase::getDirectMessagesIsCapable()
 	standardOptionForWaiting(WBOPT_GET_DIRECTMESSAGES_IS_CAPABLE);
 }
 
-// ÀΩ–≈–¥»Î
 void WeiboTestCase::postDirectMessagesNew()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS, WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS);
@@ -382,7 +402,6 @@ void WeiboTestCase::postDirectMessagesDestoryBatch()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ”√ªß∂¡»°
 void WeiboTestCase::getUsersShow()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS);
@@ -404,7 +423,6 @@ void WeiboTestCase::getUsersShowBatch()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// πÿ◊¢∂¡»°
 void WeiboTestCase::getFriendshipsFriends()
 {
     weibo::ID id(weibo::ID::IDT_ID, gWeiboHelper->getMYID());
@@ -448,7 +466,6 @@ void WeiboTestCase::getFriendshipsFriendRemarkBatch()
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_FRIENDS_REMARK_BATCH);
 }
 
-// ∑€Àø∂¡»°
 void WeiboTestCase::getFriendshipsFriendsFollowers()
 {	
     weibo::ID id(weibo::ID::IDT_ID, gWeiboHelper->getMYID());
@@ -471,7 +488,6 @@ void WeiboTestCase::getFriendshipsFriendsFollowersActive()
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS_ACTIVE);
 }
 
-// πÿœµ¡¥∂¡»°
 void WeiboTestCase::getFriendshipsFriendsChainFollowers()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS);
@@ -479,7 +495,6 @@ void WeiboTestCase::getFriendshipsFriendsChainFollowers()
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_CHAIN_FOLLOWERS);
 }
 
-// πÿœµ◊¥Ã¨
 void WeiboTestCase::getFriendshipShow()
 {
 	using namespace weibo;
@@ -489,7 +504,6 @@ void WeiboTestCase::getFriendshipShow()
 	standardOptionForWaiting(WBOPT_GET_FRIENDSHIPS_SHOW);
 }
 
-// πÿœµ–¥»Î
 void WeiboTestCase::postFriendshipsCreate()
 {
 	//UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS, WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS);
@@ -529,7 +543,7 @@ void WeiboTestCase::postFriendshipsRemarkUpdate()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ’ ∫≈∂¡»°
+
 void WeiboTestCase::getAccountProfileBasic()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getAccountProfileBasic(gWeiboHelper->getMYID()) == WRC_OK);
@@ -586,7 +600,6 @@ void WeiboTestCase::getAccountGetUID()
 	standardOptionForWaiting(WBOPT_GET_ACCOUNT_GET_UID);
 }
 
-// ’ ∫≈–¥»Î
 void WeiboTestCase::postAccountProfileBasicUpdate()
 {
 	weibo::BasicInfo basic;
@@ -642,7 +655,6 @@ void WeiboTestCase::postAccountUpdatePrivacy()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//  ’≤ÿ∂¡»°
 void WeiboTestCase::getFavorites()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getFavorites() == WRC_OK);
@@ -669,7 +681,6 @@ void WeiboTestCase::getFavoritesTags()
 	standardOptionForWaiting(WBOPT_GET_FAVORITES_TAGS);
 }
 
-//  ’≤ÿ–¥»Î
 void WeiboTestCase::postFavoritesCreate()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_STATUS);
@@ -713,7 +724,6 @@ void WeiboTestCase::postFavoritesTagsDestroyBatch()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ª∞Ã‚∂¡»°
 void WeiboTestCase::getTrends()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getTrends(gWeiboHelper->getMYID()) == WRC_OK);
@@ -744,8 +754,6 @@ void WeiboTestCase::getTrendsWeekly()
 	standardOptionForWaiting(WBOPT_GET_TRENDS_WEEKLY);
 }
 
-
-// ª∞Ã‚–¥»Î
 void WeiboTestCase::postTrendsFollow()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_TREND);
@@ -762,7 +770,6 @@ void WeiboTestCase::postTrendsDestroy()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ±Í«©∂¡»°
 void WeiboTestCase::getTags()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getTags(gWeiboHelper->getMYID()) == WRC_OK);
@@ -782,7 +789,6 @@ void WeiboTestCase::getTagsSuggestions()
 	standardOptionForWaiting(WBOPT_GET_TAGS_SUGGESTIONS);
 }
 
-// ±Í«©–¥»Î
 void WeiboTestCase::postTagsCreate()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_TAG);
@@ -808,7 +814,7 @@ void WeiboTestCase::postTagsDestroyBatch()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// À—À˜
+// Suggestions
 void WeiboTestCase::getSearchSuggestionsUsers()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsUsers("aa") == WRC_OK);
@@ -823,7 +829,7 @@ void WeiboTestCase::getSearchSuggestionsStatues()
 
 void WeiboTestCase::getSearchSuggestionsSchool()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsSchool("«Âª™") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsSchool("�廪��ѧ") == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SEARCH_SUGGESTIONS_SCHOOLS);
 }
 
@@ -835,7 +841,7 @@ void WeiboTestCase::getSearchSuggestionsCompanies()
 
 void WeiboTestCase::getSearchSuggestionsApps()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsApps("Œ¢≤©◊¿√Ê") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsApps("΢������") == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SEARCH_SUGGESTIONS_APPS);
 }
 
@@ -870,7 +876,7 @@ void WeiboTestCase::getSearchUsers()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Õ∆ºˆ∂¡»°
+// Hots
 void WeiboTestCase::getSuggestionsFavoritesHot()
 {
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSuggestionsFavoritesHot() == WRC_OK);
@@ -891,12 +897,12 @@ void WeiboTestCase::getSuggestionsUsersMayInterested()
 
 void WeiboTestCase::getSuggestionsUsersByStatus()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSuggestionsUsersByStatus("ÃÏ∆¯≤ª¥Ì") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSuggestionsUsersByStatus("�����ܺ�") == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SUGGESTIONS_USERS_BY_STATUS);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Õ∆ºˆ–¥»Î
+// Interested
 void WeiboTestCase::postSuggestionsUsersNotInterested()
 {
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_USERS, WBOPT_GET_SUGGESTIONS_USERS_MAY_INTERESTED);
@@ -905,7 +911,7 @@ void WeiboTestCase::postSuggestionsUsersNotInterested()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ∂Ã¡¥Ω”ø⁄
+// Short url 
 void WeiboTestCase::getShortURLShorten()
 {
 	std::string urls;
