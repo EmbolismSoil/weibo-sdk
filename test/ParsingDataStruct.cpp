@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <string.h>
 #include "ParsingDataStruct.h"
 #include <IWeiboDef.hxx>
 

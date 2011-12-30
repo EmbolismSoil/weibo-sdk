@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <stdio.h>
 #include "WeiboTestCaseHelper.h"
 
 #include <IWeiboDef.hxx>

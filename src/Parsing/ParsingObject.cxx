@@ -1,4 +1,5 @@
 #include "ParsingObject.hxx"
+#include <stdio.h>
 #include <json/json.h>
 #include <util/common/StringUtil.hxx>
 #include "ParsingHandle.hxx"
