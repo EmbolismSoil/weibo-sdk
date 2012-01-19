@@ -119,6 +119,7 @@ namespace weibo
 		WOPT_PROXY,        ///< eWeiboProxyType type, char *host, int port, char *proxyuser, char *password
 		WOPT_RESPONSE_FORMAT, ///< const eWeiboRequestFormat format.
 		WOPT_ACCESS_TOKEN, ///< const char* accesstoken.
+		WOPT_LOG_FILE, ///< const char* fullLogFileName
 	};
 
 	enum eWeiboPriorityLevel

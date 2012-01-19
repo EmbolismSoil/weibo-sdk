@@ -138,3 +138,24 @@ eWeiboResultCode SDKMethodImpl::getShortURLCommentComments(const char* url_short
 
 	return internalEnqueue(ptr);
 }
+
+eWeiboResultCode SDKMethodImpl::getShortUrlInfo(const char* shortUrlIDs, UserTaskInfo* pTask)
+{
+	DebugLog(<< __FUNCTION__);
+
+	if (Util::StringUtil::NullOrEmpty(shortUrlIDs))
+	{
+		return WRC_INVALIDE_PARAM;
+	}
+
+	// Required params
+	char param[1024] = {0};
+	SDKHelper::setParam(param, "&url_short", 
+		Util::StringUtil::getNotNullString(shortUrlIDs), PARAM_ENCODE_UTF8);
+
+	// Request
+	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SHORT_URL_INFO, 
+		param, getUnifiedFormat(), httpengine::HM_GET, pTask);
+
+	return internalEnqueue(ptr);
+}

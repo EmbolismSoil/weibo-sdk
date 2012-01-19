@@ -274,7 +274,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesRepost(const char* weiboId, const ch
 
 	char param[2048] = { 0 };
 	SDKHelper::setParam(param, "&id", weiboId, PARAM_ENCODE_UTF8);
-	SDKHelper::setParam(param, "&status", statusText , PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&status", statusText , 0);
 	SDKHelper::setIntParam(param, "&is_comment", isComment);
 
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -316,7 +316,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesUpdate(const char* statusText, Varia
 	}
 
 	char param[2048] = { 0 };
-	SDKHelper::setParam(param, "&status", statusText , PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&status", statusText, 0);
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_STATUSES_UPDATE
@@ -360,7 +360,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesUpload(const char* statusText, const
 	}
 
 	char param[2048] = { 0 };
-	SDKHelper::setParam(param, "&status", statusText, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&status", statusText, 0);
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//Note: Set with post form

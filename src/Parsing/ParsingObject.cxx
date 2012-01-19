@@ -1,5 +1,4 @@
 #include "ParsingObject.hxx"
-#include <stdio.h>
 #include <json/json.h>
 #include <util/common/StringUtil.hxx>
 #include "ParsingHandle.hxx"
@@ -59,7 +58,7 @@ const char* ParsingObject::getErrorMessage()
 
 const char* ParsingObject::getOriginString()
 {
-	return mParsingHandle->getValue().toStyledString().c_str();
+	return mParsingHandle->getSource();
 }
 
 std::string ParsingObject::getKeyName()

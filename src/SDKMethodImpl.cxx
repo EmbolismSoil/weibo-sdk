@@ -1,5 +1,4 @@
 #include "config.h"
-#include <stdio.h>
 #include <boost/make_shared.hpp>
 #include "SDKMethodImpl.hxx"
 #include "SDKHelper.hxx"
@@ -76,7 +75,7 @@ eWeiboResultCode SDKMethodImpl::endSession()
 		requestPtr->mHttpMethod = httpengine::HM_POST;
 		requestPtr->mOptionId = WBOPT_END_SESSION;
 
-		requestPtr->mURL = "https://api.weibo.com/account/end_session";
+		requestPtr->mURL = "http://api.weibo.com/account/end_session";
 		requestPtr->mPostArg = param;
 
 		return internalEnqueue(requestPtr);
@@ -133,3 +132,5 @@ void SDKMethodImpl::setAccesstoken(std::string &token)
 #include "Inline/Account.inl"
 #include "Inline/Search.inl"
 #include "Inline/ShortURL.inl"
+#include "Inline/Unread.inl"
+#include "Inline/Groups.inl"

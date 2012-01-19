@@ -24,12 +24,14 @@ namespace weibo
 
 		bool parse(const char* source);
 		void reset(Json::Value* val, bool owner);
-		const char* getErrorMessage()const;
+		const char* getErrorMessage() const;
+		const char* getSource() const;
 		Json::Value& getValue();
 
 	protected:
 		Json::Value* mValRoot;
 		std::string mErrorMessage;
+		std::string mSource;
 		bool mIsOwner;
 	};
 

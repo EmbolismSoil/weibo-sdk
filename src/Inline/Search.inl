@@ -6,7 +6,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsUsers(const char* q, const i
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SEARCH_SUGGESTIONS_USERS
@@ -22,7 +22,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsStatues(const char* q, const
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SEARCH_SUGGESTIONS_STATUSES
@@ -38,7 +38,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsSchool(const char* q, const 
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SEARCH_SUGGESTIONS_SCHOOLS
@@ -54,7 +54,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsCompanies(const char* q, con
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SEARCH_SUGGESTIONS_COMPANIES
@@ -70,7 +70,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsApps(const char* q, const in
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SEARCH_SUGGESTIONS_APPS
@@ -89,8 +89,8 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsAtUsers(const char* q, const
 	char ctype[10] = { 0 };
 	snprintf(ctype, 10, "%d", type);
 
-	SDKHelper::setParam(param, "&type", ctype, PARAM_ENCODE_UTF8);
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&type", ctype, ParamEncodedValue);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&count", count);
 	SDKHelper::setIntParam(param, "&range", range);
 
@@ -108,7 +108,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsIntegrate(const char* query,
 	char param[255] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&query", query, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&query", query, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&sort_user", sort_user);
 	SDKHelper::setIntParam(param, "&sort_app", sort_app);
 	SDKHelper::setIntParam(param, "&sort_grp", sort_grp);
@@ -131,7 +131,7 @@ eWeiboResultCode SDKMethodImpl::getSearchStatuses(const char* q, const int filte
 	char param[1024] = { 0 };
 
 	// Required params
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&filter_ori", filter_ori);
 	SDKHelper::setIntParam(param, "&filter_pic", filter_pic);
 	SDKHelper::setParam(param, "&fuid", fuid, PARAM_ENCODE_UTF8);
@@ -187,7 +187,7 @@ eWeiboResultCode SDKMethodImpl::getSearchUsers(const char* q, const int snick, c
 
 	char param[1024] = { 0 };
 
-	SDKHelper::setParam(param, "&q", q, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&snick", snick);
 	SDKHelper::setIntParam(param, "&sdomain", sdomain);
 	SDKHelper::setIntParam(param, "&sintro", sintro);

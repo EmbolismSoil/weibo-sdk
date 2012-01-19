@@ -1,6 +1,7 @@
 #ifndef WEIBOSDK_SDKREQUEST_HXX
 #define WEIBOSDK_SDKREQUEST_HXX
 
+#include <map>
 #include <boost/shared_ptr.hpp>
 #include <HttpEngine/IHttpEngineCommon.hxx>
 #include "IWeiboDef.hxx"
@@ -28,6 +29,7 @@ namespace weibo
 		unsigned int mOptionId;
 		unsigned int mTaskId;
 		UserTaskInfo mTaskInfo;
+		typedef std::map<std::string, std::string> ReqHeaderMap;
 		
 		httpengine::HttpMethod mHttpMethod;
 
@@ -35,6 +37,7 @@ namespace weibo
 		std::string mPostArg;
 		std::string mResponseBody;
 		std::string mResponseHeader;
+		ReqHeaderMap mReqHeader;
 
 		std::string mPostFileField;
 		boost::shared_ptr<UploadTaskDetail> mUploadTaskDetail;

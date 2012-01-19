@@ -230,6 +230,25 @@ namespace weibo
 		virtual eWeiboResultCode getShortURLShareStatuses(const char* url_short, VariableParams* var = NULL, UserTaskInfo* pTask = NULL);
 		virtual eWeiboResultCode getShortURLCommentCounts(const char* url_short, UserTaskInfo* pTask = NULL);
 		virtual eWeiboResultCode getShortURLCommentComments(const char* url_short, VariableParams* var = NULL, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getShortUrlInfo(const char* shortUrlIDs, UserTaskInfo* pTask = NULL);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Unread
+		virtual eWeiboResultCode getRemindUnreadCount(const char* uid, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode postStatusesResetCount(const int type, UserTaskInfo* pTask = NULL);
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Groups
+		virtual eWeiboResultCode getGroupsJoined(const char* uid, const int page, const int count, 
+			const int type, const int filter, const int sort, const int member_limit, const int simplify, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsShowBatch(const char* gids, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsGetAnnouncement(const char* gid, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsAdmin(const char* gid, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsUsers(const char* gid, VariableParams* var, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsSuggestionMayInterested(const int count, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsChatIsBlocked(const char* gids, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode postGroupsChatBlock(const char* gid, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode postGroupsChatUnblock(const char* gid, UserTaskInfo* pTask = NULL);
 	};
 
 }

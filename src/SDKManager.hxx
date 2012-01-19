@@ -3,6 +3,7 @@
 
 #include <map>
 #include <boost/shared_ptr.hpp>
+#include <Util/threading/Lock.hxx>
 #include <HttpEngine/IHttpEngine.hxx>
 #include "IWeibo.hxx"
 #include "SDKRequest.hxx"
@@ -73,6 +74,7 @@ namespace weibo
 		WeiboRequestPersistent mRequestPersistent;
 
 		boost::shared_ptr<SDKMethodImpl> mMethodPtr;
+		Util::Mutex mActiveMutex;
 
 		std::string mConsumerkey;
 		std::string mConsumersecret;

@@ -154,6 +154,21 @@ namespace weibo
 		WBOPT_GET_SHORT_URL_SHARE_STATUSES, //取得包含指定单个短链接的最新微博内容
 		WBOPT_GET_SHORT_URL_COMMENT_COUNTS, //取得一个短链接在微博上的微博评论数
 		WBOPT_GET_SHORT_URL_COMMENT_COMMENTS, //取得包含指定单个短链接的最新微博评论内容
+		WBOPT_GET_SHORT_URL_INFO,
+
+		WBOPT_GET_REMIND_UNREAD_COUNT,//获取某个用户的各种消息未读数
+		WBOPT_POST_STATUSES_RESET_COUNT,//设置消息未读数
+
+		// Groups
+		WBOPT_GET_GROUPS_JOINED,
+		WBOPT_GET_GROUPS_SHOW_BATCH,
+		WBOPT_GET_GROUPS_GET_ANNOUNCEMENT,
+		WBOPT_GET_GROUPS_ADMIN,
+		WBOPT_GET_GROUPS_USERS,
+		WBOPT_GET_GROUPS_SUGGESTION_MAY_INTERESTED,
+		WBOPT_GET_GROUPS_CHAT_BLOCK,
+		WBOPT_GET_GROUPS_CHAT_UNBLOCK,
+		WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
 
 		WBOPT_END,
 	};
@@ -353,6 +368,25 @@ namespace weibo
 		virtual eWeiboResultCode getShortURLShareStatuses(const char* url_short, VariableParams* var = NULL, UserTaskInfo* pTask = NULL) = 0;
 		virtual eWeiboResultCode getShortURLCommentCounts(const char* url_short, UserTaskInfo* pTask = NULL) = 0;
 		virtual eWeiboResultCode getShortURLCommentComments(const char* url_short, VariableParams* var = NULL, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getShortUrlInfo(const char* shortUrlIDs, UserTaskInfo* pTask = NULL) = 0;
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Unread
+		virtual eWeiboResultCode getRemindUnreadCount(const char* uid, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode postStatusesResetCount(const int type, UserTaskInfo* pTask = NULL) = 0;
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Groups
+		virtual eWeiboResultCode getGroupsJoined(const char* uid, const int page, const int count, 
+			const int type, const int filter, const int sort, const int member_limit, const int simplify, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsShowBatch(const char* gids, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsGetAnnouncement(const char* gid, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsAdmin(const char* gid, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsUsers(const char* gid, VariableParams* var, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsSuggestionMayInterested(const int count, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsChatIsBlocked(const char* gids, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode postGroupsChatBlock(const char* gid, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode postGroupsChatUnblock(const char* gid, UserTaskInfo* pTask = NULL) = 0;
 	};
 
 }
