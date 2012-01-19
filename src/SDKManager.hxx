@@ -3,7 +3,7 @@
 
 #include <map>
 #include <boost/shared_ptr.hpp>
-#include <Util/threading/Lock.hxx>
+#include <util/threading/Lock.hxx>
 #include <HttpEngine/IHttpEngine.hxx>
 #include "IWeibo.hxx"
 #include "SDKRequest.hxx"

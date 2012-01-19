@@ -1,7 +1,9 @@
 #include "config.h"
 #include "SDKManager.hxx"
+#include <stdio.h>
+#include <stdarg.h>
 #include <boost/make_shared.hpp>
-#include "UrlCode.h"
+#include "Urlcode.h"
 #include "SDKHelper.hxx"
 #include "ParsingObject.hxx"
 #include "strconv.h"

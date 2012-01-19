@@ -1,4 +1,5 @@
 #include "config.h"
+#include <stdio.h>
 #include <boost/make_shared.hpp>
 #include "SDKMethodImpl.hxx"
 #include "SDKHelper.hxx"

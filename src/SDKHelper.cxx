@@ -1,5 +1,6 @@
 #include "config.h"
 #include "SDKHelper.hxx"
+#include <stdio.h>
 #include <boost/make_shared.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
