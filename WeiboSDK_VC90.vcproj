@@ -67,7 +67,7 @@
 				AdditionalLibraryDirectories="&quot;.\third-party\lib\Debug&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				ImportLibrary="..\lib\Debug\$(TargetName).lib"
+				ImportLibrary=".\lib\Debug\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -147,7 +147,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\lib\Release\$(TargetName).lib"
+				ImportLibrary=".\lib\Release\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -255,6 +255,10 @@
 			</File>
 			<File
 				RelativePath=".\src\Inline\FriendShip.inl"
+				>
+			</File>
+			<File
+				RelativePath=".\src\Inline\Groups.inl"
 				>
 			</File>
 			<File
