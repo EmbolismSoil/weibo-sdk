@@ -1,6 +1,6 @@
 #include "config.h"
 #include <stdio.h>
-#include <boost/make_shared.hpp>
+//#include <boost/make_shared.hpp>
 #include "SDKMethodImpl.hxx"
 #include "SDKHelper.hxx"
 #include "SDKManager.hxx"
@@ -46,7 +46,9 @@ eWeiboResultCode SDKMethodImpl::oauth2(const char* userName, const char* passwor
 	SDKHelper::setParam(param, "&client_secret", mConsumersecret.c_str(), PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&grant_type", "password", PARAM_ENCODE_UTF8);
 
-	WeiboRequestPtr requestPtr = boost::make_shared<WeiboRequest>();
+	WeiboRequestPtr requestPtr;
+    requestPtr.reset(new WeiboRequest());
+    
 	if (requestPtr)
 	{
 		requestPtr->mHttpMethod = httpengine::HM_POST;
@@ -70,8 +72,10 @@ eWeiboResultCode SDKMethodImpl::endSession()
 
 	SDKHelper::setParam(param, "&source", mConsumerkey.c_str(), PARAM_ENCODE_UTF8);
 
-	WeiboRequestPtr requestPtr = boost::make_shared<WeiboRequest>();
-	if (requestPtr)
+	WeiboRequestPtr requestPtr;
+    requestPtr.reset(new WeiboRequest());
+	
+    if (requestPtr)
 	{
 		requestPtr->mHttpMethod = httpengine::HM_POST;
 		requestPtr->mOptionId = WBOPT_END_SESSION;

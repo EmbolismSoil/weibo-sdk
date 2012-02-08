@@ -2,7 +2,7 @@
 #include "SDKManager.hxx"
 #include <stdio.h>
 #include <stdarg.h>
-#include <boost/make_shared.hpp>
+//#include <boost/make_shared.hpp>
 #include "Urlcode.h"
 #include "SDKHelper.hxx"
 #include "ParsingObject.hxx"
@@ -86,8 +86,7 @@ namespace weibo
 		{
 			if (!postFormDataPtr_)
 			{
-				postFormDataPtr_ = 
-					boost::make_shared<httpengine::PostFormStreamData>(requestId, engine, (void*)NULL);
+				postFormDataPtr_.reset(new httpengine::PostFormStreamData(requestId, engine, NULL));
 			}
 			return postFormDataPtr_;
 		}
@@ -111,7 +110,7 @@ namespace weibo
 		mUploadTaskDetail.reset();
 		if (file)
 		{
-			mUploadTaskDetail = boost::make_shared<UploadTaskDetail>(file);
+			mUploadTaskDetail.reset(new UploadTaskDetail(file));
 		}
 	}
 }
@@ -123,14 +122,12 @@ SDKManager::SDKManager()
 : mRequestFormat(WRF_JSON)
 , mMaxActiveCounts(10)
 {
-
-
 	DebugLog(<< __FUNCTION__ << "| cotr");
 
 #if defined(INTERNAL_INTERFACE_USEABLE)
-	mMethodPtr = boost::make_shared<SDKInternalMethod>(this);
+	mMethodPtr.reset(new SDKInternalMethod(this));boost::make_shared<SDKInternalMethod>(this);
 #else
-	mMethodPtr = boost::make_shared<SDKMethodImpl>(this);
+	mMethodPtr.reset(new SDKMethodImpl(this));
 #endif //INTERNAL_INTERFACE_USEABLE
 }
 

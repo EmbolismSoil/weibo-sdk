@@ -1,9 +1,9 @@
 #include "config.h"
 #include "SDKHelper.hxx"
 #include <stdio.h>
-#include <boost/make_shared.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
+//#include <boost/make_shared.hpp>
+//#include <boost/algorithm/string/split.hpp>
+//#include <boost/algorithm/string/classification.hpp>
 #include <util/common/StringUtil.hxx>
 #include <HttpEngine/IHttpEngineCommon.hxx>
 
@@ -416,7 +416,8 @@ void SDKHelper::setIntParam(char * param, const char * paramName, const long lon
 WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, char *addtionParam, const eWeiboRequestFormat reqformat
 									   , const httpengine::HttpMethod method, const char* appkey, const char* accessToken, const UserTaskInfo* pTask)
 {
-	WeiboRequestPtr requestPtr = boost::make_shared<WeiboRequest>();
+	WeiboRequestPtr requestPtr;
+    requestPtr.reset(new WeiboRequest());
 	requestPtr->mOptionId = methodOption;
 	requestPtr->mHttpMethod = method;
 
@@ -460,6 +461,34 @@ WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, char *addtionP
 	return requestPtr;
 }
 
+void SDKHelper::split(std::vector<std::string>& outVector, const char* string, const char splite)
+{
+	std::string inString = Util::StringUtil::getNotNullString(string);
+	if (inString.empty()) 
+	{
+		return ;
+	}
+
+	int counter = 0;
+	int start = 0;
+	std::string::iterator it = inString.begin();
+	while (it != inString.end())
+	{
+		if ((*it) == splite)
+		{
+			outVector.push_back(inString.substr(start, counter));
+			start = counter + 1;
+		}
+		++ it;
+
+		if (it == inString.end())
+		{
+			outVector.push_back(inString.substr(start, counter));
+		}
+
+		++ counter;
+	}
+}
 
 void SDKHelper::makeRequestURL(std::string &outURL, std::string &outParam, const char* baseURL
 							   , bool isPost, const char* appkey, const char* accessToken)
@@ -470,15 +499,21 @@ void SDKHelper::makeRequestURL(std::string &outURL, std::string &outParam, const
 		if (isPost)
 		{
 			std::vector<std::string> vec;
-			boost::split(vec, url, boost::is_any_of("?"));
-			std::vector<std::string>::iterator it = vec.begin();
-			outURL = *it;
-			++ it;
-			if (it != vec.end())
-			{
-				outParam = *it;
-			}
+			split(vec, url.c_str(), '?');
 
+			if (!vec.empty())
+			{
+				// URL
+				std::vector<std::string>::iterator it = vec.begin();
+				outURL = *it;
+
+				// Post params
+				++ it;
+				if (it != vec.end())
+				{
+					outParam = *it;
+				}
+			}
 			outParam += "&access_token=";
 			outParam += Util::StringUtil::getNotNullString(accessToken);
 		}

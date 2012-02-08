@@ -2,6 +2,7 @@
 #include <string.h>
 #include "ParsingDataStruct.h"
 #include <IWeiboDef.hxx>
+#include <boost/make_shared.hpp>
 
 using namespace weibo;
 

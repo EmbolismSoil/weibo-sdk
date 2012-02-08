@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include "WeiboTestCaseHelper.h"
+#include <boost/make_shared.hpp>
 
 #include <IWeiboDef.hxx>
 #include <IWeiboMethod.hxx>
@@ -174,22 +175,20 @@ const IDDebugHelper gDebugHelperArray[] =
 const char* getOptionName(unsigned int optionId)
 {
 	const int size = sizeof(gDebugHelperArray)/sizeof(gDebugHelperArray[0]);
-	if (optionId >= size)
+	if (optionId < size)
 	{
-		assert(false);
-		return "";
-	}
-
-	for (int i = 0; i < size; ++ i)
-	{
-		if (optionId == gDebugHelperArray[i].optionId)
+		for (int i = 0; i < size; ++ i)
 		{
-			return gDebugHelperArray[i].optionIdName;
+			if (optionId == gDebugHelperArray[i].optionId)
+			{
+				return gDebugHelperArray[i].optionIdName;
+			}
 		}
 	}
+
 	static char buf[10] = { 0 };
 	memset(buf, sizeof(char), 10);
-    snprintf(buf, 10, "%d", optionId);
+	snprintf(buf, 10, "%d", optionId);
 	return buf;
 }
 

@@ -1,0 +1,376 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C06BAFB714E231C5005172A9 /* compat.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFB214E231C4005172A9 /* compat.hxx */; settings = {ATTRIBUTES = (); }; };
+		C06BAFB814E231C5005172A9 /* IWeibo.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFB314E231C4005172A9 /* IWeibo.hxx */; settings = {ATTRIBUTES = (); }; };
+		C06BAFB914E231C5005172A9 /* IWeiboDef.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFB414E231C4005172A9 /* IWeiboDef.hxx */; settings = {ATTRIBUTES = (); }; };
+		C06BAFBA14E231C5005172A9 /* IWeiboMethod.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFB514E231C4005172A9 /* IWeiboMethod.hxx */; settings = {ATTRIBUTES = (); }; };
+		C06BAFBB14E231C5005172A9 /* ParsingObject.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFB614E231C4005172A9 /* ParsingObject.hxx */; };
+		C06BAFD914E231D8005172A9 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFBE14E231D7005172A9 /* config.h */; };
+		C06BAFDA14E231D8005172A9 /* ParsingHandle.cxx in Sources */ = {isa = PBXBuildFile; fileRef = C06BAFCF14E231D8005172A9 /* ParsingHandle.cxx */; };
+		C06BAFDB14E231D8005172A9 /* ParsingHandle.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFD014E231D8005172A9 /* ParsingHandle.hxx */; };
+		C06BAFDC14E231D8005172A9 /* ParsingObject.cxx in Sources */ = {isa = PBXBuildFile; fileRef = C06BAFD114E231D8005172A9 /* ParsingObject.cxx */; };
+		C06BAFDD14E231D8005172A9 /* SDKHelper.cxx in Sources */ = {isa = PBXBuildFile; fileRef = C06BAFD214E231D8005172A9 /* SDKHelper.cxx */; };
+		C06BAFDE14E231D8005172A9 /* SDKHelper.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFD314E231D8005172A9 /* SDKHelper.hxx */; };
+		C06BAFDF14E231D8005172A9 /* SDKManager.cxx in Sources */ = {isa = PBXBuildFile; fileRef = C06BAFD414E231D8005172A9 /* SDKManager.cxx */; };
+		C06BAFE014E231D8005172A9 /* SDKManager.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFD514E231D8005172A9 /* SDKManager.hxx */; };
+		C06BAFE114E231D8005172A9 /* SDKMethodImpl.cxx in Sources */ = {isa = PBXBuildFile; fileRef = C06BAFD614E231D8005172A9 /* SDKMethodImpl.cxx */; };
+		C06BAFE214E231D8005172A9 /* SDKMethodImpl.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFD714E231D8005172A9 /* SDKMethodImpl.hxx */; };
+		C06BAFE314E231D8005172A9 /* SDKRequest.hxx in Headers */ = {isa = PBXBuildFile; fileRef = C06BAFD814E231D8005172A9 /* SDKRequest.hxx */; };
+		C0FAC16E14E281BC00480D70 /* bbiconv.cc in Sources */ = {isa = PBXBuildFile; fileRef = C0FAC16814E281BC00480D70 /* bbiconv.cc */; };
+		C0FAC16F14E281BC00480D70 /* bbiconv.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FAC16914E281BC00480D70 /* bbiconv.h */; };
+		C0FAC17014E281BC00480D70 /* strconv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C0FAC16A14E281BC00480D70 /* strconv.cpp */; };
+		C0FAC17114E281BC00480D70 /* strconv.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FAC16B14E281BC00480D70 /* strconv.h */; };
+		C0FAC17214E281BC00480D70 /* Urlcode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C0FAC16C14E281BC00480D70 /* Urlcode.cpp */; };
+		C0FAC17314E281BC00480D70 /* Urlcode.h in Headers */ = {isa = PBXBuildFile; fileRef = C0FAC16D14E281BC00480D70 /* Urlcode.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C06BAFB214E231C4005172A9 /* compat.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = compat.hxx; sourceTree = "<group>"; };
+		C06BAFB314E231C4005172A9 /* IWeibo.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IWeibo.hxx; sourceTree = "<group>"; };
+		C06BAFB414E231C4005172A9 /* IWeiboDef.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IWeiboDef.hxx; sourceTree = "<group>"; };
+		C06BAFB514E231C4005172A9 /* IWeiboMethod.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = IWeiboMethod.hxx; sourceTree = "<group>"; };
+		C06BAFB614E231C4005172A9 /* ParsingObject.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParsingObject.hxx; sourceTree = "<group>"; };
+		C06BAFBE14E231D7005172A9 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		C06BAFC014E231D7005172A9 /* Account.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Account.inl; sourceTree = "<group>"; };
+		C06BAFC114E231D7005172A9 /* Comment.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Comment.inl; sourceTree = "<group>"; };
+		C06BAFC214E231D8005172A9 /* DirectMessage.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DirectMessage.inl; sourceTree = "<group>"; };
+		C06BAFC314E231D8005172A9 /* Favorites.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Favorites.inl; sourceTree = "<group>"; };
+		C06BAFC414E231D8005172A9 /* FriendShip.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FriendShip.inl; sourceTree = "<group>"; };
+		C06BAFC514E231D8005172A9 /* Groups.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Groups.inl; sourceTree = "<group>"; };
+		C06BAFC614E231D8005172A9 /* Search.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Search.inl; sourceTree = "<group>"; };
+		C06BAFC714E231D8005172A9 /* ShortURL.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ShortURL.inl; sourceTree = "<group>"; };
+		C06BAFC814E231D8005172A9 /* Statuses.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Statuses.inl; sourceTree = "<group>"; };
+		C06BAFC914E231D8005172A9 /* Suggestions.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Suggestions.inl; sourceTree = "<group>"; };
+		C06BAFCA14E231D8005172A9 /* Tags.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tags.inl; sourceTree = "<group>"; };
+		C06BAFCB14E231D8005172A9 /* Trends.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Trends.inl; sourceTree = "<group>"; };
+		C06BAFCC14E231D8005172A9 /* Unread.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Unread.inl; sourceTree = "<group>"; };
+		C06BAFCD14E231D8005172A9 /* Users.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Users.inl; sourceTree = "<group>"; };
+		C06BAFCF14E231D8005172A9 /* ParsingHandle.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParsingHandle.cxx; sourceTree = "<group>"; };
+		C06BAFD014E231D8005172A9 /* ParsingHandle.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParsingHandle.hxx; sourceTree = "<group>"; };
+		C06BAFD114E231D8005172A9 /* ParsingObject.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParsingObject.cxx; sourceTree = "<group>"; };
+		C06BAFD214E231D8005172A9 /* SDKHelper.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDKHelper.cxx; sourceTree = "<group>"; };
+		C06BAFD314E231D8005172A9 /* SDKHelper.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SDKHelper.hxx; sourceTree = "<group>"; };
+		C06BAFD414E231D8005172A9 /* SDKManager.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDKManager.cxx; sourceTree = "<group>"; };
+		C06BAFD514E231D8005172A9 /* SDKManager.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SDKManager.hxx; sourceTree = "<group>"; };
+		C06BAFD614E231D8005172A9 /* SDKMethodImpl.cxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDKMethodImpl.cxx; sourceTree = "<group>"; };
+		C06BAFD714E231D8005172A9 /* SDKMethodImpl.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SDKMethodImpl.hxx; sourceTree = "<group>"; };
+		C06BAFD814E231D8005172A9 /* SDKRequest.hxx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SDKRequest.hxx; sourceTree = "<group>"; };
+		C0C6575814E2308D00C9B8C8 /* libweibosdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libweibosdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0FAC16814E281BC00480D70 /* bbiconv.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bbiconv.cc; path = "../third-party/common/bbiconv.cc"; sourceTree = "<group>"; };
+		C0FAC16914E281BC00480D70 /* bbiconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bbiconv.h; path = "../third-party/common/bbiconv.h"; sourceTree = "<group>"; };
+		C0FAC16A14E281BC00480D70 /* strconv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = strconv.cpp; path = "../third-party/common/strconv.cpp"; sourceTree = "<group>"; };
+		C0FAC16B14E281BC00480D70 /* strconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = strconv.h; path = "../third-party/common/strconv.h"; sourceTree = "<group>"; };
+		C0FAC16C14E281BC00480D70 /* Urlcode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Urlcode.cpp; path = "../third-party/common/Urlcode.cpp"; sourceTree = "<group>"; };
+		C0FAC16D14E281BC00480D70 /* Urlcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Urlcode.h; path = "../third-party/common/Urlcode.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C0C6575514E2308D00C9B8C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C06BAFB114E231C4005172A9 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				C06BAFB214E231C4005172A9 /* compat.hxx */,
+				C06BAFB314E231C4005172A9 /* IWeibo.hxx */,
+				C06BAFB414E231C4005172A9 /* IWeiboDef.hxx */,
+				C06BAFB514E231C4005172A9 /* IWeiboMethod.hxx */,
+				C06BAFB614E231C4005172A9 /* ParsingObject.hxx */,
+			);
+			name = include;
+			path = ../include;
+			sourceTree = "<group>";
+		};
+		C06BAFBD14E231D7005172A9 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				C06BAFBE14E231D7005172A9 /* config.h */,
+				C06BAFBF14E231D7005172A9 /* Inline */,
+				C06BAFCE14E231D8005172A9 /* Parsing */,
+				C06BAFD214E231D8005172A9 /* SDKHelper.cxx */,
+				C06BAFD314E231D8005172A9 /* SDKHelper.hxx */,
+				C06BAFD414E231D8005172A9 /* SDKManager.cxx */,
+				C06BAFD514E231D8005172A9 /* SDKManager.hxx */,
+				C06BAFD614E231D8005172A9 /* SDKMethodImpl.cxx */,
+				C06BAFD714E231D8005172A9 /* SDKMethodImpl.hxx */,
+				C06BAFD814E231D8005172A9 /* SDKRequest.hxx */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = "<group>";
+		};
+		C06BAFBF14E231D7005172A9 /* Inline */ = {
+			isa = PBXGroup;
+			children = (
+				C06BAFC014E231D7005172A9 /* Account.inl */,
+				C06BAFC114E231D7005172A9 /* Comment.inl */,
+				C06BAFC214E231D8005172A9 /* DirectMessage.inl */,
+				C06BAFC314E231D8005172A9 /* Favorites.inl */,
+				C06BAFC414E231D8005172A9 /* FriendShip.inl */,
+				C06BAFC514E231D8005172A9 /* Groups.inl */,
+				C06BAFC614E231D8005172A9 /* Search.inl */,
+				C06BAFC714E231D8005172A9 /* ShortURL.inl */,
+				C06BAFC814E231D8005172A9 /* Statuses.inl */,
+				C06BAFC914E231D8005172A9 /* Suggestions.inl */,
+				C06BAFCA14E231D8005172A9 /* Tags.inl */,
+				C06BAFCB14E231D8005172A9 /* Trends.inl */,
+				C06BAFCC14E231D8005172A9 /* Unread.inl */,
+				C06BAFCD14E231D8005172A9 /* Users.inl */,
+			);
+			path = Inline;
+			sourceTree = "<group>";
+		};
+		C06BAFCE14E231D8005172A9 /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				C06BAFCF14E231D8005172A9 /* ParsingHandle.cxx */,
+				C06BAFD014E231D8005172A9 /* ParsingHandle.hxx */,
+				C06BAFD114E231D8005172A9 /* ParsingObject.cxx */,
+			);
+			path = Parsing;
+			sourceTree = "<group>";
+		};
+		C0C6574D14E2308D00C9B8C8 = {
+			isa = PBXGroup;
+			children = (
+				C0FAC16714E2819D00480D70 /* Common */,
+				C06BAFB114E231C4005172A9 /* include */,
+				C06BAFBD14E231D7005172A9 /* src */,
+				C0C6575914E2308D00C9B8C8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C0C6575914E2308D00C9B8C8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0C6575814E2308D00C9B8C8 /* libweibosdk.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0FAC16714E2819D00480D70 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C0FAC16814E281BC00480D70 /* bbiconv.cc */,
+				C0FAC16914E281BC00480D70 /* bbiconv.h */,
+				C0FAC16A14E281BC00480D70 /* strconv.cpp */,
+				C0FAC16B14E281BC00480D70 /* strconv.h */,
+				C0FAC16C14E281BC00480D70 /* Urlcode.cpp */,
+				C0FAC16D14E281BC00480D70 /* Urlcode.h */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C0C6575614E2308D00C9B8C8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C06BAFB714E231C5005172A9 /* compat.hxx in Headers */,
+				C06BAFB814E231C5005172A9 /* IWeibo.hxx in Headers */,
+				C06BAFB914E231C5005172A9 /* IWeiboDef.hxx in Headers */,
+				C06BAFBA14E231C5005172A9 /* IWeiboMethod.hxx in Headers */,
+				C06BAFBB14E231C5005172A9 /* ParsingObject.hxx in Headers */,
+				C06BAFD914E231D8005172A9 /* config.h in Headers */,
+				C06BAFDB14E231D8005172A9 /* ParsingHandle.hxx in Headers */,
+				C06BAFDE14E231D8005172A9 /* SDKHelper.hxx in Headers */,
+				C06BAFE014E231D8005172A9 /* SDKManager.hxx in Headers */,
+				C06BAFE214E231D8005172A9 /* SDKMethodImpl.hxx in Headers */,
+				C06BAFE314E231D8005172A9 /* SDKRequest.hxx in Headers */,
+				C0FAC16F14E281BC00480D70 /* bbiconv.h in Headers */,
+				C0FAC17114E281BC00480D70 /* strconv.h in Headers */,
+				C0FAC17314E281BC00480D70 /* Urlcode.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C0C6575714E2308D00C9B8C8 /* weibosdk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0C6576514E2308D00C9B8C8 /* Build configuration list for PBXNativeTarget "weibosdk" */;
+			buildPhases = (
+				C0C6575414E2308D00C9B8C8 /* Sources */,
+				C0C6575514E2308D00C9B8C8 /* Frameworks */,
+				C0C6575614E2308D00C9B8C8 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = weibosdk;
+			productName = weibosdk;
+			productReference = C0C6575814E2308D00C9B8C8 /* libweibosdk.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C0C6574F14E2308D00C9B8C8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = C0C6575214E2308D00C9B8C8 /* Build configuration list for PBXProject "weibosdk" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C0C6574D14E2308D00C9B8C8;
+			productRefGroup = C0C6575914E2308D00C9B8C8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0C6575714E2308D00C9B8C8 /* weibosdk */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C0C6575414E2308D00C9B8C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C06BAFDA14E231D8005172A9 /* ParsingHandle.cxx in Sources */,
+				C06BAFDC14E231D8005172A9 /* ParsingObject.cxx in Sources */,
+				C06BAFDD14E231D8005172A9 /* SDKHelper.cxx in Sources */,
+				C06BAFDF14E231D8005172A9 /* SDKManager.cxx in Sources */,
+				C06BAFE114E231D8005172A9 /* SDKMethodImpl.cxx in Sources */,
+				C0FAC16E14E281BC00480D70 /* bbiconv.cc in Sources */,
+				C0FAC17014E281BC00480D70 /* strconv.cpp in Sources */,
+				C0FAC17214E281BC00480D70 /* Urlcode.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C0C6576314E2308D00C9B8C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C0C6576414E2308D00C9B8C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C0C6576614E2308D00C9B8C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)/../";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../",
+					"$(SRCROOT)/../third-party/include",
+					"$(SRCROOT)/../third-party/include/libutil",
+					"$(SRCROOT)/../third-party/common",
+				);
+				INSTALL_PATH = "/lib/iOS/$(CURRENT_ARCH)";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /include;
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../third-party/include";
+			};
+			name = Debug;
+		};
+		C0C6576714E2308D00C9B8C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)/../";
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../",
+					"$(SRCROOT)/../third-party/include",
+					"$(SRCROOT)/../third-party/include/libutil",
+					"$(SRCROOT)/../third-party/common",
+				);
+				INSTALL_PATH = "/lib/iOS/$(CURRENT_ARCH)";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = /include;
+				SKIP_INSTALL = NO;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../third-party/include";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0C6575214E2308D00C9B8C8 /* Build configuration list for PBXProject "weibosdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0C6576314E2308D00C9B8C8 /* Debug */,
+				C0C6576414E2308D00C9B8C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C0C6576514E2308D00C9B8C8 /* Build configuration list for PBXNativeTarget "weibosdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0C6576614E2308D00C9B8C8 /* Debug */,
+				C0C6576714E2308D00C9B8C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C0C6574F14E2308D00C9B8C8 /* Project object */;
+}

@@ -357,7 +357,9 @@ namespace weibo
             TParsingList* list = (TParsingList*)usrData;
 			if (list)
 			{
-				TDataPtr dataPtr = boost::make_shared<ElementDataType>();
+				TDataPtr dataPtr;//
+				dataPtr.reset(new ElementDataType());
+
 				if (dataPtr)
 				{
 					dataPtr->doParse(object);

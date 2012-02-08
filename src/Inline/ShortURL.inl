@@ -1,5 +1,5 @@
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
+//#include <boost/algorithm/string/split.hpp>
+//#include <boost/algorithm/string/classification.hpp>
 
 eWeiboResultCode SDKMethodImpl::getShortURLShorten(const char* url_long, UserTaskInfo* pTask)
 {
@@ -10,9 +10,11 @@ eWeiboResultCode SDKMethodImpl::getShortURLShorten(const char* url_long, UserTas
 		return WRC_INVALIDE_PARAM;
 	}
 
-	char param[2048] = {0};
+	char param[2048] = { 0 };
+	
 	std::vector<std::string> vec;
-	boost::split(vec, url_long, boost::is_any_of(","));
+	SDKHelper::split(vec, url_long, ',');
+
 	std::vector<std::string>::iterator it = vec.begin();
 	while (it != vec.end())
 	{
@@ -21,7 +23,6 @@ eWeiboResultCode SDKMethodImpl::getShortURLShorten(const char* url_long, UserTas
 
 		++ it;
 	}
-
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_SHORT_URL_SHORTEN
 		, param, getUnifiedFormat(), httpengine::HM_GET, pTask);
 
@@ -37,9 +38,12 @@ eWeiboResultCode SDKMethodImpl::getShortURLExpand(const char* url_short, UserTas
 		return WRC_INVALIDE_PARAM;
 	}
 
+    // TODO(welbon): Must implements
+    
 	char param[2048] = {0};
 	std::vector<std::string> vec;
-	boost::split(vec, url_short, boost::is_any_of(","));
+	SDKHelper::split(vec, url_short, ',');
+
 	std::vector<std::string>::iterator it = vec.begin();
 	while (it != vec.end())
 	{

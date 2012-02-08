@@ -21,7 +21,8 @@ using namespace weibo;
 
 ParsingObject::ParsingObject(const char* source)
 {
-	mParsingHandle = boost::make_shared<ParsingHandle>((Json::Value*)NULL, false);
+	//mParsingHandle = boost::make_shared<ParsingHandle>((Json::Value*)NULL, false);
+    mParsingHandle.reset(new ParsingHandle(NULL, false));
 	mParsingHandle->parse(source);
 }
 
@@ -159,8 +160,10 @@ boost::shared_ptr<ParsingObject> ParsingObject::getSubObjectByKey(const char* ke
 		Json::Value& val = root[key];
 		if (!val.isNull())
 		{
-			boost::shared_ptr<ParsingHandle> handler = boost::make_shared<ParsingHandle>(&val, false);
-			objectPtr = boost::make_shared<ParsingObject>(handler);
+            boost::shared_ptr<ParsingHandle> handler;
+            handler.reset(new ParsingHandle(&val, false));
+			
+            objectPtr.reset(new ParsingObject(handler));
 		}
 	}
 	return objectPtr;
@@ -213,9 +216,9 @@ boost::shared_ptr<ParsingObject> ParsingObject::getSubObjectByIndex(const int in
 			Json::Value& valChild = root[index];
 			if (!valChild.isNull())
 			{
-				//objectPtr = boost::make_shared<ParsingObject>((void*)&root[index], false);
-				boost::shared_ptr<ParsingHandle> handler = boost::make_shared<ParsingHandle>(&valChild, false);
-				objectPtr = boost::make_shared<ParsingObject>(handler);
+				boost::shared_ptr<ParsingHandle> handler;
+                handler.reset(new ParsingHandle(&valChild, false));
+				objectPtr.reset(new ParsingObject(handler));
 			}
 		}
 		else
@@ -231,9 +234,9 @@ boost::shared_ptr<ParsingObject> ParsingObject::getSubObjectByIndex(const int in
 			Json::Value &valChild = (*it);
 			if (!valChild.isNull())
 			{
-				//objectPtr = boost::make_shared<ParsingObject>((void*)&(*it), false);
-				boost::shared_ptr<ParsingHandle> handler = boost::make_shared<ParsingHandle>(&valChild, false);
-				objectPtr = boost::make_shared<ParsingObject>(handler);
+				boost::shared_ptr<ParsingHandle> handler;
+                handler.reset(new ParsingHandle(&valChild, false));
+				objectPtr.reset(new ParsingObject(handler));
 			}
 		}
 	}
@@ -255,10 +258,15 @@ void ParsingObject::enumAllSub(EnumAllSubCall callback, void* usrData)
 		Json::Value::iterator it = root.begin();
 		while (it != root.end())
 		{
-			//boost::shared_ptr<ParsingObject> objectPtr = boost::make_shared<ParsingObject>((void*)&(*it), false);
-			boost::shared_ptr<ParsingHandle> handler = boost::make_shared<ParsingHandle>(&(*it), false);
-			boost::shared_ptr<ParsingObject> objectPtr = boost::make_shared<ParsingObject>(handler);
-
+//			boost::shared_ptr<ParsingHandle> handler = boost::make_shared<ParsingHandle>(&(*it), false);
+//			boost::shared_ptr<ParsingObject> objectPtr = boost::make_shared<ParsingObject>(handler);
+            
+            boost::shared_ptr<ParsingHandle> handler;
+            handler.reset(new ParsingHandle(&(*it), false));
+            
+            boost::shared_ptr<ParsingObject> objectPtr;
+            objectPtr.reset(new ParsingObject(handler));
+            
 			callback(objectPtr, usrData);
 			++ it;
 		}

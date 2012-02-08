@@ -44,7 +44,9 @@ namespace weibo
 		static void setParam(char* param, const char *paramname, const char *paramval, int paramformat);
 		static void setIntParam(char* param, const char * paramName, const long long paramval, bool forceAdd = false);
 
-		//
+		/** Split string */
+		static void split(std::vector<std::string>& outVector, const char* string, const char splite);
+
 		static WeiboRequestPtr makeRequest(unsigned int methodOption, char *addtionParam, const eWeiboRequestFormat reqformat
 			, const httpengine::HttpMethod iMethod, const char* appkey, const char* accessToken, const UserTaskInfo* pTask = NULL);
 
