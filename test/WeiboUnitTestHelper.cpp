@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include "WeiboTestCaseHelper.h"
-#include <boost/make_shared.hpp>
+#include <make_shared.hpp>
 
 #include <IWeiboDef.hxx>
 #include <IWeiboMethod.hxx>
@@ -304,92 +304,92 @@ void WeiboTestCaseHelper::initializeParsingMap()
 {
 	// Parsing for statuses
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_STATUSES_PUBLIC_TIMELINE,
-		WBOPT_GET_STATUSES_TIMELINE_BATCH, boost::make_shared<ParsingStatusesList>("statuses"));
+		WBOPT_GET_STATUSES_TIMELINE_BATCH, make_shared<ParsingStatusesList>("statuses"));
 
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_STATUSES_REPOST_TIMELINE,
-		WBOPT_GET_STATUSES_REPOST_BYME, boost::make_shared<ParsingStatusesList>("reposts"));
+		WBOPT_GET_STATUSES_REPOST_BYME, make_shared<ParsingStatusesList>("reposts"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_STATUSES_MENTIONS,
-		boost::make_shared<ParsingStatusesList>("statuses"));
+		make_shared<ParsingStatusesList>("statuses"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_STATUSES_SHOW,
-		boost::make_shared<ParsingStatus>());
+		make_shared<ParsingStatus>());
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_STATUSES_SHOW_BATCH, 
-		boost::make_shared<ParsingStatusesList>("statuses"));
+		make_shared<ParsingStatusesList>("statuses"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_STATUSES_QUERYMID,
-		boost::make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "mid")));
+		make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "mid")));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_STATUSES_QUERYID,
-		boost::make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "id")));
+		make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "id")));
 
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_STATUSES_REPOST_DAILY,
-		WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY, boost::make_shared<ParsingStatusesList>("statuses"));
+		WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY, make_shared<ParsingStatusesList>("statuses"));
 
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_POST_STATUSES_REPOST,
-		WBOPT_POST_STATUSES_UPLOAD, boost::make_shared<ParsingStatus>());
+		WBOPT_POST_STATUSES_UPLOAD, make_shared<ParsingStatus>());
 
 	// Parsing for comment
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_COMMENTS_SHOW,
-		WBOPT_GET_COMMENTS_SHOWBATCH, boost::make_shared<ParsingCommentsList>("comments"));
+		WBOPT_GET_COMMENTS_SHOWBATCH, make_shared<ParsingCommentsList>("comments"));
 
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_POST_COMMENTS_CREATE,
-		WBOPT_POST_COMMENTS_REPLY, boost::make_shared<ParsingComment>());
+		WBOPT_POST_COMMENTS_REPLY, make_shared<ParsingComment>());
 
 	// Parsing for direct messages
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_DIRECTMESSAGES,
-		WBOPT_GET_DIRECTMESSAGES_SHOW_BATCH, boost::make_shared<ParsingDirectMessagesList>("direct_messages"));
+		WBOPT_GET_DIRECTMESSAGES_SHOW_BATCH, make_shared<ParsingDirectMessagesList>("direct_messages"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_DIRECTMESSAGES_IS_CAPABLE,
-		boost::make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "result")));
+		make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "result")));
 
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_POST_DIRECTMESSAGES_NEW,
-		WBOPT_POST_DIRECTMESSAGES_DESTORY, boost::make_shared<ParsingDirectMessage>());
+		WBOPT_POST_DIRECTMESSAGES_DESTORY, make_shared<ParsingDirectMessage>());
 
 	INSERT_PARSING_OBJECT (WBOPT_POST_DIRECTMESSAGES_DESTORY_BATCH,
-		boost::make_shared<ParsingDirectMessagesList>("direct_messages"));
+		make_shared<ParsingDirectMessagesList>("direct_messages"));
 
 	// Parsing for friendships
 	INSERT_PARSING_OBJECT_BATCH (WBOPT_GET_FRIENDSHIPS_FRIENDS, 
-		WBOPT_GET_FRIENDSHIPS_BILATERAL, boost::make_shared<ParsingUsersList>("users"));
+		WBOPT_GET_FRIENDSHIPS_BILATERAL, make_shared<ParsingUsersList>("users"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_FRIENDSHIPS_FRIENDS_FOLLOWERS, 
-		boost::make_shared<ParsingUsersList>("users"));
+		make_shared<ParsingUsersList>("users"));
 
 	// Parsing for Accounts
 	INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_PROFILE_BASIC,
-		boost::make_shared<ParsingAccount>());
+		make_shared<ParsingAccount>());
 
 	//INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_PROFILE_EDUCATION,
-	//	boost::make_shared<ParsingEducation>());
+	//	make_shared<ParsingEducation>());
 
 	//INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_PROFILE_EDUCATION_BATCH,
-	//	boost::make_shared<ParsingEducationsList>());
+	//	make_shared<ParsingEducationsList>());
 
 	//INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_PROFILE_EDUCATION_BATCH,
-	//	boost::make_shared<ParsingEducationsList>());
+	//	make_shared<ParsingEducationsList>());
 
 	//INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_GET_UID,
-	//	boost::make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "uid")));
+	//	make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "uid")));
 
 	// Parsing for favorites
 	INSERT_PARSING_OBJECT (WBOPT_GET_FAVORITES, 
-		boost::make_shared<ParsingFavoritesList>("favorites"));
+		make_shared<ParsingFavoritesList>("favorites"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_FAVORITES_TAGS, 
-		boost::make_shared<ParsingFavoriteTagsList>("tags"));
+		make_shared<ParsingFavoriteTagsList>("tags"));
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_TAGS, 
-		boost::make_shared<ParsingTagsList>());
+		make_shared<ParsingTagsList>());
 
 	INSERT_PARSING_OBJECT (WBOPT_GET_TRENDS,
-		boost::make_shared<ParsingTrendsList>());
+		make_shared<ParsingTrendsList>());
 
 
 	// parsing for id
 	INSERT_PARSING_OBJECT (WBOPT_GET_ACCOUNT_GET_UID,
-		boost::make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "uid")));
+		make_shared<ParsingResult>(ParsingResult::ResultKeyList(1, "uid")));
 }
 
 void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject* resultObj, const int errCode, const int errSubCode, bool isComplated)
@@ -400,7 +400,7 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 		mResultMap.erase(it);
 	}
 
-	WeiboTestCaseResultPtr result = boost::make_shared<WeiboTestCaseResult>();
+	WeiboTestCaseResultPtr result = make_shared<WeiboTestCaseResult>();
 	//result->respBody_ = sc;
 	result->errorCode_ = errCode;
 	result->subErrorCode_ = errSubCode;
@@ -421,7 +421,7 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 	}
 	else
 	{
-		result->pasringPtr_ = boost::make_shared<ParsingApiError>(false);		
+		result->pasringPtr_ = make_shared<ParsingApiError>(false);		
 	}
 
 	if (resultObj)

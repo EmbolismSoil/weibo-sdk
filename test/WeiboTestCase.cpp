@@ -1,6 +1,6 @@
 	#include "stdafx.h"
 #include <time.h>
-#include <boost/make_shared.hpp>
+#include <make_shared.hpp>
 #include "WeiboTestCase.h"
 #include "WeiboTestCaseHelper.h"
 #include <IWeiboMethod.hxx>
@@ -22,7 +22,7 @@ WeiboTestCase::WeiboTestCase()
 {
 	if (!gWeiboHelper)
 	{
-		gWeiboHelper = boost::make_shared<WeiboTestCaseHelper>();
+		gWeiboHelper = make_shared<WeiboTestCaseHelper>();
 	}
 }
 

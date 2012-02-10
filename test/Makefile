@@ -9,21 +9,20 @@ PLATFORM_KEY = $(shell uname)
 ifeq ($(shell uname),Darwin)
 	LIB_NAME=dylib
 else
-	LIB_NAME=so
+	LIB_NAME=a
 endif
 
 # DEFS = -D_USE_JSON_PARSER
 LIBS = \
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libcppunit.a\
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libjson.$(LIB_NAME)\
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libutil.$(LIB_NAME)\
-       $(top_srcdir)/third-party/lib/$(PLATFORM_KEY)/libHttpEngine.$(LIB_NAME)\
+       $(top_srcdir)/../weibo-sdk-util/lib/$(PLATFORM_KEY)/libcppunit.a\
        $(top_srcdir)/lib/$(PLATFORM_KEY)/libWeiboSDK.$(LIB_NAME)\
-       /opt/local/lib/libboost_filesystem.$(LIB_NAME)\
-       /opt/local/lib/libiconv.$(LIB_NAME)\
+       $(top_srcdir)/../weibo-sdk-util/lib/$(PLATFORM_KEY)/libHttpEngine.$(LIB_NAME)\
+       $(top_srcdir)/../weibo-sdk-util/lib/$(PLATFORM_KEY)/libutil.$(LIB_NAME)\
+       $(top_srcdir)/../weibo-sdk-util/lib/$(PLATFORM_KEY)/libjson.$(LIB_NAME)\
        -lcurl -lpthread -lssl
 
 INCLUDES = \
+	-I. \
 	-I/opt/local/include \
         -I$(top_srcdir)/third-party/include/libutil \
 	-I$(top_srcdir)/third-party/common \

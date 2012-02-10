@@ -2,7 +2,7 @@
 #include <string.h>
 #include "ParsingDataStruct.h"
 #include <IWeiboDef.hxx>
-#include <boost/make_shared.hpp>
+#include <make_shared.hpp>
 
 using namespace weibo;
 
@@ -17,7 +17,7 @@ bool ParsingBase::doParse(const char* source, std::string* errMsg)
 		return false;
 	}
 
-	ParsingObjectPtr objectPtr = boost::make_shared<ParsingObject>(source);
+	ParsingObjectPtr objectPtr = make_shared<ParsingObject>(source);
 	if (objectPtr->isUseable())
 	{
 		doParse(objectPtr);
@@ -84,7 +84,7 @@ bool ParsingUser::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectStatusPtr = objectPtr->getSubObjectByKey("retweeted_status");
 		if (objectStatusPtr)
 		{
-			status = boost::make_shared<ParsingStatus>();
+			status = make_shared<ParsingStatus>();
 			if (status)
 			{
 				status->doParse(objectStatusPtr);
@@ -128,7 +128,7 @@ bool ParsingStatus::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectGeoPtr = objectPtr->getSubObjectByKey("geo");
 		if (objectGeoPtr)
 		{
-			geo = boost::make_shared<ParsingGeo>();
+			geo = make_shared<ParsingGeo>();
 			if (geo)
 			{
 				geo->doParse(objectGeoPtr);
@@ -140,7 +140,7 @@ bool ParsingStatus::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectUserPtr = objectPtr->getSubObjectByKey("user");
 		if (objectUserPtr)
 		{
-			user = boost::make_shared<ParsingUser>();
+			user = make_shared<ParsingUser>();
 			if (user)
 			{
 				user->doParse(objectUserPtr);
@@ -152,7 +152,7 @@ bool ParsingStatus::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectRetweetedPtr = objectPtr->getSubObjectByKey("retweeted_status");
 		if (objectRetweetedPtr)
 		{
-			retweeted_status = boost::make_shared<ParsingStatus>();
+			retweeted_status = make_shared<ParsingStatus>();
 			if (retweeted_status)
 			{
 				retweeted_status->doParse(objectRetweetedPtr);
@@ -184,7 +184,7 @@ bool ParsingComment::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectUserPtr = objectPtr->getSubObjectByKey("user");
 		if (objectUserPtr)
 		{
-			user = boost::make_shared<ParsingUser>();
+			user = make_shared<ParsingUser>();
 			if (user)
 			{
 				user->doParse(objectUserPtr);
@@ -196,7 +196,7 @@ bool ParsingComment::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectStatusPtr = objectPtr->getSubObjectByKey("status");
 		if (objectStatusPtr)
 		{
-			status = boost::make_shared<ParsingStatus>();
+			status = make_shared<ParsingStatus>();
 			if (status)
 			{
 				status->doParse(objectStatusPtr);
@@ -208,7 +208,7 @@ bool ParsingComment::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectReplyCommentPtr = objectPtr->getSubObjectByKey("reply_comment");
 		if (objectReplyCommentPtr)
 		{
-			reply_comment = boost::make_shared<ParsingComment>();
+			reply_comment = make_shared<ParsingComment>();
 			if (reply_comment)
 			{
 				reply_comment->doParse(objectReplyCommentPtr);
@@ -245,7 +245,7 @@ bool ParsingDirectMessage::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectSender = objectPtr->getSubObjectByKey("sender");
 		if (objectSender)
 		{
-			sender = boost::make_shared<ParsingUser>();
+			sender = make_shared<ParsingUser>();
 			if (sender)
 			{
 				sender->doParse(objectSender);
@@ -257,7 +257,7 @@ bool ParsingDirectMessage::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objectRecipient = objectPtr->getSubObjectByKey("recipient");
 		if (objectRecipient)
 		{
-			recipient = boost::make_shared<ParsingUser>();
+			recipient = make_shared<ParsingUser>();
 			if (recipient)
 			{
 				recipient->doParse(objectRecipient);
@@ -283,7 +283,7 @@ bool ParsingFavorite::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objTags = objectPtr->getSubObjectByKey("tags");
 		if (objTags)
 		{
-			tags = boost::make_shared<ParsingFavoriteTagsList>("");
+			tags = make_shared<ParsingFavoriteTagsList>("");
 			if (tags)
 			{
 				tags->doParse(objTags);
@@ -294,7 +294,7 @@ bool ParsingFavorite::doParse(const ParsingObjectPtr objectPtr)
 		ParsingObjectPtr objStatus = objectPtr->getSubObjectByKey("status");
 		if (objStatus)
 		{
-			status = boost::make_shared<ParsingStatus>();
+			status = make_shared<ParsingStatus>();
 			if (status )
 			{
 				status ->doParse(objStatus);
@@ -343,7 +343,7 @@ bool ParsingAccount::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mBasicPtr)
 		{
-			mBasicPtr = boost::make_shared<struct weibo::BasicInfo>();
+			mBasicPtr = make_shared<struct weibo::BasicInfo>();
 		}
 
 		mBasicPtr->id = objectPtr->getSubStringByKey("id");
@@ -391,7 +391,7 @@ bool ParsingEducation::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mEducationPtr)
 		{
-			mEducationPtr = boost::make_shared<struct weibo::EducationInfo>();
+			mEducationPtr = make_shared<struct weibo::EducationInfo>();
 		}
 
 		mEducationPtr->id = objectPtr->getSubStringByKey("id");
@@ -419,7 +419,7 @@ bool ParsingCareer::doParse(const ParsingObjectPtr objectPtr)
 	{
 		if (!mCareerPtr)
 		{
-			mCareerPtr = boost::make_shared<struct weibo::CareerInfo>();
+			mCareerPtr = make_shared<struct weibo::CareerInfo>();
 		}
 
 		mCareerPtr->id = objectPtr->getSubStringByKey("id");
