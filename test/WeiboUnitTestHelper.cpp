@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include <stdio.h>
 #include "WeiboTestCaseHelper.h"
-#include <make_shared.hpp>
+#include "make_shared.hpp"
 
 #include <IWeiboDef.hxx>
 #include <IWeiboMethod.hxx>
