@@ -221,7 +221,8 @@ WeiboTestCaseHelper::WeiboTestCaseHelper()
 	mWeiboPtr = weibo::WeiboFactory::getWeibo();
 
 	mWeiboPtr->startup();
-	mWeiboPtr->setOption(weibo::WOPT_CONSUMER, "1016351065", "186ea22b3ea58bfa90923f55fe8b2749");
+	// 1016351065 186ea22b3ea58bfa90923f55fe8b2749
+	mWeiboPtr->setOption(weibo::WOPT_CONSUMER, "140226478", "42fcc96d3e64d9e248649369d61632a6");
 	mWeiboPtr->OnDelegateComplated += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespComplated);
 	mWeiboPtr->OnDelegateErrored += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespErrored);
 	mWeiboPtr->OnDelegateWillRelease += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespStoped);

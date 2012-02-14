@@ -249,6 +249,7 @@ namespace weibo
 		virtual eWeiboResultCode getGroupsChatIsBlocked(const char* gids, UserTaskInfo* pTask = NULL);
 		virtual eWeiboResultCode postGroupsChatBlock(const char* gid, UserTaskInfo* pTask = NULL);
 		virtual eWeiboResultCode postGroupsChatUnblock(const char* gid, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode getGroupsUsersJoinedStatuses(const char* uid,int simplify,VariableParams* var = NULL,UserTaskInfo* pTask = NULL);
 	};
 
 }

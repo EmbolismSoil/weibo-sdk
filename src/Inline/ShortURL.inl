@@ -38,8 +38,6 @@ eWeiboResultCode SDKMethodImpl::getShortURLExpand(const char* url_short, UserTas
 		return WRC_INVALIDE_PARAM;
 	}
 
-    // TODO(welbon): Must implements
-    
 	char param[2048] = {0};
 	std::vector<std::string> vec;
 	SDKHelper::split(vec, url_short, ',');

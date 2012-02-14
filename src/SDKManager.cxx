@@ -125,7 +125,7 @@ SDKManager::SDKManager()
 	DebugLog(<< __FUNCTION__ << "| cotr");
 
 #if defined(INTERNAL_INTERFACE_USEABLE)
-	mMethodPtr.reset(new SDKInternalMethod(this));boost::make_shared<SDKInternalMethod>(this);
+	mMethodPtr.reset(new SDKInternalMethod(this));
 #else
 	mMethodPtr.reset(new SDKMethodImpl(this));
 #endif //INTERNAL_INTERFACE_USEABLE

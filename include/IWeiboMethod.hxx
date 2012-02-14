@@ -169,6 +169,7 @@ namespace weibo
 		WBOPT_GET_GROUPS_CHAT_BLOCK,
 		WBOPT_GET_GROUPS_CHAT_UNBLOCK,
 		WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
+		WBOPT_GET_GROUP_USERS_JOINED_STATUSES,
 
 		WBOPT_END,
 	};
@@ -387,6 +388,7 @@ namespace weibo
 		virtual eWeiboResultCode getGroupsChatIsBlocked(const char* gids, UserTaskInfo* pTask = NULL) = 0;
 		virtual eWeiboResultCode postGroupsChatBlock(const char* gid, UserTaskInfo* pTask = NULL) = 0;
 		virtual eWeiboResultCode postGroupsChatUnblock(const char* gid, UserTaskInfo* pTask = NULL) = 0;
+		virtual eWeiboResultCode getGroupsUsersJoinedStatuses(const char* uid,int simplify,VariableParams* var = NULL,UserTaskInfo* pTask = NULL)=0;
 	};
 
 }

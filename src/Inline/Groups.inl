@@ -58,7 +58,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsAdmin(const char* gid, UserTaskInfo* pT
 	sprintf(finalURL, ptr->mURL.c_str(), gid);
 	ptr->mURL = finalURL;
 
-	return internalEnqueue(ptr); 
+	return internalEnqueue(ptr);
 }
 
 eWeiboResultCode SDKMethodImpl::getGroupsUsers(const char* gid, VariableParams* var, UserTaskInfo* pTask)
@@ -131,4 +131,20 @@ eWeiboResultCode SDKMethodImpl::postGroupsChatUnblock(const char* gid, UserTaskI
 		param, getUnifiedFormat(), httpengine::HM_POST, pTask);
 
 	return internalEnqueue(ptr); 
+}
+
+eWeiboResultCode SDKMethodImpl::getGroupsUsersJoinedStatuses(const char* uid,const int simplify
+								   ,VariableParams* var,UserTaskInfo* pTask)
+{
+	DebugLog(<< __FUNCTION__);
+
+	char param[255] = { 0 };
+	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
+	SDKHelper::setIntParam(param, "&simplify", simplify);
+	SDKHelper::makeVariableParams(param, 255, var);
+
+	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUP_USERS_JOINED_STATUSES,
+		param, getUnifiedFormat(), httpengine::HM_GET, pTask);
+
+	return internalEnqueue(ptr);
 }

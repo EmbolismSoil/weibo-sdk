@@ -176,12 +176,13 @@ static const struct tagMethodURLElement gMethodURLElements[] =
 	{ WBOPT_GET_GROUPS_JOINED, "/groups/joined", EHT_V4 },
 	{ WBOPT_GET_GROUPS_SHOW_BATCH, "/groups/show_batch", EHT_V4 },
 	{ WBOPT_GET_GROUPS_GET_ANNOUNCEMENT, "/groups/get_announcement", EHT_V4 },
-	{ WBOPT_GET_GROUPS_ADMIN, "/groups/%s/admin" , EHT_V3},
+	{ WBOPT_GET_GROUPS_ADMIN, "/groups/%s/admin", EHT_V3},
 	{ WBOPT_GET_GROUPS_USERS, "/groups/%s/users", EHT_V3 },
 	{ WBOPT_GET_GROUPS_SUGGESTION_MAY_INTERESTED, "/groups/suggestions/may_interested", EHT_V3 },
 	{ WBOPT_GET_GROUPS_CHAT_BLOCK, "/groups/chat/block", EHT_V4 },
 	{ WBOPT_GET_GROUPS_CHAT_UNBLOCK, "/groups/chat/unblock", EHT_V4 },
 	{ WBOPT_GET_GROUPS_CHAT_IS_BLOCKED, "/groups/chat/is_blocked", EHT_V4 },
+	{ WBOPT_GET_GROUP_USERS_JOINED_STATUSES, "/groups/statuses/joined_timeline", EHT_V4},
 };
 
 //#define IN_BETWEEN(begin, end, optionId) \
@@ -404,7 +405,7 @@ void SDKHelper::setParam(char* param, const char *paramname, const char *paramva
 
 void SDKHelper::setIntParam(char * param, const char * paramName, const long long paramval, bool forceAdd)
 {
-	char val[16] = { 0 };
+	char val[64] = { 0 };
 	if (!forceAdd && paramval <= 0)
 	{
 		return ;

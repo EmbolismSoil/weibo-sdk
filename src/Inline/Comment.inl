@@ -10,9 +10,9 @@ eWeiboResultCode SDKMethodImpl::getCommentsShow(const char *weiboId, VariablePar
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	char param[1024] = { 0 };
 	SDKHelper::setParam(param, "&id", weiboId, PARAM_ENCODE_UTF8);
-	SDKHelper::makeVariableParams(param, 255, var);
+	SDKHelper::makeVariableParams(param, 1024, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_COMMENTS_SHOW
 		, param, getUnifiedFormat(), httpengine::HM_GET, pTask);
@@ -93,8 +93,8 @@ eWeiboResultCode SDKMethodImpl::postCommentsCreate(const char* id, const char* c
 	char param[1024] = { 0 };
 	SDKHelper::makeVariableParams(param, 255, var);
 
-	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
-	SDKHelper::setParam(param, "&comment", comment, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&id", id, ParamEncodedValue);
+	SDKHelper::setParam(param, "&comment", comment, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&comment_ori", comment_ori);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_COMMENTS_CREATE
