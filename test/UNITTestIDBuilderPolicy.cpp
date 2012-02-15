@@ -6,6 +6,7 @@
 
 #include "ParsingDefine.hxx"
 #include "ParsingDataStruct.h"
+#include "../common/strconv.h"
 
 using namespace weibo;
 
@@ -104,6 +105,8 @@ const char *UNITTestIDBuilderPolicy::asWords()
 		break;
 	}
 	randomText += getDateString();
+	randomText = CC2UTF8(randomText.c_str()).c_str();
+
 	return randomText.c_str();
 }
 

@@ -199,6 +199,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\third-party\common\strconv.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UNITTestIDBuilderPolicy.cpp"
 				>
 			</File>

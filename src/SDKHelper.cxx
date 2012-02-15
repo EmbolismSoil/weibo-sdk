@@ -7,11 +7,47 @@
 #include <util/common/StringUtil.hxx>
 #include <HttpEngine/IHttpEngineCommon.hxx>
 
-#include "strconv.h"
+//#include "strconv.h"
 #include "Urlcode.h"
 #include "IWeiboMethod.hxx"
 
 using namespace weibo;
+
+#ifdef _DEBUG
+static bool IsUTF8(const char *str)
+{
+	int count = 0;
+	unsigned char chr;
+	while (chr = *str++)
+	{
+		if (count == 0)
+		{
+			if (chr >= 0x80)
+			{
+				do
+				{
+					chr <<= 1;
+					count++;
+				} while ((chr & 0x80) != 0);
+				count--;                
+				if (count != 2)
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if ((chr & 0xC0) != 0x80)
+			{
+				return false;
+			}
+			count--;
+		}
+	}
+	return count == 0;
+}
+#endif
 
 enum enHostType
 {
@@ -358,7 +394,13 @@ void setParamFormat(char* param, const char* paramval, int paramformat)
 	// Need utf8 convert.
 	if (paramformat & ParamFMT_UTF8)
 	{
-		resultLength = lo_C2Utf8(&resultStr , paramval);
+#ifdef	_DEBUG
+		if (!IsUTF8(paramval))
+		{
+			assert(0 && "the paramval is not utf-8 ???");
+		}
+#endif
+		resultStr = (char*)paramval;
 	}
 	else
 	{
@@ -414,7 +456,7 @@ void SDKHelper::setIntParam(char * param, const char * paramName, const long lon
 	setParam(param, paramName, (const char *)val, 0);
 }
 
-WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, char *addtionParam, const eWeiboRequestFormat reqformat
+WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, const char *addtionParam, const eWeiboRequestFormat reqformat
 									   , const httpengine::HttpMethod method, const char* appkey, const char* accessToken, const UserTaskInfo* pTask)
 {
 	WeiboRequestPtr requestPtr;
@@ -441,9 +483,13 @@ WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, char *addtionP
 	{
 		if (std::string::npos == baseURL.find_first_of('?'))
 		{
-			addtionParam[0] = '?';
+			baseURL += '?';
+			baseURL += addtionParam[1] != '0' ? &addtionParam[1] : addtionParam;
 		}
-		baseURL += addtionParam;
+		else
+		{
+			baseURL += addtionParam;
+		}
 	}
 
 	// Build request url and post args, from method.

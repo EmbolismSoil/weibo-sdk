@@ -40,12 +40,17 @@ namespace weibo
 			, fileSize_(0)
 			, fileSeek_(0)
 		{
+#ifdef WIN32
+			FILE* file = _wfopen(CUTF82W(fileName_.c_str()).c_str(), L"rb");
+#else
 			FILE* file = fopen(fileName_.c_str(), "rb");
+#endif
 			if (file)
 			{
 				fseek(file, 0, SEEK_END);
 				fileSize_ = ftell(file);
 				fseek(file, 0, SEEK_SET);
+				fclose(file);
 			}
 		}
 
@@ -56,7 +61,11 @@ namespace weibo
 				return 0;
 			}
 
+#ifdef WIN32
+			FILE* file = _wfopen(CUTF82W(fileName_.c_str()).c_str(), L"rb");
+#else
 			FILE* file = fopen(fileName_.c_str(), "rb");
+#endif
 			if (file)
 			{
 				if (fileSize_ > bufSize)
@@ -358,15 +367,27 @@ void SDKManager::onRequestStarted(unsigned int requestId, const int errorCode, c
 			// Get the file name.
 			std::string &filePath = requestPtr->mUploadTaskDetail->fileName_;
 			std::string file;
+#ifdef WIN32
 			const int pos = filePath.find_last_of('\\');
+#else
+			const int pos = filePath.find_last_of('/');
+#endif
 			if (pos != std::string::npos)
 			{
 				file = filePath.substr(pos + 1, filePath.length());
 			}
+			else
+			{
+				file = filePath;
+			}
 
+#if 0
 			// Convert the file name to utf8
 			CC2UTF8 cvUTF8(file.c_str());
 			std::string saveFileUTF8 = cvUTF8.c_str();
+#else
+			std::string saveFileUTF8 = file;
+#endif
 
 			UploadTaskDetail::PostFormDataPtr formDataPtr 
 				= requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());

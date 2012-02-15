@@ -9,6 +9,8 @@
 #include "ParsingDataStruct.h"
 #include "UNITTestIDBuilderPolicy.h"
 
+#include "../common/strconv.h"
+
 using namespace weibo;
 
 static const char gWeiboTestUploadFile[] = "TestImage.jpg";
@@ -261,7 +263,7 @@ void WeiboTestCase::postStatusesUpload()
 	UNITTestIDBuilderPolicy policy(gWeiboHelper, RIT_STATUS);
 
 	std::string appFile = WeiboTestCaseHelper::getAppModulePath();
-	appFile += gWeiboTestUploadFile;
+	appFile += CC2UTF8(gWeiboTestUploadFile).c_str();
 
 	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postStatusesUpload(policy.asWords(), appFile.c_str()) == WRC_OK);
 	standardOptionForWaiting(WBOPT_POST_STATUSES_UPLOAD);
@@ -644,7 +646,7 @@ void WeiboTestCase::postAccountProfileCarDestroy()
 
 void WeiboTestCase::postAccountAvatarUpload()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postAccountAvatarUpload(gWeiboTestUploadFile) == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->postAccountAvatarUpload(CC2UTF8(gWeiboTestUploadFile).c_str()) == WRC_OK);
 	standardOptionForWaiting(WBOPT_POST_ACCOUNT_AVATAR_UPLOAD);
 }
 
@@ -829,7 +831,7 @@ void WeiboTestCase::getSearchSuggestionsStatues()
 
 void WeiboTestCase::getSearchSuggestionsSchool()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsSchool("清华大学") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsSchool(CC2UTF8("清华大学").c_str()) == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SEARCH_SUGGESTIONS_SCHOOLS);
 }
 
@@ -841,7 +843,7 @@ void WeiboTestCase::getSearchSuggestionsCompanies()
 
 void WeiboTestCase::getSearchSuggestionsApps()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsApps("微博桌面") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSearchSuggestionsApps(CC2UTF8("微博桌面").c_str()) == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SEARCH_SUGGESTIONS_APPS);
 }
 
@@ -897,7 +899,7 @@ void WeiboTestCase::getSuggestionsUsersMayInterested()
 
 void WeiboTestCase::getSuggestionsUsersByStatus()
 {
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSuggestionsUsersByStatus("天气很好") == WRC_OK);
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->getSuggestionsUsersByStatus(CC2UTF8("天气很好").c_str()) == WRC_OK);
 	standardOptionForWaiting(WBOPT_GET_SUGGESTIONS_USERS_BY_STATUS);
 }
 
