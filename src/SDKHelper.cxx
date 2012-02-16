@@ -523,17 +523,15 @@ void SDKHelper::split(std::vector<std::string>& outVector, const char* string, c
 	{
 		if ((*it) == splite)
 		{
-			outVector.push_back(inString.substr(start, counter));
+			outVector.push_back(inString.substr(start, counter - start));
 			start = counter + 1;
 		}
 		++ it;
-
+		++ counter;
 		if (it == inString.end())
 		{
-			outVector.push_back(inString.substr(start, counter));
+			outVector.push_back(inString.substr(start));
 		}
-
-		++ counter;
 	}
 }
 

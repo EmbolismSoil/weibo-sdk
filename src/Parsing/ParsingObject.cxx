@@ -119,7 +119,7 @@ long long ParsingObject::getSubNumbericByKey(const char* key)
 	Json::Value& root = mParsingHandle->getValue();
 	if (!root.isNull() && root.isObject())
 	{
-		Json::Value& value = root[key];
+		const Json::Value& value = root[key];
 		if (value.isNumeric())
 		{
 			return value.asInt64();
@@ -135,7 +135,7 @@ std::string ParsingObject::getSubStringByKey(const char* key)
 	Json::Value& root = mParsingHandle->getValue();
 	if (!root.isNull() && root.isObject() && key)
 	{
-		Json::Value& val = root[key];
+		const Json::Value& val = root[key];
 		if (val.isNumeric())
 		{
 			char tmp[32] = { 0 };
@@ -174,7 +174,7 @@ long long ParsingObject::getSubNumbericByIndex(const int index)
 	Json::Value& root = mParsingHandle->getValue();
 	if (!root.isNull())
 	{
-		Json::Value &value = root[index];
+		const Json::Value &value = root[index];
 		if (value.isNumeric())
 		{
 			return value.asInt64();
@@ -190,7 +190,7 @@ std::string ParsingObject::getSubStringByIndex(const int index)
 	Json::Value& root = mParsingHandle->getValue();
 	if (!root.isNull())
 	{
-		Json::Value& val = root[index];
+		const Json::Value& val = root[index];
 		if (val.isNumeric())
 		{
 			char tmp[32] = { 0 };
