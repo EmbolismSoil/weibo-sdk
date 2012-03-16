@@ -29,7 +29,7 @@ SDKMethodImpl::SDKMethodImpl(SDKManager *manager)
 
 eWeiboResultCode SDKMethodImpl::oauth2(const char* userName, const char* password, UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	if (Util::StringUtil::NullOrEmpty(userName))
 	{
@@ -68,7 +68,7 @@ eWeiboResultCode SDKMethodImpl::oauth2(const char* userName, const char* passwor
 
 eWeiboResultCode SDKMethodImpl::endSession()
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&source", mConsumerkey.c_str(), PARAM_ENCODE_UTF8);
 
@@ -88,7 +88,7 @@ eWeiboResultCode SDKMethodImpl::endSession()
 	return WRC_INTERNAL_ERROR;
 }
 
-WeiboRequestPtr SDKMethodImpl::internalMakeWeiboRequest(unsigned int methodOption, char *addtionParam, const eWeiboRequestFormat reqformat,
+WeiboRequestPtr SDKMethodImpl::internalMakeWeiboRequest(unsigned int methodOption, std::string& addtionParam, const eWeiboRequestFormat reqformat,
 														const httpengine::HttpMethod method, const UserTaskInfo* pTask)
 {
 	return SDKHelper::makeRequest(methodOption, addtionParam, reqformat,

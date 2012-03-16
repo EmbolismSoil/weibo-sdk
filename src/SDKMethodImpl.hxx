@@ -25,7 +25,7 @@ namespace weibo
 		void setAccesstoken(std::string &token);
 
 	protected:
-		WeiboRequestPtr internalMakeWeiboRequest(unsigned int methodOption, char *addtionParam,
+		WeiboRequestPtr internalMakeWeiboRequest(unsigned int methodOption, std::string& addtionParam,
 			const eWeiboRequestFormat reqformat, const httpengine::HttpMethod method, const UserTaskInfo* pTask);
 
 		eWeiboResultCode internalEnqueue(WeiboRequestPtr requestPtr);

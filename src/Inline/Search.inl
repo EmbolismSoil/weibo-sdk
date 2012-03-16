@@ -3,7 +3,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsUsers(const char* q, const i
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -19,7 +19,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsStatues(const char* q, const
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -35,7 +35,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsSchool(const char* q, const 
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -51,7 +51,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsCompanies(const char* q, con
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -67,7 +67,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsApps(const char* q, const in
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -83,7 +83,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsAtUsers(const char* q, const
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	char ctype[10] = { 0 };
@@ -105,7 +105,7 @@ eWeiboResultCode SDKMethodImpl::getSearchSuggestionsIntegrate(const char* query,
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&query", query, ParamEncodedValue);
@@ -128,7 +128,7 @@ eWeiboResultCode SDKMethodImpl::getSearchStatuses(const char* q, const int filte
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
@@ -155,7 +155,7 @@ eWeiboResultCode SDKMethodImpl::getSearchGeoStatuses(const float longitude, cons
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	char clo[16] = { 0 };
@@ -185,7 +185,7 @@ eWeiboResultCode SDKMethodImpl::getSearchUsers(const char* q, const int snick, c
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&q", q, ParamEncodedValue);
 	SDKHelper::setIntParam(param, "&snick", snick);

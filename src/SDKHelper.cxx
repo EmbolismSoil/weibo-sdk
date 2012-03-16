@@ -1,13 +1,10 @@
 #include "config.h"
 #include "SDKHelper.hxx"
 #include <stdio.h>
-//#include <boost/make_shared.hpp>
-//#include <boost/algorithm/string/split.hpp>
-//#include <boost/algorithm/string/classification.hpp>
+
 #include <util/common/StringUtil.hxx>
 #include <HttpEngine/IHttpEngineCommon.hxx>
 
-//#include "strconv.h"
 #include "Urlcode.h"
 #include "IWeiboMethod.hxx"
 
@@ -336,52 +333,8 @@ int getParamvalueFormat(int  paramformat)
 	return paramf;
 }
 
-void setParamFormat(char* param, const char* paramval, int paramformat)
+void setParamFormat(std::string& param, const char* paramval, int paramformat)
 {
-#if 0
-	int vallen= 0;
-	char* outstr = NULL;
-	char* urlenc = NULL;
-
-	if (paramformat & ParamFMT_UTF8)
-	{
-		if (lo_C2Utf8(&outstr, paramval) <= 0)
-		{
-			outstr = "";
-		}
-	}
-	else
-	{
-		outstr = (char*)paramval;
-	}
-
-	if (paramformat & ParamFMT_URLENCODE)
-	{		
-		vallen = lo_UrlEncodeA(&urlenc , outstr , -1 );
-		if ( vallen <= 0 )
-		{
-			if ( outstr != (char*)param && outstr ) 
-			{
-				free( outstr );
-			}
-			return ;
-		}
-		if (outstr != (char*)param && outstr)
-		{
-			free(outstr);
-		}
-	}
-	else
-	{
-		urlenc = outstr;
-	}
-	strcat(param, urlenc);
-	if (urlenc != (char*)paramval && urlenc)
-	{
-		free(urlenc);
-	}
-#else
-
 	if (!paramval || paramval == '\0')
 	{
 		// Error : param value is null!
@@ -424,28 +377,26 @@ void setParamFormat(char* param, const char* paramval, int paramformat)
 
 	if (resultStr && *resultStr != '\0')
 	{
-		strcat(param, resultStr);
+		param += resultStr;
 		if (resultLength > 0)
 		{
 			free(resultStr);
 		}
 	}
-
-#endif //0
 }
 
-void SDKHelper::setParam(char* param, const char *paramname, const char *paramval, int paramformat)
+void SDKHelper::setParam(std::string& param, const char *paramname, const char *paramval, int paramformat)
 {
 	if (!paramval || *paramval == '\0')
 	{
 		return;
 	}
 	setParamFormat(param, paramname, getParamnameFormat(paramformat));
-	strcat(param, "=");
+	param += '=';
 	setParamFormat(param, paramval, getParamvalueFormat(paramformat));
 }
 
-void SDKHelper::setIntParam(char * param, const char * paramName, const long long paramval, bool forceAdd)
+void SDKHelper::setIntParam(std::string& param, const char * paramName, const long long paramval, bool forceAdd)
 {
 	char val[64] = { 0 };
 	if (!forceAdd && paramval <= 0)
@@ -456,11 +407,11 @@ void SDKHelper::setIntParam(char * param, const char * paramName, const long lon
 	setParam(param, paramName, (const char *)val, 0);
 }
 
-WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, const char *addtionParam, const eWeiboRequestFormat reqformat
+WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, std::string& addtionParam, const eWeiboRequestFormat reqformat
 									   , const httpengine::HttpMethod method, const char* appkey, const char* accessToken, const UserTaskInfo* pTask)
 {
 	WeiboRequestPtr requestPtr;
-    requestPtr.reset(new WeiboRequest());
+	requestPtr.reset(new WeiboRequest());
 	requestPtr->mOptionId = methodOption;
 	requestPtr->mHttpMethod = method;
 
@@ -478,13 +429,13 @@ WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, const char *ad
 		baseURL += ".xml";
 	}
 
-	// addtional param 
-	if (addtionParam && *addtionParam != '\0')
+	// additional param 
+	if (addtionParam.length() > 0)
 	{
 		if (std::string::npos == baseURL.find_first_of('?'))
 		{
 			baseURL += '?';
-			baseURL += addtionParam[1] != '0' ? &addtionParam[1] : addtionParam;
+			baseURL += addtionParam.length() > 1 ? addtionParam.substr(1) : addtionParam;
 		}
 		else
 		{
@@ -495,11 +446,6 @@ WeiboRequestPtr SDKHelper::makeRequest(unsigned int methodOption, const char *ad
 	// Build request url and post args, from method.
 	makeRequestURL(requestPtr->mURL, requestPtr->mPostArg
 		, baseURL.c_str(), (method != httpengine::HM_GET), appkey, accessToken);
-
-	//// Set header value.
-	//char headerValue[255];
-	//snprintf(headerValue, "OAuth2%s", accessToken);
-	//requestPtr->mReqHeader["Authorization"] = headerValue;
 
 	if (pTask)
 	{
@@ -574,12 +520,13 @@ void SDKHelper::makeRequestURL(std::string &outURL, std::string &outParam, const
 	}
 }
 
-void SDKHelper::makeVariableParams(char *outParam, const int length, VariableParams* var)
+void SDKHelper::makeVariableParams(std::string& outParam, const int length, VariableParams* var)
 {
 	if (!var)
 	{
 		return ;
 	}
+
 	// based variable
 	SDKHelper::setIntParam(outParam, "&since_id", var->since_id);
 	SDKHelper::setIntParam(outParam, "&max_id", var->max_id);
@@ -599,7 +546,7 @@ void SDKHelper::makeVariableParams(char *outParam, const int length, VariablePar
 	SDKHelper::setIntParam(outParam, "&trim_status", var->trim_status);
 }
 
-void SDKHelper::makeIDParams(char *outParam, const int length, const ID *usrId)
+void SDKHelper::makeIDParams(std::string& outParam, const int length, const ID *usrId)
 {
 	if (!usrId)
 	{

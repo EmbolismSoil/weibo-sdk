@@ -5,7 +5,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsJoined(const char* uid, const int page,
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 	SDKHelper::setIntParam(param, "&page", page);
 	SDKHelper::setIntParam(param, "&count", count);
@@ -25,7 +25,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsShowBatch(const char* gids, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&gids", gids, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_SHOW_BATCH,
@@ -38,7 +38,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsGetAnnouncement(const char* gid, UserTa
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&gid", gid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_GET_ANNOUNCEMENT,
@@ -51,8 +51,9 @@ eWeiboResultCode SDKMethodImpl::getGroupsAdmin(const char* gid, UserTaskInfo* pT
 {
 	DebugLog(<< __FUNCTION__);
 
+	std::string param;
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_ADMIN,
-		NULL, getUnifiedFormat(), httpengine::HM_GET, pTask);
+		param, getUnifiedFormat(), httpengine::HM_GET, pTask);
 
 	char finalURL[256] = { 0 };
 	sprintf(finalURL, ptr->mURL.c_str(), gid);
@@ -65,13 +66,13 @@ eWeiboResultCode SDKMethodImpl::getGroupsUsers(const char* gid, VariableParams* 
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_USERS,
-		NULL, getUnifiedFormat(), httpengine::HM_GET, pTask);
+		param, getUnifiedFormat(), httpengine::HM_GET, pTask);
 
 
 	char finalURL[256] = { 0 };
@@ -85,7 +86,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsSuggestionMayInterested(const int count
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setIntParam(param, "&count", count);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_SUGGESTION_MAY_INTERESTED,
@@ -98,7 +99,7 @@ eWeiboResultCode SDKMethodImpl::getGroupsChatIsBlocked(const char* gids, UserTas
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&gids", gids, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_CHAT_IS_BLOCKED,
@@ -111,7 +112,7 @@ eWeiboResultCode SDKMethodImpl::postGroupsChatBlock(const char* gid, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&gid", gid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_CHAT_BLOCK,
@@ -124,7 +125,7 @@ eWeiboResultCode SDKMethodImpl::postGroupsChatUnblock(const char* gid, UserTaskI
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&gid", gid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_GROUPS_CHAT_UNBLOCK,
@@ -133,12 +134,12 @@ eWeiboResultCode SDKMethodImpl::postGroupsChatUnblock(const char* gid, UserTaskI
 	return internalEnqueue(ptr); 
 }
 
-eWeiboResultCode SDKMethodImpl::getGroupsUsersJoinedStatuses(const char* uid,const int simplify
-								   ,VariableParams* var,UserTaskInfo* pTask)
+eWeiboResultCode SDKMethodImpl::getGroupsUsersJoinedStatuses(const char* uid, const int simplify,
+															 VariableParams* var, UserTaskInfo* pTask)
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 	SDKHelper::setIntParam(param, "&simplify", simplify);
 	SDKHelper::makeVariableParams(param, 255, var);

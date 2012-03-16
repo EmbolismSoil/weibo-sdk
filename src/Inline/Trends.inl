@@ -21,7 +21,7 @@ eWeiboResultCode SDKMethodImpl::getTrends(const char* uid, VariableParams* var, 
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
@@ -44,7 +44,7 @@ eWeiboResultCode SDKMethodImpl::getTrendsStatuses(const char* trendWords, const 
 		return WRC_TEXT_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&trend", trendWords, PARAM_ENCODE_UTF8);
@@ -63,7 +63,7 @@ eWeiboResultCode SDKMethodImpl::getTrendsHourly(VariableParams* var, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -78,7 +78,7 @@ eWeiboResultCode SDKMethodImpl::getTrendsDaily(VariableParams* var, UserTaskInfo
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -93,7 +93,7 @@ eWeiboResultCode SDKMethodImpl::getTrendsWeekly(VariableParams* var, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -108,7 +108,7 @@ eWeiboResultCode SDKMethodImpl::postTrendsFollow(const char* trendName, Variable
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&trend_name", trendName, PARAM_ENCODE_UTF8);
@@ -126,7 +126,7 @@ eWeiboResultCode SDKMethodImpl::postTrendsDestroy(const char* trendId, VariableP
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&trend_id", trendId, PARAM_ENCODE_UTF8);

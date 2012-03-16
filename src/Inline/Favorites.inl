@@ -3,7 +3,7 @@ eWeiboResultCode SDKMethodImpl::getFavorites(VariableParams* var, UserTaskInfo* 
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -23,7 +23,7 @@ eWeiboResultCode SDKMethodImpl::getFavoritesShow(const char* id, VariableParams*
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
@@ -46,7 +46,7 @@ eWeiboResultCode SDKMethodImpl::getFavoritesByTags(const char* tid, VariablePara
 		return WRC_TAGID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&tid", tid, PARAM_ENCODE_UTF8);
@@ -64,7 +64,7 @@ eWeiboResultCode SDKMethodImpl::getFavoritesTags(VariableParams* var, UserTaskIn
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -84,7 +84,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesCreate(const char* id, VariablePara
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
@@ -107,7 +107,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesDestroy(const char* id, VariablePar
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
@@ -130,7 +130,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesDestroyBatch(const char* ids, UserT
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&ids", ids, PARAM_ENCODE_UTF8);
@@ -150,7 +150,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesTagUpdate(const char* id, const cha
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
@@ -174,7 +174,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesTagsUpdateBatch(const char* id, con
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&tid", id, PARAM_ENCODE_UTF8);
@@ -198,7 +198,7 @@ eWeiboResultCode SDKMethodImpl::postFavoritesTagsDestroyBatch(const char* tid, V
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&tid", tid, PARAM_ENCODE_UTF8);

@@ -9,7 +9,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriends(ID& usrId, const int order
 	//	return WRC_USERID_NULL;
 	//}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::setIntParam(param, "&order", order);
 
@@ -31,7 +31,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsInCommon(const char* id, const cha
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", id, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&suid", suid, PARAM_ENCODE_UTF8);
 
@@ -52,7 +52,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsBilateral(const char* uid, Variabl
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -72,7 +72,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsBilateralIDs(const char* uid, Vari
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -92,7 +92,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendIDs(ID& usrId, VariableParam
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -112,7 +112,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendRemarkBatch(const char* uids
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uids", uids, PARAM_ENCODE_UTF8);
@@ -133,7 +133,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendsFollowers(ID &usrId, Variab
 	{
 		return WRC_WEIBOID_NULL;
 	}
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -151,7 +151,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendsFollowersIDs(ID &usrId, Var
 	{
 		return WRC_WEIBOID_NULL;
 	}
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -171,7 +171,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendsFollowersActive(ID &usrIDs,
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::makeIDParams(param, 255, &usrIDs);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -191,7 +191,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipsFriendsChainFollowers(const char* 
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -215,7 +215,7 @@ eWeiboResultCode SDKMethodImpl::getFriendshipShow(ID& sourceId, ID& targetId, Us
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	if (ID::IDT_ID == sourceId.idType)
@@ -251,7 +251,7 @@ eWeiboResultCode SDKMethodImpl::postFriendshipsCreate(ID &usrId, const int skipC
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::setIntParam(param, "&skip_check", skipCheck);
 
@@ -272,7 +272,7 @@ eWeiboResultCode SDKMethodImpl::postFriendshipsCreateBatch(const char* uids, Use
 	{
 		return WRC_USERID_NULL;
 	}
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uids", uids, PARAM_ENCODE_UTF8);
@@ -292,7 +292,7 @@ eWeiboResultCode SDKMethodImpl::postFriendshipsDestroy(ID &usrId, VariableParams
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Id params
 	SDKHelper::makeIDParams(param, 255, &usrId);
@@ -315,7 +315,9 @@ eWeiboResultCode SDKMethodImpl::postFriendshipsFollowersDestroy(const char* uid,
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
+
+	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -335,7 +337,7 @@ eWeiboResultCode SDKMethodImpl::postFriendshipsRemarkUpdate(const char* uid, con
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);

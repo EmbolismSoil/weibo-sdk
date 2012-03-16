@@ -3,7 +3,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileBasic(const char *uid, UserTask
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_PROFILE_BASIC
@@ -14,7 +14,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileBasic(const char *uid, UserTask
 
 eWeiboResultCode SDKMethodImpl::getAccountProfileEducation(const char* uid, UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_PROFILE_EDUCATION
@@ -30,7 +30,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileEducationBatch(const char* uids
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uids", uids, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_PROFILE_EDUCATION_BATCH
@@ -41,7 +41,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileEducationBatch(const char* uids
 
 eWeiboResultCode SDKMethodImpl::getAccountProfileCareer(const char* uid, UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
@@ -58,7 +58,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileCareerBatch(const char* uids, U
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&uids", uids, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_PROFILE_CAREER_BATCH
@@ -69,7 +69,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileCareerBatch(const char* uids, U
 
 eWeiboResultCode SDKMethodImpl::getAccountGetPrivacy(UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_GET_PRIVACY
 		, param, getUnifiedFormat(), httpengine::HM_GET, pTask);
@@ -80,7 +80,7 @@ eWeiboResultCode SDKMethodImpl::getAccountGetPrivacy(UserTaskInfo* pTask)
 eWeiboResultCode SDKMethodImpl::getAccountProfileSchoolList(const int province, const int city, const int area, const int type, 
 													 const char* capital, const char* keyword, const int counts, UserTaskInfo* pTask)
 {
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::setIntParam(param, "&province", province);
 	SDKHelper::setIntParam(param, "&city", city);
 	SDKHelper::setIntParam(param, "&type", type);
@@ -96,7 +96,7 @@ eWeiboResultCode SDKMethodImpl::getAccountProfileSchoolList(const int province, 
 
 eWeiboResultCode SDKMethodImpl::getAccountRateLimitStatus(UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_RATE_LIMIT_STATUS
 		, param, getUnifiedFormat(), httpengine::HM_GET, pTask);
@@ -106,7 +106,7 @@ eWeiboResultCode SDKMethodImpl::getAccountRateLimitStatus(UserTaskInfo* pTask)
 
 eWeiboResultCode SDKMethodImpl::getAccountGetUID(UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_ACCOUNT_GET_UID
 		, param, getUnifiedFormat(), httpengine::HM_GET, pTask);
@@ -116,7 +116,7 @@ eWeiboResultCode SDKMethodImpl::getAccountGetUID(UserTaskInfo* pTask)
 
 eWeiboResultCode SDKMethodImpl::postAccountProfileBasicUpdate(const BasicInfo& basic, UserTaskInfo* pTask)
 {
-	char param[2048] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&screen_name", Util::StringUtil::getNotNullString(basic.screen_name.c_str()), PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&real_name", Util::StringUtil::getNotNullString(basic.real_name.c_str()), PARAM_ENCODE_UTF8);
@@ -147,7 +147,7 @@ eWeiboResultCode SDKMethodImpl::postAccountProfileBasicUpdate(const BasicInfo& b
 
 eWeiboResultCode SDKMethodImpl::postAccountProfileEduUpdate(const EducationInfo& edu, UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&id", Util::StringUtil::getNotNullString(edu.id.c_str()), PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&type", Util::StringUtil::getNotNullString(edu.type.c_str()), PARAM_ENCODE_UTF8);
@@ -169,7 +169,7 @@ eWeiboResultCode SDKMethodImpl::postAccountProfileEduDestroy(const char* id, Use
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_ACCOUNT_PROFILE_EDU_DESTROY
@@ -180,7 +180,7 @@ eWeiboResultCode SDKMethodImpl::postAccountProfileEduDestroy(const char* id, Use
 
 eWeiboResultCode SDKMethodImpl::postAccountProfileCarUpdate(const CareerInfo& career, UserTaskInfo* pTask)
 {
-	char param[255] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&id", Util::StringUtil::getNotNullString(career.id.c_str()), PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&city", Util::StringUtil::getNotNullString(career.city.c_str()), PARAM_ENCODE_UTF8);
@@ -204,7 +204,7 @@ eWeiboResultCode SDKMethodImpl::postAccountProfileCarDestroy(const char* id, Use
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "id", id, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_ACCOUNT_PROFILE_CAR_DESTROY
@@ -220,7 +220,7 @@ eWeiboResultCode SDKMethodImpl::postAccountAvatarUpload(const char* filePath, Us
 		return WRC_FILEPATH_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	//
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_ACCOUNT_AVATAR_UPLOAD
 		, param, getUnifiedFormat(), httpengine::HM_POSTFORM, pTask);
@@ -234,7 +234,7 @@ eWeiboResultCode SDKMethodImpl::postAccountAvatarUpload(const char* filePath, Us
 eWeiboResultCode SDKMethodImpl::postAccountUpdatePrivacy(const int comment, const int geo, const int message, const int realname, 
 														 const int badge, const int mobile, UserTaskInfo* pTask)
 {
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setIntParam(param, "&comment", comment);
 	SDKHelper::setIntParam(param, "&geo", geo);

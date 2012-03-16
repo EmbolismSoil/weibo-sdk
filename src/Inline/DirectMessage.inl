@@ -5,7 +5,7 @@ eWeiboResultCode SDKMethodImpl::getDirectMessages(VariableParams* var, UserTaskI
 	DebugLog(<< __FUNCTION__ );
 
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -21,7 +21,7 @@ eWeiboResultCode SDKMethodImpl::getDirectMessagesSent(VariableParams* var, UserT
 	DebugLog(<< __FUNCTION__ );
 
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -37,7 +37,7 @@ eWeiboResultCode SDKMethodImpl::getDirectMessagesUserList(VariableParams* var, U
 	DebugLog(<< __FUNCTION__ );
 
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -58,8 +58,8 @@ eWeiboResultCode SDKMethodImpl::getDirectMessagesCoversation(ID &usrId, Variable
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = {0};
-	SDKHelper::makeIDParams(param, 255, &usrId);
+	std::string param;
+	SDKHelper::setParam(param, "&user_id", usrId.id.c_str(), PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -79,7 +79,7 @@ eWeiboResultCode SDKMethodImpl::getDirectMessagesShowBatch(const char* dmids, Va
 		return WRC_USERID_NULL;
 	}
 
-	char param[2048] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&dmids", dmids, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
 
@@ -100,7 +100,7 @@ eWeiboResultCode SDKMethodImpl::getDirectMessagesIsCapable(const char* uid, Vari
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
 
@@ -119,7 +119,7 @@ eWeiboResultCode SDKMethodImpl::postDirectMessagesNew(const char* text, const ID
 		return WRC_TEXT_NULL;
 	}
 
-	char param[1024] = {0};
+	std::string param;
 
 	// Required params
 	SDKHelper::makeIDParams(param, 1024, &uid);
@@ -146,7 +146,7 @@ eWeiboResultCode SDKMethodImpl::postDirectMessagesDestory(const char* id, Variab
 	}
 
 	// Required params
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
 
 	// Variable params
@@ -163,7 +163,7 @@ eWeiboResultCode SDKMethodImpl::postDirectMessagesDestoryBatch(const char* ids, 
 	DebugLog(<< __FUNCTION__ );
 
 	// Required params
-	char param[1024] = { 0 };
+	std::string param;
 	if (ids && *ids != '\0')
 	{
 		SDKHelper::setParam(param, "&ids", ids, PARAM_ENCODE_UTF8);

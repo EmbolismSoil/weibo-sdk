@@ -10,7 +10,7 @@ eWeiboResultCode SDKMethodImpl::getRemindUnreadCount(const char* uid, UserTaskIn
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_REMIND_UNREAD_COUNT,
@@ -23,7 +23,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesResetCount(const int type, UserTaskI
 {
 	DebugLog(<< __FUNCTION__ );
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setIntParam(param, "&type", type);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_POST_STATUSES_RESET_COUNT,

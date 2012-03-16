@@ -11,7 +11,7 @@ eWeiboResultCode SDKMethodImpl::getUsersShow(ID& usrId, const char* extend, Vari
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeIDParams(param, 255, &usrId);
 	SDKHelper::setParam(param, "&has_extend", extend, PARAM_ENCODE_UTF8);	
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -29,7 +29,7 @@ eWeiboResultCode SDKMethodImpl::getUsersDomainShow(const char* domain, const cha
 {
 	DebugLog(<< __FUNCTION__ );
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&has_extend", extend, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&domain", domain, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -52,7 +52,7 @@ eWeiboResultCode SDKMethodImpl::getUsersShowBatch(ID& usrId, const char* extend,
 		return WRC_USERID_NULL;
 	}
 
-	char param[2048] = {0};
+	std::string param;
 
 	// Require param
 	SDKHelper::setParam(param, "&uids", usrId.id.c_str(), ParamEncodedValue);

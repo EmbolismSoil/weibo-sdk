@@ -10,7 +10,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLShorten(const char* url_long, UserTas
 		return WRC_INVALIDE_PARAM;
 	}
 
-	char param[2048] = { 0 };
+	std::string param;
 	
 	std::vector<std::string> vec;
 	SDKHelper::split(vec, url_long, ',');
@@ -38,7 +38,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLExpand(const char* url_short, UserTas
 		return WRC_INVALIDE_PARAM;
 	}
 
-	char param[2048] = {0};
+	std::string param;
 	std::vector<std::string> vec;
 	SDKHelper::split(vec, url_short, ',');
 
@@ -65,7 +65,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLShareCounts(const char* url_short, Us
 		return WRC_INVALIDE_PARAM;
 	}
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&url_short",
 		Util::StringUtil::getNotNullString(url_short), PARAM_ENCODE_UTF8);
 
@@ -85,7 +85,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLShareStatuses(const char* url_short, 
 	}
 
 	// Required params
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&url_short",
 		Util::StringUtil::getNotNullString(url_short), PARAM_ENCODE_UTF8);
 
@@ -108,7 +108,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLCommentCounts(const char* url_short, 
 	}
 
 	// Required params
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&url_short",
 		Util::StringUtil::getNotNullString(url_short), PARAM_ENCODE_UTF8);
 
@@ -128,7 +128,7 @@ eWeiboResultCode SDKMethodImpl::getShortURLCommentComments(const char* url_short
 	}
 
 	// Required params
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&url_short",
 		Util::StringUtil::getNotNullString(url_short), PARAM_ENCODE_UTF8);
 
@@ -151,7 +151,7 @@ eWeiboResultCode SDKMethodImpl::getShortUrlInfo(const char* shortUrlIDs, UserTas
 	}
 
 	// Required params
-	char param[1024] = {0};
+	std::string param;
 	SDKHelper::setParam(param, "&url_short", 
 		Util::StringUtil::getNotNullString(shortUrlIDs), PARAM_ENCODE_UTF8);
 

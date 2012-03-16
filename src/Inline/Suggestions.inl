@@ -22,7 +22,7 @@ eWeiboResultCode SDKMethodImpl::getSuggestionsFavoritesHot(VariableParams* var, 
 	DebugLog(<< __FUNCTION__ );
 
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -39,7 +39,7 @@ eWeiboResultCode SDKMethodImpl::getSuggestionsUsersHot(const char* category, Var
 	DebugLog(<< __FUNCTION__ );
 
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	SDKHelper::setParam(param, "&category", category, PARAM_ENCODE_UTF8);
@@ -55,7 +55,7 @@ eWeiboResultCode SDKMethodImpl::getSuggestionsUsersMayInterested(VariableParams*
 {
 	DebugLog(<< __FUNCTION__ );
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	//SDKHelper::setParam(param, "&source", mAppKey.c_str(), PARAM_ENCODE_UTF8);
@@ -75,7 +75,7 @@ eWeiboResultCode SDKMethodImpl::postSuggestionsUsersNotInterested(const char* ui
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
@@ -91,7 +91,7 @@ eWeiboResultCode SDKMethodImpl::getSuggestionsUsersByStatus(const char* content,
 {
 	DebugLog(<< __FUNCTION__ );
 
-	char param[255] = {0};
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	SDKHelper::setParam(param, "&content", Util::StringUtil::getNotNullString(content), PARAM_ENCODE_UTF8);

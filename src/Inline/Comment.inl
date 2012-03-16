@@ -10,7 +10,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsShow(const char *weiboId, VariablePar
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&id", weiboId, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 1024, var);
 
@@ -24,7 +24,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsByMe(VariableParams* var, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_COMMENTS_BYME
@@ -37,7 +37,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsToMe(VariableParams* var, UserTaskInf
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_COMMENTS_TOME
@@ -50,7 +50,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsTimeline(VariableParams* var, UserTas
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_COMMENTS_TIMELINE
@@ -63,7 +63,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsMentions(VariableParams* var, UserTas
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_COMMENTS_MENTIONS
@@ -76,7 +76,7 @@ eWeiboResultCode SDKMethodImpl::getCommentsShowBatch(const char* cids, VariableP
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 1024, var);
 	SDKHelper::setParam(param, "&cids", cids, PARAM_ENCODE_UTF8);
 
@@ -90,7 +90,7 @@ eWeiboResultCode SDKMethodImpl::postCommentsCreate(const char* id, const char* c
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	SDKHelper::setParam(param, "&id", id, ParamEncodedValue);
@@ -107,7 +107,7 @@ eWeiboResultCode SDKMethodImpl::postCommentsDestroy(const char* id, VariablePara
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 	SDKHelper::setParam(param, "&cid", id, PARAM_ENCODE_UTF8);
 
@@ -121,7 +121,7 @@ eWeiboResultCode SDKMethodImpl::postCommentsDestroyBatch(const char* cids, Varia
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 	SDKHelper::setParam(param, "&cids", cids, PARAM_ENCODE_UTF8);
 
@@ -141,7 +141,7 @@ eWeiboResultCode SDKMethodImpl::postCommentsReply(const char* commentId
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 	SDKHelper::setParam(param, "&cid", commentId, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&id", weiboId, PARAM_ENCODE_UTF8);

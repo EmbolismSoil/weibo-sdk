@@ -5,7 +5,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesPublicTimeline(VariableParams* var, U
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_PUBLIC_TIMELINE
@@ -18,7 +18,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesFriendTimeline(VariableParams* var, U
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_FRIENDS_TIMELINE
@@ -31,7 +31,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesHomeTimeline(VariableParams* var, Use
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_HOME_TIMELINE
@@ -49,7 +49,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesUserTimeline(ID& usrId, VariableParam
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::makeIDParams(param, 1024, &usrId);
 	SDKHelper::makeVariableParams(param, 1024, var);
 
@@ -68,7 +68,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesTimelineBatch(ID &usrId, VariablePara
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::makeIDParams(param, 1024, &usrId);
 	SDKHelper::makeVariableParams(param, 1024, var);
 
@@ -82,7 +82,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesRepostTimeline(const char* id, Variab
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[1024] = { 0 };
+	std::string param;
 	if (Util::StringUtil::NullOrEmpty(id))
 	{
 		return WRC_USERID_NULL;
@@ -101,7 +101,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesRepostByMe(VariableParams* var, UserT
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_REPOST_BYME
@@ -114,7 +114,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesMentions(VariableParams* var, UserTas
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_MENTIONS
@@ -132,7 +132,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesShow(const char* id, VariableParams* 
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&id", id, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 1024, var);
@@ -152,7 +152,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesShowBatch(const char* inputIDs, Varia
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&ids", inputIDs, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 1024, var);
@@ -172,7 +172,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesQueryMID(const char *weiboId, const i
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&id", weiboId , PARAM_ENCODE_UTF8);
 	SDKHelper::setIntParam(param, "&type"     , type);
@@ -193,7 +193,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesQueryID(const char *mId, const int ty
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	SDKHelper::setParam(param, "&mid", mId , PARAM_ENCODE_UTF8);
 	SDKHelper::setIntParam(param, "&type"     , type);
@@ -211,7 +211,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesRepostDaily(VariableParams* var, User
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_REPOST_DAILY
@@ -224,7 +224,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesRepostWeekly(VariableParams* var, Use
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_REPOST_WEEKLY
@@ -237,7 +237,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesHotCommmentsDaily(VariableParams* var
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_HOT_COMMENTS_DAILY
@@ -250,7 +250,7 @@ eWeiboResultCode SDKMethodImpl::getStatusesHotCommmentsWeekly(VariableParams* va
 {
 	DebugLog(<< __FUNCTION__ << "| var: " << var);
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::makeVariableParams(param, 255, var);
 
 	WeiboRequestPtr ptr = internalMakeWeiboRequest(WBOPT_GET_STATUSES_HOT_COMMENTS_WEEKLY
@@ -272,7 +272,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesRepost(const char* weiboId, const ch
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[2048] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&id", weiboId, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, "&status", statusText , 0);
 	SDKHelper::setIntParam(param, "&is_comment", isComment);
@@ -295,7 +295,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesDestroy(const char *weiboId, Variabl
 		return WRC_WEIBOID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&id", weiboId , PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 255, var);
 
@@ -315,7 +315,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesUpdate(const char* statusText, Varia
 		return WRC_TEXT_NULL;
 	}
 
-	char param[2048] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&status", statusText, 0);
 	SDKHelper::makeVariableParams(param, 255, var);
 
@@ -334,7 +334,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesUploadUrlText(const char* statusText
 		return WRC_TEXT_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&status", statusText, PARAM_ENCODE_UTF8);
 	SDKHelper::setParam(param, isPicUrl ? "&url":"&pic_id", picInfo, PARAM_ENCODE_UTF8);
 	SDKHelper::makeVariableParams(param, 1024, var);
@@ -359,7 +359,7 @@ eWeiboResultCode SDKMethodImpl::postStatusesUpload(const char* statusText, const
 		return WRC_FILEPATH_NULL;
 	}
 
-	char param[2048] = { 0 };
+	std::string param;
 	SDKHelper::setParam(param, "&status", statusText, 0);
 	SDKHelper::makeVariableParams(param, 255, var);
 

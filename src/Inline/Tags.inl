@@ -17,7 +17,7 @@ eWeiboResultCode SDKMethodImpl::getTags(const char* uid, VariableParams* var, Us
 		return WRC_USERID_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uid", uid, PARAM_ENCODE_UTF8);
@@ -40,7 +40,7 @@ eWeiboResultCode SDKMethodImpl::getTagsTagsBatch(const char* uids, UserTaskInfo*
 		return WRC_USERID_NULL;
 	}
 
-	char param[1024] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&uids", uids, PARAM_ENCODE_UTF8);
@@ -55,7 +55,7 @@ eWeiboResultCode SDKMethodImpl::getTagsSuggestions(VariableParams* var, UserTask
 {
 	DebugLog(<< __FUNCTION__);
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Variable params
 	SDKHelper::makeVariableParams(param, 255, var);
@@ -75,7 +75,7 @@ eWeiboResultCode SDKMethodImpl::postTagsCreate(const char* tags, UserTaskInfo* p
 		return WRC_TEXT_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&tags", tags, PARAM_ENCODE_UTF8);
@@ -95,7 +95,7 @@ eWeiboResultCode SDKMethodImpl::postTagsDestroy(const char* tagId, UserTaskInfo*
 		return WRC_TEXT_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&tag_id", tagId, PARAM_ENCODE_UTF8);
@@ -115,7 +115,7 @@ eWeiboResultCode SDKMethodImpl::postTagsDestroyBatch(const char* tagIds, UserTas
 		return WRC_TEXT_NULL;
 	}
 
-	char param[255] = { 0 };
+	std::string param;
 
 	// Required params
 	SDKHelper::setParam(param, "&ids", tagIds, PARAM_ENCODE_UTF8);

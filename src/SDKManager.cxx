@@ -226,8 +226,12 @@ void SDKManager::setOption(const eWeiboOption option, ...)
 			if (mHttpEnginePtr)
 			{
 				httpengine::ProxyInfo proxy;
+				proxy.mProxyType = (httpengine::ProxyInfo::eProxyType)va_arg(arg, const int);
+				proxy.mServer = Util::StringUtil::getNotNullString(va_arg(arg, const char*));
+				proxy.mPort = va_arg(arg, const int);
+				proxy.mUsername = Util::StringUtil::getNotNullString(va_arg(arg, const char*));
+				proxy.mPassword = Util::StringUtil::getNotNullString(va_arg(arg, const char*));
 
-				// TODO(welbon): To get proxy information
 				mHttpEnginePtr->setOption(httpengine::EOT_PROXY, 
 					&proxy, sizeof(httpengine::ProxyInfo), false);
 			}
@@ -366,39 +370,42 @@ void SDKManager::onRequestStarted(unsigned int requestId, const int errorCode, c
 		{
 			// Get the file name.
 			std::string &filePath = requestPtr->mUploadTaskDetail->fileName_;
-			std::string file;
+			if (!filePath.empty())
+			{
+				std::string file;
 #ifdef WIN32
-			const int pos = filePath.find_last_of('\\');
+				const int pos = filePath.find_last_of('\\');
 #else
-			const int pos = filePath.find_last_of('/');
+				const int pos = filePath.find_last_of('/');
 #endif
-			if (pos != std::string::npos)
-			{
-				file = filePath.substr(pos + 1, filePath.length());
-			}
-			else
-			{
-				file = filePath;
-			}
+				if (pos != std::string::npos)
+				{
+					file = filePath.substr(pos + 1, filePath.length());
+				}
+				else
+				{
+					file = filePath;
+				}
 
 #if 0
-			// Convert the file name to utf8
-			CC2UTF8 cvUTF8(file.c_str());
-			std::string saveFileUTF8 = cvUTF8.c_str();
+				// Convert the file name to utf8
+				CC2UTF8 cvUTF8(file.c_str());
+				std::string saveFileUTF8 = cvUTF8.c_str();
 #else
-			std::string saveFileUTF8 = file;
+				std::string saveFileUTF8 = file;
 #endif
 
-			UploadTaskDetail::PostFormDataPtr formDataPtr 
-				= requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());
+				UploadTaskDetail::PostFormDataPtr formDataPtr 
+					= requestPtr->mUploadTaskDetail->getPostFormData(requestId, mHttpEnginePtr.get());
 
-			mHttpEnginePtr->setRequestOption(requestId, httpengine::TOT_POST_FORM
-				, httpengine::HTTP_FORMTYPE_COPYNAME, requestPtr->mPostFileField.c_str()
-				, httpengine::HTTP_FORMTYPE_FILENAME, saveFileUTF8.c_str()
-				, httpengine::HTTP_FORMTYPE_STREAM, formDataPtr ? formDataPtr.get() : NULL
-				, httpengine::HTTP_FORMTYPE_CONTENTSLENGTH, requestPtr->mUploadTaskDetail->fileSize_
-				, httpengine::HTTP_FORMTYPE_CONTENTTYPE, "image/jpeg"
-				, httpengine::HTTP_FORMTYPE_END);
+				mHttpEnginePtr->setRequestOption(requestId, httpengine::TOT_POST_FORM
+					, httpengine::HTTP_FORMTYPE_COPYNAME, requestPtr->mPostFileField.c_str()
+					, httpengine::HTTP_FORMTYPE_FILENAME, saveFileUTF8.c_str()
+					, httpengine::HTTP_FORMTYPE_STREAM, formDataPtr ? formDataPtr.get() : NULL
+					, httpengine::HTTP_FORMTYPE_CONTENTSLENGTH, requestPtr->mUploadTaskDetail->fileSize_
+					, httpengine::HTTP_FORMTYPE_CONTENTTYPE, "image/jpeg"
+					, httpengine::HTTP_FORMTYPE_END);
+			}
 		}
 
 		// Append all http headers.
@@ -554,7 +561,7 @@ eWeiboResultCode SDKManager::enqueueRequest(WeiboRequestPtr ptr)
 
 eWeiboResultCode SDKManager::internalLoadNewActiveTask()
 {
-	if ((mRequestActivedMap.size() < mMaxActiveCounts) 
+	if (((int)mRequestActivedMap.size() < mMaxActiveCounts) 
 		&& (!mRequestPersistent.empty()))
 	{
 		WeiboRequestPersistent::iterator it = mRequestPersistent.begin();

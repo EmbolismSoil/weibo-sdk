@@ -41,20 +41,20 @@ namespace weibo
 		static int convertEngineErrorToSDKError(const int code);
 
 		/** Param setting function */
-		static void setParam(char* param, const char *paramname, const char *paramval, int paramformat);
-		static void setIntParam(char* param, const char * paramName, const long long paramval, bool forceAdd = false);
+		static void setParam(std::string& param, const char *paramname, const char *paramval, int paramformat);
+		static void setIntParam(std::string& param, const char * paramName, const long long paramval, bool forceAdd = false);
 
 		/** Split string */
 		static void split(std::vector<std::string>& outVector, const char* string, const char splite);
 
-		static WeiboRequestPtr makeRequest(unsigned int methodOption, const char *addtionParam, const eWeiboRequestFormat reqformat
+		static WeiboRequestPtr makeRequest(unsigned int methodOption, std::string& addtionParam, const eWeiboRequestFormat reqformat
 			, const httpengine::HttpMethod iMethod, const char* appkey, const char* accessToken, const UserTaskInfo* pTask = NULL);
 
 		static void makeRequestURL(std::string &outURL, std::string &outParam, const char* baseURL
 			, bool isPost, const char* appkey, const char* accessToken);
 
-		static void makeIDParams(char *outParam, const int length, const ID *usrId);
-		static void makeVariableParams(char *outParam, const int length, VariableParams* var);
+		static void makeIDParams(std::string& outParam, const int length, const ID *usrId);
+		static void makeVariableParams(std::string& outParam, const int length, VariableParams* var);
 	};
 }
 
