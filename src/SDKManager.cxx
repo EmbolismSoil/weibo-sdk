@@ -2,7 +2,6 @@
 #include "SDKManager.hxx"
 #include <stdio.h>
 #include <stdarg.h>
-//#include <boost/make_shared.hpp>
 #include "Urlcode.h"
 #include "SDKHelper.hxx"
 #include "ParsingObject.hxx"
@@ -31,6 +30,16 @@ using namespace weibo;
 
 namespace weibo
 {
+	long UnsignedHashCode(const char* str, size_t strLength)
+	{
+		unsigned long hash = 0;
+		for (size_t i = 0; i < strLength; ++i)
+		{
+			hash = 31 * hash + str[i];
+		}
+		return hash;
+	}
+
 	struct UploadTaskDetail
 	{
 		typedef boost::shared_ptr<httpengine::PostFormStreamData> PostFormDataPtr;
@@ -149,10 +158,8 @@ int SDKManager::startup()
 {
 	DebugLog(<< __FUNCTION__);
 
-	if (!mHttpEnginePtr)
-	{
-		mHttpEnginePtr = httpengine::HttpEngineFactory::createHttpEngine();
-	}
+	assert(!mHttpEnginePtr);
+	mHttpEnginePtr = httpengine::HttpEngineFactory::createHttpEngine();
 
 	if (mHttpEnginePtr)
 	{
@@ -169,8 +176,9 @@ int SDKManager::startup()
 		mHttpEnginePtr->OnRequestReleaseNotify += std::make_pair(this, &SDKManager::onRequestWillRelease);
 
 		//mHttpEnginePtr->OnRequestProgressNotify += std::make_pair(this, &SDKManager::onRequestProgress);// Not used now!
+		return 0;
 	}
-	return 0;
+	return -1;
 }
 
 int SDKManager::shutdown()
@@ -427,29 +435,6 @@ void SDKManager::onRequestStoped(unsigned int requestId, const int errorCode, co
 {
 	DebugLog(<< __FUNCTION__ << " | request id: " << requestId 
 		<< " | error code :" << errorCode << " | sub error code :" << subErrorCode);
-
-	if (requestId <= 0)
-	{
-		return ;
-	}
-
-	WeiboRequestPtr requestPtr;
-
-	{
-		// lock
-		Util::Lock lock(mActiveMutex);
-		requestPtr = internalFindRequestFromActiveMap(requestId);
-	}
-
-	if (requestPtr)
-	{
-		//StackLog(<< __FUNCTION__ << "| fire OnResponseStoped");
-		//OnDelegateWillRelease(requestPtr->mOptionId, &requestPtr->mTaskInfo);
-	}
-	else
-	{
-		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
-	}
 }
 
 void SDKManager::onRequestErrored(unsigned int requestId, const int errorCode, const int subErrorCode, void* userData)
@@ -462,13 +447,7 @@ void SDKManager::onRequestErrored(unsigned int requestId, const int errorCode, c
 		return ;
 	}
 
-	WeiboRequestPtr requestPtr;
-
-	{
-		// lock
-		Util::Lock lock(mActiveMutex);
-		requestPtr = internalFindRequestFromActiveMap(requestId);
-	}
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 
 	if (requestPtr)
 	{
@@ -500,13 +479,7 @@ void SDKManager::onRequestComplated(unsigned int requestId, const int errorCode,
 		return ;
 	}
 
-	WeiboRequestPtr requestPtr;
-
-	{
-		// lock
-		Util::Lock lock(mActiveMutex);
-		requestPtr = internalFindRequestFromActiveMap(requestId);
-	}
+	WeiboRequestPtr requestPtr = internalFindRequestFromActiveMap(requestId);
 
 	if (requestPtr)
 	{
@@ -532,29 +505,56 @@ void SDKManager::onRequestWillRelease(unsigned int requestId, const int errorCod
 		return ;
 	}
 
-	WeiboRequestMap::iterator iter = mRequestActivedMap.find(requestId);
-	if (iter != mRequestActivedMap.end())
+	WeiboRequestPtr requestPtr;
 	{
-		DebugLog(<< __FUNCTION__ << "| Task ID : " << requestId << "| fire OnDelegateWillRelease");
-		OnDelegateWillRelease(iter->second->mOptionId, &(iter->second->mTaskInfo));
-		mRequestActivedMap.erase(iter);
+		Util::Lock lock(mActiveMutex);
+		WeiboRequestMap::iterator iter = mRequestActivedMap.find(requestId);
+		if (iter != mRequestActivedMap.end())
+		{
+			DebugLog(<< __FUNCTION__ << "| Task ID : " << requestId << "| fire OnDelegateWillRelease");
+			requestPtr = iter->second;
+			mRequestActivedMap.erase(iter);
+		}
+		else
+		{
+			ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+		}
 	}
-	else
+	if (requestPtr)
 	{
-		ErrLog(<< __FUNCTION__ << "| Request ptr is not at actived map.");
+		OnDelegateWillRelease(requestPtr->mOptionId, &requestPtr->mTaskInfo);
 	}
-
 	{
 		Util::Lock lock(mActiveMutex);
 		internalLoadNewActiveTask();
 	}
 }
 
+struct TaskCompare
+{
+	TaskCompare(WeiboRequestPtr& p) : a(p) {}
+	bool operator()(const WeiboRequestPtr& b)
+	{
+		return a->mTaskId == b->mTaskId;
+	}
+	WeiboRequestPtr& a;
+};
+
 eWeiboResultCode SDKManager::enqueueRequest(WeiboRequestPtr ptr)
 {
-	// lock
+	if (ptr->mTaskId == 0)
+	{
+		ptr->mTaskId = UnsignedHashCode(ptr->mURL.c_str(), ptr->mURL.size());
+	}
+	DebugLog(<< __FUNCTION__ << " [" << ptr->mURL << "] ID : " << ptr->mTaskId);
 	Util::Lock lock(mActiveMutex);
-
+	if (mRequestActivedMap.find(ptr->mTaskId) != mRequestActivedMap.end()
+		|| std::find_if(mRequestPersistent.begin(), mRequestPersistent.end(),
+		TaskCompare(ptr)) != mRequestPersistent.end())
+	{
+		WarningLog(<< "Task is exist : [" << ptr->mURL << "] ID : " << ptr->mTaskId);
+		return WRC_TASK_EXIST;
+	}
 	mRequestPersistent.push_back(ptr);
 	return internalLoadNewActiveTask();
 }
@@ -566,15 +566,17 @@ eWeiboResultCode SDKManager::internalLoadNewActiveTask()
 	{
 		WeiboRequestPersistent::iterator it = mRequestPersistent.begin();
 		eWeiboResultCode retCode = internalStartTask(*it);
-		mRequestPersistent.erase(it);
-		return retCode;
+		if (retCode != WRC_INTERNAL_ERROR)
+		{
+			mRequestPersistent.erase(it);
+		}
 	}
 	return WRC_OK;
 }
 
 eWeiboResultCode SDKManager::internalStartTask(WeiboRequestPtr reqPtr)
 {
-	if (mHttpEnginePtr && reqPtr)
+	if (mHttpEnginePtr)
 	{
 		if (reqPtr->mOptionId == WBOPT_OAUTH2_ACCESS_TOKEN)
 		{
@@ -586,33 +588,26 @@ eWeiboResultCode SDKManager::internalStartTask(WeiboRequestPtr reqPtr)
 				<< " | post arguments: " << reqPtr->mPostArg.c_str() << " | Http method : " << reqPtr->mHttpMethod);
 		}
 
-		mHttpEnginePtr->startUrlRequest(reqPtr->mTaskId, reqPtr->mURL.c_str()
+		int retCode = mHttpEnginePtr->startUrlRequest(reqPtr->mTaskId, reqPtr->mURL.c_str()
 			, reqPtr->mPostArg.c_str(), reqPtr->mHttpMethod);
-
-		// Check has same request.
-		WeiboRequestMap::iterator it = mRequestActivedMap.find(reqPtr->mTaskId);
-		if (it != mRequestActivedMap.end())
+		if (retCode == httpengine::HE_OK)
 		{
-			// Already has this task.
-			WarningLog(<< __FUNCTION__ << "| Task is exist : " << reqPtr->mTaskId);
-
-			return WRC_TASK_EXIST;
+			mRequestActivedMap.insert(std::make_pair(reqPtr->mTaskId, reqPtr));
+			return WRC_OK;
 		}
-		mRequestActivedMap.insert(std::make_pair(reqPtr->mTaskId, reqPtr));
-		return WRC_OK;
+		else if (retCode == httpengine::HE_REQUEST_BEYOND_LIMITE)
+		{
+			return WRC_INTERNAL_ERROR;
+		}
 	}
-	return WRC_INTERNAL_ERROR;
+	return WRC_UNKNOW;
 }
 
 WeiboRequestPtr SDKManager::internalFindRequestFromActiveMap(unsigned int taskId)
 {
-	WeiboRequestPtr request ;
+	Util::Lock lock(mActiveMutex);
 	WeiboRequestMap::iterator iter = mRequestActivedMap.find(taskId);
-	if (iter != mRequestActivedMap.end())
-	{
-		request = iter->second;
-	}
-	return request;
+	return iter != mRequestActivedMap.end() ? iter->second : WeiboRequestPtr();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
