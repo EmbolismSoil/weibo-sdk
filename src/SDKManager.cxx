@@ -30,16 +30,6 @@ using namespace weibo;
 
 namespace weibo
 {
-	long UnsignedHashCode(const char* str, size_t strLength)
-	{
-		unsigned long hash = 0;
-		for (size_t i = 0; i < strLength; ++i)
-		{
-			hash = 31 * hash + str[i];
-		}
-		return hash;
-	}
-
 	struct UploadTaskDetail
 	{
 		typedef boost::shared_ptr<httpengine::PostFormStreamData> PostFormDataPtr;
@@ -530,31 +520,39 @@ void SDKManager::onRequestWillRelease(unsigned int requestId, const int errorCod
 	}
 }
 
-struct TaskCompare
+struct TaskEqual
 {
-	TaskCompare(WeiboRequestPtr& p) : a(p) {}
+	TaskEqual(WeiboRequestPtr& p) : a(p) {}
 	bool operator()(const WeiboRequestPtr& b)
 	{
-		return a->mTaskId == b->mTaskId;
+		return a->mURL == b->mURL && a->mPostArg == b->mPostArg;
 	}
 	WeiboRequestPtr& a;
 };
 
+struct TaskEqual2 : TaskEqual
+{
+	TaskEqual2(WeiboRequestPtr& p) : TaskEqual(p) {}
+	bool operator()(const std::pair<unsigned int, WeiboRequestPtr>& b)
+	{
+		return TaskEqual::operator()(b.second);
+	}
+};
+
 eWeiboResultCode SDKManager::enqueueRequest(WeiboRequestPtr ptr)
 {
-	if (ptr->mTaskId == 0)
-	{
-		ptr->mTaskId = UnsignedHashCode(ptr->mURL.c_str(), ptr->mURL.size());
-	}
 	DebugLog(<< __FUNCTION__ << " [" << ptr->mURL << "] ID : " << ptr->mTaskId);
 	Util::Lock lock(mActiveMutex);
-	if (mRequestActivedMap.find(ptr->mTaskId) != mRequestActivedMap.end()
-		|| std::find_if(mRequestPersistent.begin(), mRequestPersistent.end(),
-		TaskCompare(ptr)) != mRequestPersistent.end())
+
+	if (std::find_if(mRequestActivedMap.begin(), mRequestActivedMap.end(),
+		TaskEqual2(ptr)) != mRequestActivedMap.end() ||
+		std::find_if(mRequestPersistent.begin(), mRequestPersistent.end(),
+		TaskEqual(ptr)) != mRequestPersistent.end())
 	{
 		WarningLog(<< "Task is exist : [" << ptr->mURL << "] ID : " << ptr->mTaskId);
 		return WRC_TASK_EXIST;
 	}
+
 	mRequestPersistent.push_back(ptr);
 	return internalLoadNewActiveTask();
 }
@@ -592,7 +590,10 @@ eWeiboResultCode SDKManager::internalStartTask(WeiboRequestPtr reqPtr)
 			, reqPtr->mPostArg.c_str(), reqPtr->mHttpMethod);
 		if (retCode == httpengine::HE_OK)
 		{
-			mRequestActivedMap.insert(std::make_pair(reqPtr->mTaskId, reqPtr));
+			while (!mRequestActivedMap.insert(std::make_pair(reqPtr->mTaskId, reqPtr)).second)
+			{
+				reqPtr->mTaskId = reqPtr->mTaskId + rand();
+			}
 			return WRC_OK;
 		}
 		else if (retCode == httpengine::HE_REQUEST_BEYOND_LIMITE)

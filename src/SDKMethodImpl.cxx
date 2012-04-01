@@ -63,6 +63,19 @@ eWeiboResultCode SDKMethodImpl::oauth2(const char* userName, const char* passwor
 		}
 		return internalEnqueue(requestPtr);
 	}
+
+	return WRC_INTERNAL_ERROR;
+}
+
+
+weibo::eWeiboResultCode SDKMethodImpl::oauth2Authorize(const char* userName, const char* password, UserTaskInfo* pTask)
+{
+	std::string open =
+		"https://api.t.sina.com.cn/oauth2/authorize?client_id=";
+	open += mConsumerkey;
+	open += "&redirect_uri=http://www.example.com/response&response_type=code";
+
+	ShellExecuteA(NULL, "open", open.c_str(), NULL, NULL, SW_SHOWNORMAL);
 	return WRC_INTERNAL_ERROR;
 }
 

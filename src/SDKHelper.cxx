@@ -247,33 +247,33 @@ const char* getMethodBaseURL(const enHostType type)
 
 void SDKHelper::getMethodURLFromOption(unsigned int methodOption, std::string &baseURL)
 {
-	const int counts = sizeof(gMethodURLElements)/sizeof(gMethodURLElements[0]);
-
-	for (int i = 0; i < counts; ++ i)
+	static map<int, tagMethodURLElement> methodURLElements;
+	if (methodURLElements.empty())
 	{
-		const tagMethodURLElement& tempElem = gMethodURLElements[i];
-		if (tempElem.option == methodOption)
+		int counts = sizeof(gMethodURLElements)/sizeof(gMethodURLElements[0]);
+		for (int i = 0; i < counts; i++)
 		{
-			baseURL = getMethodBaseURL(tempElem.type);
-			baseURL += tempElem.url;
-			return ;
+			const tagMethodURLElement& tempElem = gMethodURLElements[i];
+			methodURLElements.insert(make_pair(tempElem.option, tempElem));
 		}
-	}
-
 #if defined(INTERNAL_INTERFACE_USEABLE)
-
-	for (int i = 0; i < counts; ++ i)
-	{
-		const tagMethodURLElement& tempElem = gInternalMethodURLElements[i];
-		if (tempElem.option == methodOption)
+		counts = sizeof(gInternalMethodURLElements)/sizeof(gInternalMethodURLElements[0]);
+		for (int i = 0; i < counts; i++)
 		{
-			baseURL = getMethodBaseURL(tempElem.type);
-			baseURL += tempElem.url;
-			return ;
+			const tagMethodURLElement& tempElem = gInternalMethodURLElements[i];
+			methodURLElements.insert(make_pair(tempElem.option, tempElem));
 		}
+#endif
 	}
 
-#endif //INTERNAL_INTERFACE_USEABLE
+	map<int, tagMethodURLElement>::const_iterator it = methodURLElements.find(methodOption);
+	assert(it != methodURLElements.end());
+	if (it != methodURLElements.end())
+	{
+		const tagMethodURLElement& tempElem = it->second;
+		baseURL = getMethodBaseURL(tempElem.type);
+		baseURL += tempElem.url;
+	}
 }
 
 int SDKHelper::convertEngineErrorToSDKError(const int code)
