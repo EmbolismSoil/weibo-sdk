@@ -21,6 +21,7 @@ namespace weibo
 		WBOPT_NONE,
 
 		WBOPT_OAUTH2_ACCESS_TOKEN,
+		WBOPT_OAUTH2_AUTHORIZE,
 		WBOPT_END_SESSION,
 
 		WBOPT_GET_STATUSES_PUBLIC_TIMELINE,//获取最新更新的公共微博消息 
@@ -178,6 +179,7 @@ namespace weibo
 	{
 	public:
 		virtual eWeiboResultCode oauth2(const char* userName, const char* password, UserTaskInfo* pTask) = 0;
+		virtual eWeiboResultCode oauth2Code(const char* userName, const char* password, UserTaskInfo* pTask) = 0;
 		virtual eWeiboResultCode endSession() = 0;
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,9 +8,16 @@
 #include "ParsingDefine.hxx"
 #include "ParsingDataStruct.h"
 #include "UNITTestIDBuilderPolicy.h"
+#include <iostream>
+#include <string>
+
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include "../common/strconv.h"
 
+using namespace std;
 using namespace weibo;
 
 static const char gWeiboTestUploadFile[] = "TestImage.jpg";
@@ -99,24 +106,19 @@ void WeiboTestCase::standardOptionForWaiting(unsigned int id)
 	}
 }
 
-std::string gAccountName;
-std::string gPassword;
-
-extern void setAccountInfo(const char* account, const char* password)
-{
-    gAccountName = account ? account : "";
-    gPassword = password ? password : "";
-}
-
 void WeiboTestCase::oauth2()
 {
-    if (gAccountName.empty() || gPassword.empty())
-    {
+	string code;
+	cout << "\nPlease enter authorization code: " << endl;
+	cin >> code;
+
+	if (code.empty())
+	{
 		assert(0);
-        CPPUNIT_ASSERT_ASSERTION_FAIL(0);
-    }
-    
-	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->oauth2(gAccountName.c_str(), gPassword.c_str(), NULL) == WRC_OK);
+		CPPUNIT_ASSERT_ASSERTION_FAIL(0);
+	}
+
+	CPPUNIT_ASSERT(gWeiboHelper->getWeiboMethod()->oauth2Code(code.c_str(), WeiboTestCaseHelper::getRedirectUrl(), NULL) == WRC_OK);
 	standardOptionForWaiting(WBOPT_OAUTH2_ACCESS_TOKEN);
 }
 

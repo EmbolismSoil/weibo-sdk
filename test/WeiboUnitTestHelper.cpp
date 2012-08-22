@@ -11,6 +11,12 @@
 
 #define LOG_SUPPORT
 
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <iostream>
+#endif
+
 using namespace weibo;
 
 #ifdef LOG_SUPPORT
@@ -25,7 +31,6 @@ using namespace weibo;
 #	define ErrLog(args_) std::cout
 #	define CritLog(args_) std::cout
 #endif
-
 
 struct IDDebugHelper
 {
@@ -216,12 +221,29 @@ std::string WeiboTestCaseResult::outputString()
 //////////////////////////////////////////////////////////////////////////////
 // Case helper
 
+#define APP_KEY "1016351065"
+#define APP_SECRET "186ea22b3ea58bfa90923f55fe8b2749"
+#define REDIRECT_URL "http://www.example.com/response"
+
 WeiboTestCaseHelper::WeiboTestCaseHelper()
 {
 	mWeiboPtr = weibo::WeiboFactory::getWeibo();
 
 	mWeiboPtr->startup();
-	mWeiboPtr->setOption(weibo::WOPT_CONSUMER, "1016351065", "186ea22b3ea58bfa90923f55fe8b2749");
+	mWeiboPtr->setOption(weibo::WOPT_CONSUMER, APP_KEY, APP_SECRET);
+
+	std::string url("https://api.weibo.com/oauth2/authorize?client_id=");
+	url += APP_KEY;
+	url += "&redirect_uri=";
+	url += REDIRECT_URL;
+	url += "&response_type=code";
+
+#ifdef _WIN32
+	ShellExecuteA(NULL, "open", url.c_str(), NULL, NULL, SW_SHOWNORMAL);
+#else
+	std::cout << url << std::endl;
+#endif
+
 	mWeiboPtr->OnDelegateComplated += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespComplated);
 	mWeiboPtr->OnDelegateErrored += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespErrored);
 	mWeiboPtr->OnDelegateWillRelease += std::make_pair(this, &WeiboTestCaseHelper::onWeiboRespStoped);
@@ -257,11 +279,13 @@ weibo::IWeiboMethod* WeiboTestCaseHelper::getWeiboMethod()
 
 WeiboTestCaseResultPtr WeiboTestCaseHelper::checkoutReqResult(unsigned int optionId)
 {
+	Util::Lock lock(mMutex);
 	WeiboTestCaseResultPtr result;
 	UnitTestResultMAP::iterator it = mResultMap.find(optionId);
 	if (it != mResultMap.end())
 	{
 		result = it->second;
+		mResultMap.erase(it);
 	}
 	return result;
 }
@@ -394,19 +418,22 @@ void WeiboTestCaseHelper::initializeParsingMap()
 
 void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject* resultObj, const int errCode, const int errSubCode, bool isComplated)
 {
-	UnitTestResultMAP::iterator it = mResultMap.find(optionId);
-	if (it != mResultMap.end())
+	Util::Lock lock(mMutex);
+	WeiboTestCaseResultPtr result;
 	{
-		mResultMap.erase(it);
+		UnitTestResultMAP::iterator it = mResultMap.find(optionId);
+		if (it != mResultMap.end())
+		{
+			mResultMap.erase(it);
+		}
+
+		result.reset(new WeiboTestCaseResult);
+		//result->respBody_ = sc;
+		result->errorCode_ = errCode;
+		result->subErrorCode_ = errSubCode;
+		result->resultType_ = isComplated ? WeiboTestCaseResult::ERT_CORRECT : WeiboTestCaseResult::ERT_ERROR;
+		mResultMap.insert(std::make_pair(optionId, result));
 	}
-
-	WeiboTestCaseResultPtr result = make_shared<WeiboTestCaseResult>();
-	//result->respBody_ = sc;
-	result->errorCode_ = errCode;
-	result->subErrorCode_ = errSubCode;
-	result->resultType_ = isComplated ? WeiboTestCaseResult::ERT_CORRECT : WeiboTestCaseResult::ERT_ERROR;
-	mResultMap.insert(std::make_pair(optionId, result));
-
 	if (isComplated)
 	{
 		UnitTestParsingMAP::iterator it = mParsingMap.find(optionId);
@@ -460,6 +487,12 @@ void WeiboTestCaseHelper::onResponseProcess(unsigned int optionId, ParsingObject
 			break;
 		}
 	}
+}
+
+
+const char* WeiboTestCaseHelper::getRedirectUrl()
+{
+	return REDIRECT_URL;
 }
 
 std::string filePath;

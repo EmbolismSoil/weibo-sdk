@@ -21,18 +21,6 @@
 
 int TEST_MAIN
 {
-    char userName[255] = { 0 };
-    char password[255] = { 0 };
-    
-    printf("Please enter user name: ");
-    gets(userName);
-    
-    printf("Please enter password: ");
-    gets(password);
-
-    // Account info
-    setAccountInfo(userName, password);
-    
 	// Create the event manager and test controller
 	CPPUNIT_NS::TestResult controller;
 

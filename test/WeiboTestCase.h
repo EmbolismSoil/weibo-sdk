@@ -10,7 +10,7 @@
 //#define UNITTEST_COMMENTS
 //#define UNITTEST_DIRECTMESSAGES
 //#define UNITTEST_USER
-#define UNITTEST_FRIENDSHIPS
+//#define UNITTEST_FRIENDSHIPS
 //#define UNITTEST_ACCOUNTS
 //#define UNITTEST_FAVORITES
 //#define UNITTEST_TRENDS
@@ -23,8 +23,6 @@
 #if defined(UNITTEST_INTERNAL_INTERFACE)
 namespace weibo { class IWeiboInternalMethod; }
 #endif //
-
-void setAccountInfo(const char* account, const char* password);
 
 /** test case for weibo
 *
@@ -43,7 +41,6 @@ public:
 	void tearDown(){}
 
 	void standardOptionForWaiting(unsigned int id);
-	void setAccountInfo(const char* account, const char* password);
 
 protected:
 	std::string mUsrName;
@@ -63,6 +60,8 @@ private:
 	CPPUNIT_TEST (getCommentsShow);
 	CPPUNIT_TEST (getFriendshipsFriends);
 	CPPUNIT_TEST (getFriendshipsFriendsFollowers);
+
+	CPPUNIT_TEST (postStatusesUpload);
 
 #if defined(UNITTEST_STATUSES)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////

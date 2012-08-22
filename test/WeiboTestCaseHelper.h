@@ -4,6 +4,7 @@
 #include <map>
 #include <IWeibo.hxx>
 #include <IWeiboMethod.hxx>
+#include <util/threading/Lock.hxx>
 #include "ParsingDefine.hxx"
 
 namespace weibo
@@ -54,8 +55,7 @@ public:
 
 	static const char* getAppModulePath();
 	static const wchar_t* getAppModulePathW();
-
-	void setAccountInfo(const char* account, const char* password);
+	static const char* getRedirectUrl();
 
 protected:
 	void onWeiboRespComplated(unsigned int methodOption, const char* httpHeader, weibo::ParsingObject* result, const weibo::UserTaskInfo* pTask);
@@ -72,6 +72,7 @@ protected:
 	boost::shared_ptr<weibo::IWeibo> mWeiboPtr;
 	UnitTestResultMAP mResultMap;
 	UnitTestParsingMAP mParsingMap;
+	Util::Mutex mMutex;
 };
 
 #endif //WEIBOUNITTEST_WEIBOTESTCASEHELPER_H

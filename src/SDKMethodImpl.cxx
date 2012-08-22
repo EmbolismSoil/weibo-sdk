@@ -68,14 +68,39 @@ eWeiboResultCode SDKMethodImpl::oauth2(const char* userName, const char* passwor
 }
 
 
-weibo::eWeiboResultCode SDKMethodImpl::oauth2Authorize(const char* userName, const char* password, UserTaskInfo* pTask)
+weibo::eWeiboResultCode SDKMethodImpl::oauth2Code(const char* code, const char* url, UserTaskInfo* pTask)
 {
-	std::string open =
-		"https://api.t.sina.com.cn/oauth2/authorize?client_id=";
-	open += mConsumerkey;
-	open += "&redirect_uri=http://www.example.com/response&response_type=code";
+	std::string param;
 
-	ShellExecuteA(NULL, "open", open.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	if (Util::StringUtil::NullOrEmpty(code))
+	{
+		return WRC_USERID_NULL;
+	}
+
+	SDKHelper::setParam(param, "&client_id", mConsumerkey.c_str(), PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&client_secret", mConsumersecret.c_str(), PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&code", code, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&redirect_uri", url, PARAM_ENCODE_UTF8);
+	SDKHelper::setParam(param, "&grant_type", "authorization_code", PARAM_ENCODE_UTF8);
+
+	WeiboRequestPtr requestPtr;
+	requestPtr.reset(new WeiboRequest());
+
+	if (requestPtr)
+	{
+		requestPtr->mHttpMethod = httpengine::HM_POST;
+		requestPtr->mOptionId   = WBOPT_OAUTH2_ACCESS_TOKEN;
+
+		requestPtr->mURL = "https://api.weibo.com/oauth2/access_token";
+		requestPtr->mPostArg = param;
+
+		if (pTask)
+		{
+			memcpy(&(requestPtr->mTaskInfo), pTask, sizeof(UserTaskInfo));
+		}
+		return internalEnqueue(requestPtr);
+	}
+
 	return WRC_INTERNAL_ERROR;
 }
 

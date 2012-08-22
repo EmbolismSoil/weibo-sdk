@@ -39,7 +39,7 @@ namespace weibo
 
 	private:
 		virtual eWeiboResultCode oauth2(const char* userName, const char* password, UserTaskInfo* pTask = NULL);
-		virtual eWeiboResultCode oauth2Authorize(const char* userName, const char* password, UserTaskInfo* pTask = NULL);
+		virtual eWeiboResultCode oauth2Code(const char* authCode, const char* url, UserTaskInfo* pTask = NULL);
 		virtual eWeiboResultCode endSession();
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////

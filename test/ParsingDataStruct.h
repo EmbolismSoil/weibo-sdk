@@ -338,9 +338,9 @@ namespace weibo
 					subObjPtr->enumAllSub(EnumAllStatusesCallBack, &mDataList);
 				}
 
-				previous_cursor = objectPtr->getSubNumbericByKey("previous_cursor");
-				next_cursor = objectPtr->getSubNumbericByKey("next_cursor");
-				total_number = objectPtr->getSubNumbericByKey("total_number");
+				previous_cursor = (unsigned int)objectPtr->getSubNumbericByKey("previous_cursor");
+				next_cursor = (unsigned int)objectPtr->getSubNumbericByKey("next_cursor");
+				total_number = (unsigned int)objectPtr->getSubNumbericByKey("total_number");
 				return true;
 			}
 			return false;
